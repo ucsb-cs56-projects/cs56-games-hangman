@@ -13,16 +13,17 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-/** HangmanGUI.java is a program that has added features from a previous Hangman game
+/** HangmanGUI.java is a program that has added features from a
+ * previous Hangman game
+
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
  *@version 05/19/12 for Choice Points 1, cs56, S12
  */
 
-//Hangman GUI version class
 public class HangmanGUI extends JFrame implements HangmanInterface {
 
-    //public static final soundOn = true;
+    public static final boolean soundOn = true;
 
     private HangmanGame hg;
     private JPanel gallow;
@@ -125,16 +126,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
-		//	if (soundOn) {
-		//    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
-		//}
+		if (soundOn) {
+		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
+		}
 		
 		return;
 	    } else if(word.length() > 1) {
 		message.setText("Do not type more than one letter at a time.");
-		//if (soundOn) { 
-		    //  sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
-		//	}
+		if (soundOn) { 
+		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+		}
 		lettertf.setText("");
 		repaint();
 		return;
@@ -146,17 +147,17 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    try{
 		if(hg.guessLetter(letter) == true) {
 		    message.setText("Good Guess!");
-		    // if (soundOn) {
-			//	sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		    // }
+		    if (soundOn) {
+			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		    }
 		    repaint();
 		}
 		else
 	        {
 		    message.setText("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
-		    // if (soundOn) {
-			//	sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		    // }
+		    if (soundOn) {
+			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		    }
 		repaint();
 
 		}
