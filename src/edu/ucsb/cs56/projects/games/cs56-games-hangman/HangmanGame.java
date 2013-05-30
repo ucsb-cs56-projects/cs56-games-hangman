@@ -22,13 +22,22 @@ public class HangmanGame {
      */ 
 
     public boolean guessLetter(char letter) throws AlreadyTriedException {
-	char letterOpposite = Character.isLowerCase(letter) ? Character.toUpperCase(letter) : Character.toLowerCase(letter);
-	System.out.println("Guess: "+letter+" -- Opposite: "+letterOpposite);
+	//create character of opposite case as argument
+	char letterOpposite = Character.isLowerCase(letter) ?
+	    Character.toUpperCase(letter) : 
+	    Character.toLowerCase(letter);
         boolean letterIsInWord = (secretWord.indexOf((int) letter) != -1)||(secretWord.indexOf((int) letterOpposite) != -1);
 
         if(letterIsInWord) {
-            flipLetters(letter);
-            return true;
+	    if((secretWord.indexOf((int) letter)!=-1 && 
+		letters[secretWord.indexOf((int)letter)]==true) ||
+		(secretWord.indexOf((int) letterOpposite)!=-1 && 
+		    letters[secretWord.indexOf((int)letterOpposite)]==true))
+		throw new AlreadyTriedException();
+	    else{
+		flipLetters(letter);
+		return true;
+	    }
         } else {
             if(wrongLetters.contains(letter))  {
 		throw new AlreadyTriedException();
