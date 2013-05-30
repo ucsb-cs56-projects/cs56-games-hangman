@@ -15,7 +15,7 @@ import java.awt.*;
 
 
 
-public class Main {
+public class GUIMain {
     private static File wordListFile; // null if using default
 
     //main method that would run the game

@@ -12,6 +12,10 @@ public class HangmanCLI implements HangmanInterface {
 	this.hg = hg;
     }
 
+    public HangmanCLI(WordList wordList) throws IOException{
+	this.hg = new HangmanGame(wordList.getRandomLine());
+    }
+
     //begins the game and does error checking
 
     public void play() {
@@ -20,8 +24,13 @@ public class HangmanCLI implements HangmanInterface {
 	while((hg.getWrongAttemptsLeft() != 0) && !hg.hasWon()) {
             System.out.println(getGallows());
             System.out.println(hg.getBoard());
-
-            System.out.print("Guess a letter: ");
+	    String wrongGuesses = "Wrong guesses:";
+	    for(Character item : hg.getWrongLetters()){
+		wrongGuesses+=(" "+item);
+	    }
+	    System.out.println(wrongGuesses);
+	    System.out.flush();
+            System.out.println("Guess a letter: ");
             System.out.flush();
 	    word = scan.nextLine();
 
@@ -39,13 +48,13 @@ public class HangmanCLI implements HangmanInterface {
 		if(hg.guessLetter(letter) == true)
 		    System.out.println("Good Guess!");
 		else
-		    System.out.println("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
+		    System.out.println("Wrong! Guesses left: " + hg.getWrongAttemptsLeft());
 	    } catch(AlreadyTriedException ex) {
 		System.out.println("You have already tried that letter, please try another one.");
 	    }
 
 	    if(hg.hasWon())
-		System.out.println("Congratulations, You have won!");
+		System.out.println("Congratulations, You have won!\nThe word was: "+hg.getSecretWord());
 
             if(hg.hasLost()) {
                 System.out.println(getGallows());

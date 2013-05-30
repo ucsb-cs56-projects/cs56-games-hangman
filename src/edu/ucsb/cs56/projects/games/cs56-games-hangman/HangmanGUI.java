@@ -26,8 +26,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public static final boolean soundOn = false;
 
     private HangmanGame hg;
-    private JPanel gallow;
-    private JLabel letter, board, message, guesses;
+    private JComponent gallow;
+    private JLabel prompt, board, message, guesses;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint;
     private WordList wordList;
@@ -61,8 +61,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      	gallow = new hanger();
     	message = new JLabel();
 	board = new JLabel(hg.getBoard());
-	guesses = new JLabel("Wrong guesses:: ");
-	letter = new JLabel("Guess a letter: ");
+	guesses = new JLabel("Wrong guesses: ");
+	prompt = new JLabel("Guess a letter: ");
 	lettertf = new JTextField(3);
 	
 
@@ -77,7 +77,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	upper.add(message);
 	upper.add(board);
 	upper.add(guesses);
-	upper.add(letter);
+	upper.add(prompt);
 	upper.add(lettertf);
 	upper.add(submit);
 	submit.setAlignmentX(Component.CENTER_ALIGNMENT);	
@@ -129,14 +129,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
 		if (soundOn) {
-		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
 		}
 		
 		return;
 	    } else if(word.length() > 1) {
 		message.setText("Do not type more than one letter at a time.");
 		if (soundOn) { 
-		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
 		}
 		lettertf.setText("");
 		repaint();
@@ -150,7 +150,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		if(hg.guessLetter(letter) == true) {
 		    message.setText("Good Guess!");
 		    if (soundOn) {
-			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
 		    repaint();
 		}
@@ -158,8 +158,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	        {
 		    message.setText("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
 		    if (soundOn) {
-			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
+		    gallow.repaint();
 		repaint();
 
 		}
@@ -167,7 +168,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    } catch(AlreadyTriedException ex) {
 		message.setText("You have already tried that letter, please try another one.");
 			if (soundOn) {
-		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			}
 		repaint();
 
@@ -184,19 +185,23 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	    if(hg.hasWon()) {
 		submit.setEnabled(false);
+		lettertf.setEditable(false);
+		prompt.setText("");
 		message.setText("Congratulations, You have won!");
 			if (soundOn) {
-		     sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
 			}  
 		repaint();
 
 	    }
 	    if(hg.hasLost()) {
 		submit.setEnabled(false);
+		lettertf.setEditable(false);
+		prompt.setText("");
 		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
 	
 			if (soundOn) {
-		      sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			}
 		repaint();
 	    }
@@ -227,6 +232,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void actionPerformed(ActionEvent e) {
 	    lettertf.requestFocusInWindow();
 	    submit.setEnabled(true);
+	    lettertf.setEditable(true);
+	    prompt.setText("Guess a letter: ");
 	    
 	    try {
 		hg = new HangmanGame(wordList.getRandomLine());
@@ -358,7 +365,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     } // inner class MakeSound
     
     //Drawing a hangman with a gallow
-    public class hanger extends JPanel {
+    public class hanger extends JComponent {
 	hanger() {
 	    setPreferredSize(new Dimension(150,150));
 	}
@@ -367,25 +374,27 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	 *@param g the Hangman graphic that is drawn on the screen which changes depending at what stage you are in the game
 	 */
 	
-	public void paint (Graphics g) {
+	public void paintComponent (Graphics g) {
+	    Graphics2D g2 = (Graphics2D)g;
 
-	    g.setColor(Color.BLACK);
-	    g.drawRect(10,70, 50, 5);
-	    g.drawLine(35, 70, 35, 5);
-	    g.drawLine(35,5,70,5);
+	    g2.setColor(Color.BLACK);
+	    g2.drawRect(10,70, 50, 5);
+	    g2.drawLine(35, 70, 35, 5);
+	    g2.drawLine(35,5,70,5);
+	    g2.drawLine(70,5,70,10);
 	    
 	    if(hg.getWrongAttemptsLeft() < 6)
-		g.drawOval(60, 10, 20, 20);
+		g2.drawOval(60, 10, 20, 20);
 	    if(hg.getWrongAttemptsLeft() < 5)
-		g.drawLine(70, 30, 70, 60);
+		g2.drawLine(70, 30, 70, 60);
 	    if(hg.getWrongAttemptsLeft() < 4)
-		g.drawLine(70,60,50,65);
+		g2.drawLine(70,60,50,65);
 	    if(hg.getWrongAttemptsLeft() < 3)
-		g.drawLine(70,60,90,65);
+		g2.drawLine(70,60,90,65);
 	    if(hg.getWrongAttemptsLeft() < 2)
-		g.drawLine(70, 30, 50, 25);
+		g2.drawLine(70, 35, 50, 30);
 	    if(hg.getWrongAttemptsLeft() < 1)
-		g.drawLine(70, 30, 90, 25);
+		g2.drawLine(70, 35, 90, 30);
 	}
     } // inner class hanger
 }
