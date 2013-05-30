@@ -39,10 +39,10 @@ public class HangmanGame {
 		return true;
 	    }
         } else {
-            if(wrongLetters.contains(letter))  {
+            if(wrongLetters.contains(Character.toLowerCase(letter)))  {
 		throw new AlreadyTriedException();
             } else {
-                wrongLetters.add(letter);
+                wrongLetters.add(Character.toLowerCase(letter));
                 wrongAttemptsLeft--;
 		return false;
             }
