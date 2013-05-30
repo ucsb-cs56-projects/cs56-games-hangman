@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.util.*;
 
@@ -22,7 +22,9 @@ public class HangmanGame {
      */ 
 
     public boolean guessLetter(char letter) throws AlreadyTriedException {
-        boolean letterIsInWord = secretWord.indexOf((int) letter) != -1;
+	char letterOpposite = Character.isLowerCase(letter) ? Character.toUpperCase(letter) : Character.toLowerCase(letter);
+	System.out.println("Guess: "+letter+" -- Opposite: "+letterOpposite);
+        boolean letterIsInWord = (secretWord.indexOf((int) letter) != -1)||(secretWord.indexOf((int) letterOpposite) != -1);
 
         if(letterIsInWord) {
             flipLetters(letter);
@@ -40,8 +42,10 @@ public class HangmanGame {
 
     // flips * to letters
     private void flipLetters(char letter) {
+	//create character of opposite case as argument
+	char letterOpposite = Character.isLowerCase(letter) ? Character.toUpperCase(letter) : Character.toLowerCase(letter);
         for(int i = 0; i < secretWord.length(); i++) {
-            if(letter == secretWord.charAt(i))
+            if(letter == secretWord.charAt(i) || letterOpposite == secretWord.charAt(i))
                 letters[i] = true;
         }
     }

@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -23,7 +23,7 @@ import javax.sound.sampled.SourceDataLine;
 
 public class HangmanGUI extends JFrame implements HangmanInterface {
 
-    public static final boolean soundOn = true;
+    public static final boolean soundOn = false;
 
     private HangmanGame hg;
     private JPanel gallow;

@@ -12,7 +12,7 @@
   <property name="course" value="cs56" />
   <property name="quarter" value="S12" />
   <property name="issueNum" value="0000539" />
-  <property name="mainClass" value="edu.ucsb.cs56.S12.davidborden.issue539.Main" />
+  <property name="mainClass" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.Main" />
 
   <property name="projectName" value="${course}_${quarter}_${issueNum}" />
   <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}" />
