@@ -27,7 +27,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
     private HangmanGame hg;
     private JPanel gallow;
-    private JLabel letter, board, message;
+    private JLabel letter, board, message, guesses;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint;
     private WordList wordList;
@@ -61,6 +61,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      	gallow = new hanger();
     	message = new JLabel();
 	board = new JLabel(hg.getBoard());
+	guesses = new JLabel("Wrong guesses:: ");
 	letter = new JLabel("Guess a letter: ");
 	lettertf = new JTextField(3);
 	
@@ -75,6 +76,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	upper.add(gallow);
 	upper.add(message);
 	upper.add(board);
+	upper.add(guesses);
 	upper.add(letter);
 	upper.add(lettertf);
 	upper.add(submit);
@@ -164,21 +166,28 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	    } catch(AlreadyTriedException ex) {
 		message.setText("You have already tried that letter, please try another one.");
-		//	if (soundOn) {
-		    //sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		//	}
+			if (soundOn) {
+		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
 		repaint();
 
 	    }
 	    
 	    board.setText(hg.getBoard());
 	    
+	    //update incorrect guesses
+	    String wrongGuesses = "Wrong guesses:";
+	    for(Character item : hg.getWrongLetters()){
+		wrongGuesses+=(" "+item);
+	    }
+	    guesses.setText(wrongGuesses);
+
 	    if(hg.hasWon()) {
 		submit.setEnabled(false);
 		message.setText("Congratulations, You have won!");
-		//	if (soundOn) {
-		    // sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
-		//	}  
+			if (soundOn) {
+		     sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+			}  
 		repaint();
 
 	    }
@@ -186,9 +195,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		submit.setEnabled(false);
 		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
 	
-		//	if (soundOn) {
-		    //  sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		//	}
+			if (soundOn) {
+		      sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
 		repaint();
 	    }
 	     repaint();
@@ -199,7 +208,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
     public class instructButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    JOptionPane.showMessageDialog(f,"Each * represents a letter in a word. Your task\nis to guess each letter in the word until you\ncomplete the word. Each wrong guess adds a \nbody part to the hanger. Once an entire\nman is created from wrong guesses\n(6 wrong guesses) then you lose the game.\nIf you guess the word before then, you win!\n To get a letter that is in the word press the hint button and a pop-up button will display with a letter from a random position in the word","Instructions", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(f,
+		"Each * represents a letter in a word. Your task\nis to guess each letter in the word until you\ncomplete the word. Each wrong guess adds a \nbody part to the hanger. Once an entire\nman is created from wrong guesses\n(6 wrong guesses) then you lose the game.\nIf you guess the word before then, you win!\n To get a letter that is in the word press the hint button and a pop-up button will display with a letter from a random position in the word",
+		"Instructions", 
+		JOptionPane.INFORMATION_MESSAGE);
 	}
     }
     
@@ -220,6 +232,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
 		message.setText("");
+		guesses.setText("Wrong guesses:");
 		repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);

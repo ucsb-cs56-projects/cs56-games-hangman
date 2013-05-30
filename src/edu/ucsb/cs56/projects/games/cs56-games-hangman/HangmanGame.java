@@ -77,6 +77,12 @@ public class HangmanGame {
         return revealedLetters;
     }
 
+    /** Returns the ArrayList of incorrect guesses the player has made
+     */
+    public ArrayList<Character> getWrongLetters() {
+	return this.wrongLetters;
+    }
+
     //Check if all the values are True or not 
 
     /**
