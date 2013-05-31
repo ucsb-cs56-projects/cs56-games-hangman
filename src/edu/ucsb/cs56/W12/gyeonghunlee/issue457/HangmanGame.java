@@ -21,6 +21,7 @@ public class HangmanGame {
      *@throws AlreadyTriedException if the letter inputted has already been guessed
      */ 
 
+    
     public boolean guessLetter(char letter) throws AlreadyTriedException {
         boolean letterIsInWord = secretWord.indexOf((int) letter) != -1;
 
@@ -34,10 +35,13 @@ public class HangmanGame {
                 wrongLetters.add(letter);
                 wrongAttemptsLeft--;
 		return false;
-            }
+            
         }
     }
-
+    
+ 
+ 
+    
     // flips * to letters
     private void flipLetters(char letter) {
         for(int i = 0; i < secretWord.length(); i++) {
@@ -45,6 +49,10 @@ public class HangmanGame {
                 letters[i] = true;
         }
     }
+
+    
+
+
     
     //Make a word with * and if player gets right, it reveals the letters.
 
