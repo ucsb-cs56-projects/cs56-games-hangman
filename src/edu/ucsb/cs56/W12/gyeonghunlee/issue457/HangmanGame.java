@@ -30,15 +30,18 @@ public class HangmanGame {
             return true;
         } else {
             if(wrongLetters.contains(letter))  {
-		throw new AlreadyTriedException();
-            } else {
+		//edited out 1:47	      throw new AlreadyTriedException();
+		wrongLetters.add(letter); //added in 1:47
+		wrongAttemptsLeft--; //added in 1:47
+		return false; //added in 1:47
+	    } else {
                 wrongLetters.add(letter);
                 wrongAttemptsLeft--;
 		return false;
             
-        }
+	    }
+	}
     }
-    
  
  
     
