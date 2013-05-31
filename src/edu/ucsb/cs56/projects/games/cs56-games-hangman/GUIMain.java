@@ -11,6 +11,8 @@ import java.awt.*;
     @author Gyeonghun Lee
     @author Phill Conrad, cs56 S13 Lecture
     @version S13 Lecture Version
+    @see HangmanGUI
+    @see WordList
 */
 
 

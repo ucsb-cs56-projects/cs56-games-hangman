@@ -18,7 +18,10 @@ import javax.sound.sampled.SourceDataLine;
 
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
- *@version 05/19/12 for Choice Points 1, cs56, S12
+ *@author Evan West
+ *@version Spring 2013, CS56
+ *@see HangmanGame
+ *@see WordList
  */
 
 public class HangmanGUI extends JFrame implements HangmanInterface {
@@ -42,7 +45,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private instructButtonHandler instructHandler;
     private hintButtonHandler hintHandler;
         
-    /**
+    /** Constructor for GUI that takes a Wordlist parameter
      *@param wordList takes in the wordList.txt by default but will also take in a user created wordList
      */
 
@@ -51,6 +54,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	this.wordList = wordList;
     }
     
+    /** Initializes and shows all GUI elements
+     */
     public void play() {
 	f = new JFrame();
 	f.setSize(450, 400);
@@ -117,7 +122,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	//Specify handlers for each button and add (register) ActionListeners to each button.
     
-    //Submit button
+    /** Inner class for Handler for Submit button
+	(button that handles guess commits)
+	Handles all game state and UI changes
+     */
     public class SubmitButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    String word = lettertf.getText();   
@@ -209,7 +217,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
 
-    //Display a screen of instructions
+    /** Handler for instructions button
+	Button displays a messageDialog with text instructions
+     */
 
     public class instructButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
@@ -220,14 +230,18 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
     
-    //Exit from the game
+    /** Handler for exit button.
+	Button closes the application
+     */
     public class ExitButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    System.exit(0);
 	}
     }
     
-    //Start the new game
+    /** Handler for Restart Button.
+	Clears old game state, create a new game, and updates UI accordingly.
+     */
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    lettertf.requestFocusInWindow();
@@ -247,7 +261,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
 
-    //A pop-up window displays a letter that is in the word
+    /** Handler for Hint button.
+	Button pops up a messageDialog with a letter than is in the word
+     */
     public class hintButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    int wordlength = hg.getSecretWord().length();
@@ -258,6 +274,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 	}
         
+    /** Class to handle loading and playing of game sounds
+     */
     public class MakeSound {
 	
 	private final int BUFFER_SIZE = 128000;
@@ -266,6 +284,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	private AudioFormat audioFormat;
 	private  SourceDataLine sourceLine;
 	
+	/** Plays a sound by filename
+	    @param filename Path to the sound file to play
+	 */
 	public void playSound(String filename){
 	        
 	    String strFilename = filename;
@@ -318,6 +339,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    sourceLine.close();
 	}
 
+	/** Plays a sound by inputstream
+	    @param is InputStream representing file to play
+	 */
+
 	public void playSound(InputStream is){
 	    
 	    try {
@@ -364,16 +389,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	
     } // inner class MakeSound
     
-    //Drawing a hangman with a gallow
+    /** Component that draws a gallows in progressive states
+     */
     public class hanger extends JComponent {
 	hanger() {
 	    setPreferredSize(new Dimension(150,150));
 	}
 
-	/**
-	 *@param g the Hangman graphic that is drawn on the screen which changes depending at what stage you are in the game
+	/** This is an override from Component, and draws a gallows at proper state directly from getWrongAttemptsLeft retrieved from game instance
 	 */
-	
+	@Override
 	public void paintComponent (Graphics g) {
 	    Graphics2D g2 = (Graphics2D)g;
 
