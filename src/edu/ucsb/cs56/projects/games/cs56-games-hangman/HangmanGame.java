@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.util.*;
 
@@ -22,16 +22,27 @@ public class HangmanGame {
      */ 
 
     public boolean guessLetter(char letter) throws AlreadyTriedException {
-        boolean letterIsInWord = secretWord.indexOf((int) letter) != -1;
+	//create character of opposite case as argument
+	char letterOpposite = Character.isLowerCase(letter) ?
+	    Character.toUpperCase(letter) : 
+	    Character.toLowerCase(letter);
+        boolean letterIsInWord = (secretWord.indexOf((int) letter) != -1)||(secretWord.indexOf((int) letterOpposite) != -1);
 
         if(letterIsInWord) {
-            flipLetters(letter);
-            return true;
+	    if((secretWord.indexOf((int) letter)!=-1 && 
+		letters[secretWord.indexOf((int)letter)]==true) ||
+		(secretWord.indexOf((int) letterOpposite)!=-1 && 
+		    letters[secretWord.indexOf((int)letterOpposite)]==true))
+		throw new AlreadyTriedException();
+	    else{
+		flipLetters(letter);
+		return true;
+	    }
         } else {
-            if(wrongLetters.contains(letter))  {
+            if(wrongLetters.contains(Character.toLowerCase(letter)))  {
 		throw new AlreadyTriedException();
             } else {
-                wrongLetters.add(letter);
+                wrongLetters.add(Character.toLowerCase(letter));
                 wrongAttemptsLeft--;
 		return false;
             }
@@ -40,8 +51,10 @@ public class HangmanGame {
 
     // flips * to letters
     private void flipLetters(char letter) {
+	//create character of opposite case as argument
+	char letterOpposite = Character.isLowerCase(letter) ? Character.toUpperCase(letter) : Character.toLowerCase(letter);
         for(int i = 0; i < secretWord.length(); i++) {
-            if(letter == secretWord.charAt(i))
+            if(letter == secretWord.charAt(i) || letterOpposite == secretWord.charAt(i))
                 letters[i] = true;
         }
     }
@@ -62,6 +75,12 @@ public class HangmanGame {
                 revealedLetters += secretWord.substring(i, i+1);
         }
         return revealedLetters;
+    }
+
+    /** Returns the ArrayList of incorrect guesses the player has made
+     */
+    public ArrayList<Character> getWrongLetters() {
+	return this.wrongLetters;
     }
 
     //Check if all the values are True or not 

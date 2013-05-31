@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.util.*;
 import java.awt.*;
@@ -11,11 +11,13 @@ import java.awt.*;
     @author Gyeonghun Lee
     @author Phill Conrad, cs56 S13 Lecture
     @version S13 Lecture Version
+    @see HangmanGUI
+    @see WordList
 */
 
 
 
-public class Main {
+public class GUIMain {
     private static File wordListFile; // null if using default
 
     //main method that would run the game

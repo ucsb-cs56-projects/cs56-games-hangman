@@ -12,7 +12,8 @@
   <property name="course" value="cs56" />
   <property name="quarter" value="S12" />
   <property name="issueNum" value="0000539" />
-  <property name="mainClass" value="edu.ucsb.cs56.S12.davidborden.issue539.Main" />
+  <property name="mainClassGUI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.GUIMain" />
+  <property name="mainClassCLI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.CLIMain" />
 
   <property name="projectName" value="${course}_${quarter}_${issueNum}" />
   <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}" />
@@ -41,24 +42,46 @@
 
   </target>
 
-  <target name="run" depends="compile, run-noarg, run-witharg"/>
+  <target name="run" depends="compile, runGUI-noarg, runGUI-witharg"/>
 
-  <target name="run-noarg" unless="arg0">
+  <target name="runGUI" depends="compile, runGUI-noarg, runGUI-witharg"/>
+
+  <target name="runCLI" depends="compile, runCLI-noarg, runCLI-witharg"/>
+
+  <target name="runGUI-noarg" unless="arg0">
     <echo>
 To run with your own word list file, you can type `ant run -Darg0="YourFileName"`
 You can also use "Enter" key instead of clicking a "Submit" button.
     </echo>
-    <java classname="${mainClass}" fork="true">
+    <java classname="${mainClassGUI}" fork="true">
       <classpath refid="project.class.path" />
     </java>
   </target>
 
-  <target name="run-witharg" if="arg0">
-    <java classname="${mainClass}" fork="true">
+  <target name="runGUI-witharg" if="arg0">
+    <java classname="${mainClassGUI}" fork="true">
       <classpath refid="project.class.path" />
       <arg value="${arg0}"/>
     </java>
   </target>
+
+  <target name="runCLI-noarg" unless="arg0">
+    <echo>
+To run with your own word list file, you can type `ant run -Darg0="YourFileName"`
+You can also use "Enter" key instead of clicking a "Submit" button.
+    </echo>
+    <java classname="${mainClassCLI}" fork="true">
+      <classpath refid="project.class.path" />
+    </java>
+  </target>
+
+  <target name="runCLI-witharg" if="arg0">
+    <java classname="${mainClassCLI}" fork="true">
+      <classpath refid="project.class.path" />
+      <arg value="${arg0}"/>
+    </java>
+  </target>
+
 
   <target name="clean" >
     <delete failonerror="false" verbose="true">
@@ -119,7 +142,7 @@ You can also use "Enter" key instead of clicking a "Submit" button.
     <mkdir dir="dist" />
     <jar destfile="dist/${projectName}.jar" basedir="build" >
       <manifest>
-        <attribute name="Main-Class" value="${mainClass}"/>
+        <attribute name="Main-Class" value="${mainClassGUI}"/>
       </manifest>
     </jar>
   </target>
