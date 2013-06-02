@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.hangman;
 import java.io.*;
 import java.util.*;
 import java.awt.*;

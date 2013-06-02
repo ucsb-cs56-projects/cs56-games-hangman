@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.hangman;
 import java.io.*;
 import java.util.*;
 
@@ -21,23 +21,32 @@ public class HangmanGame {
      *@throws AlreadyTriedException if the letter inputted has already been guessed
      */ 
 
+    
     public boolean guessLetter(char letter) throws AlreadyTriedException {
         boolean letterIsInWord = secretWord.indexOf((int) letter) != -1;
 
         if(letterIsInWord) {
             flipLetters(letter);
+	    wrongLetters.add(letter);
+	    
             return true;
         } else {
             if(wrongLetters.contains(letter))  {
-		throw new AlreadyTriedException();
-            } else {
+		//edited out 1:47	      throw new AlreadyTriedException();
+		wrongLetters.add(letter); //added in 1:47
+		wrongAttemptsLeft--; //added in 1:47
+		return false; //added in 1:47
+	    } else {
                 wrongLetters.add(letter);
                 wrongAttemptsLeft--;
 		return false;
-            }
-        }
+            
+	    }
+	}
     }
-
+ 
+ 
+    
     // flips * to letters
     private void flipLetters(char letter) {
         for(int i = 0; i < secretWord.length(); i++) {
@@ -45,6 +54,10 @@ public class HangmanGame {
                 letters[i] = true;
         }
     }
+
+    
+
+
     
     //Make a word with * and if player gets right, it reveals the letters.
 

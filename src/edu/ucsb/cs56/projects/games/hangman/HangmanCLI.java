@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.hangman;
 import java.io.*;
 import java.util.*;
 
@@ -34,16 +34,25 @@ public class HangmanCLI implements HangmanInterface {
             }
 
             letter = word.charAt(0);
-            	    
+      
+
+	    //  /**commenting out 1:32 6265
+      	    
 	    try{
+
+		//*/
 		if(hg.guessLetter(letter) == true)
 		    System.out.println("Good Guess!");
 		else
 		    System.out.println("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
-	    } catch(AlreadyTriedException ex) {
+	} 
+
+	///**
+	catch(AlreadyTriedException ex) {
 		System.out.println("You have already tried that letter, please try another one.");
 	    }
 
+	//*/
 	    if(hg.hasWon())
 		System.out.println("Congratulations, You have won!");
 

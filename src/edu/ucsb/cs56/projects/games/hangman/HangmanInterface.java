@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.hangman;
 
 public interface HangmanInterface {
     public abstract void play();
