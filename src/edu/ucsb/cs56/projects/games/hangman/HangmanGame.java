@@ -27,6 +27,7 @@ public class HangmanGame {
 
         if(letterIsInWord) {
             flipLetters(letter);
+	    wrongLetters.add(letter);
             return true;
         } else {
             if(wrongLetters.contains(letter))  {
