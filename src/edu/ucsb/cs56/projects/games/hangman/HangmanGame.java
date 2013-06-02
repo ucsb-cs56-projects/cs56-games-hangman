@@ -26,9 +26,16 @@ public class HangmanGame {
         boolean letterIsInWord = secretWord.indexOf((int) letter) != -1;
 
         if(letterIsInWord) {
-            flipLetters(letter);
-	    wrongLetters.add(letter);
-            return true;
+	    if(wrongLetters.contains(letter)){
+		wrongLetters.add(letter);
+		wrongAttemptyLeft--;
+		return false;
+	    }
+	    else{
+		flipLetters(letter);
+		wrongLetters.add(letter);
+		return true;
+	    }
         } else {
             if(wrongLetters.contains(letter))  {
 		//edited out 1:47	      throw new AlreadyTriedException();
