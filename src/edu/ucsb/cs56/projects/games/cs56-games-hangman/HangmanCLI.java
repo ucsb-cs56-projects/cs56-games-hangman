@@ -1,6 +1,14 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.util.*;
+
+/** A class that implements a command-line interface for a hangman-style game
+ *@author Evan West
+ *@author David Borden and Ernesto Cojulun
+ *@version Spring 2013, CS56
+ *@see HangmanGame
+ *@see WordList
+ */
 
 public class HangmanCLI implements HangmanInterface {
     private Scanner scan;
@@ -8,20 +16,36 @@ public class HangmanCLI implements HangmanInterface {
     private char letter;
     private HangmanGame hg;
 
+    /** Constructor for CLI that takes an already-created game instance
+     *@param hg An instance of a HangmanGame already created
+     */
     public HangmanCLI(HangmanGame hg) {
 	this.hg = hg;
     }
 
-    //begins the game and does error checking
+    /** Constructor for CLI that takes a wordList parameter to use
+     *@param wordList A wordList object that contains the words to select from
+     */
+    public HangmanCLI(WordList wordList) throws IOException{
+	this.hg = new HangmanGame(wordList.getRandomLine());
+    }
 
+    /**Begins the game and plays one round
+     * incorporates error checking
+     */
     public void play() {
         scan = new Scanner(System.in);
 
 	while((hg.getWrongAttemptsLeft() != 0) && !hg.hasWon()) {
             System.out.println(getGallows());
             System.out.println(hg.getBoard());
-
-            System.out.print("Guess a letter: ");
+	    String wrongGuesses = "Wrong guesses:";
+	    for(Character item : hg.getWrongLetters()){
+		wrongGuesses+=(" "+item);
+	    }
+	    System.out.println(wrongGuesses);
+	    System.out.flush();
+            System.out.println("Guess a letter: ");
             System.out.flush();
 	    word = scan.nextLine();
 
@@ -39,13 +63,13 @@ public class HangmanCLI implements HangmanInterface {
 		if(hg.guessLetter(letter) == true)
 		    System.out.println("Good Guess!");
 		else
-		    System.out.println("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
+		    System.out.println("Wrong! Guesses left: " + hg.getWrongAttemptsLeft());
 	    } catch(AlreadyTriedException ex) {
 		System.out.println("You have already tried that letter, please try another one.");
 	    }
 
 	    if(hg.hasWon())
-		System.out.println("Congratulations, You have won!");
+		System.out.println("Congratulations, You have won!\nThe word was: "+hg.getSecretWord());
 
             if(hg.hasLost()) {
                 System.out.println(getGallows());
@@ -57,7 +81,10 @@ public class HangmanCLI implements HangmanInterface {
         }
     }
 
-    //Print the hangman image on console                                                                                                            
+    /** Gets the ASCII representation of the gallows
+	@return A String representing the current state of the gallows
+     */
+    
     private String getGallows() {
         String gallow[] = new String[7];
 

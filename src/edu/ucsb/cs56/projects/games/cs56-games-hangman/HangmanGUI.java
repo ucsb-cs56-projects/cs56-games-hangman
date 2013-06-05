@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.S12.davidborden.issue539;
+package edu.ucsb.cs56.projects.games.cs56_games_hangman;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,16 +18,19 @@ import javax.sound.sampled.SourceDataLine;
 
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
- *@version 05/19/12 for Choice Points 1, cs56, S12
+ *@author Evan West
+ *@version Spring 2013, CS56
+ *@see HangmanGame
+ *@see WordList
  */
 
 public class HangmanGUI extends JFrame implements HangmanInterface {
 
-    public static final boolean soundOn = true;
+    public static final boolean soundOn = false;
 
     private HangmanGame hg;
-    private JPanel gallow;
-    private JLabel letter, board, message;
+    private JComponent gallow;
+    private JLabel prompt, board, message, guesses;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint;
     private WordList wordList;
@@ -42,7 +45,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private instructButtonHandler instructHandler;
     private hintButtonHandler hintHandler;
         
-    /**
+    /** Constructor for GUI that takes a Wordlist parameter
      *@param wordList takes in the wordList.txt by default but will also take in a user created wordList
      */
 
@@ -51,6 +54,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	this.wordList = wordList;
     }
     
+    /** Initializes and shows all GUI elements
+     */
     public void play() {
 	f = new JFrame();
 	f.setSize(450, 400);
@@ -61,7 +66,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      	gallow = new hanger();
     	message = new JLabel();
 	board = new JLabel(hg.getBoard());
-	letter = new JLabel("Guess a letter: ");
+	guesses = new JLabel("Wrong guesses: ");
+	prompt = new JLabel("Guess a letter: ");
 	lettertf = new JTextField(3);
 	
 
@@ -75,7 +81,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	upper.add(gallow);
 	upper.add(message);
 	upper.add(board);
-	upper.add(letter);
+	upper.add(guesses);
+	upper.add(prompt);
 	upper.add(lettertf);
 	upper.add(submit);
 	submit.setAlignmentX(Component.CENTER_ALIGNMENT);	
@@ -115,7 +122,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	//Specify handlers for each button and add (register) ActionListeners to each button.
     
-    //Submit button
+    /** Inner class for Handler for Submit button
+	(button that handles guess commits)
+	Handles all game state and UI changes
+     */
     public class SubmitButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    String word = lettertf.getText();   
@@ -127,14 +137,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
 		if (soundOn) {
-		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
 		}
 		
 		return;
 	    } else if(word.length() > 1) {
 		message.setText("Do not type more than one letter at a time.");
 		if (soundOn) { 
-		    sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
 		}
 		lettertf.setText("");
 		repaint();
@@ -148,7 +158,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		if(hg.guessLetter(letter) == true) {
 		    message.setText("Good Guess!");
 		    if (soundOn) {
-			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
 		    repaint();
 		}
@@ -156,70 +166,94 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	        {
 		    message.setText("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
 		    if (soundOn) {
-			sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
+		    gallow.repaint();
 		repaint();
 
 		}
 
 	    } catch(AlreadyTriedException ex) {
 		message.setText("You have already tried that letter, please try another one.");
-		//	if (soundOn) {
-		    //sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		//	}
+			if (soundOn) {
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
 		repaint();
 
 	    }
 	    
 	    board.setText(hg.getBoard());
 	    
+	    //update incorrect guesses
+	    String wrongGuesses = "Wrong guesses:";
+	    for(Character item : hg.getWrongLetters()){
+		wrongGuesses+=(" "+item);
+	    }
+	    guesses.setText(wrongGuesses);
+
 	    if(hg.hasWon()) {
 		submit.setEnabled(false);
+		lettertf.setEditable(false);
+		prompt.setText("");
 		message.setText("Congratulations, You have won!");
-		//	if (soundOn) {
-		    // sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
-		//	}  
+			if (soundOn) {
+		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+			}  
 		repaint();
 
 	    }
 	    if(hg.hasLost()) {
 		submit.setEnabled(false);
+		lettertf.setEditable(false);
+		prompt.setText("");
 		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
 	
-		//	if (soundOn) {
-		    //  sound.playSound( Main.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		//	}
+			if (soundOn) {
+		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
 		repaint();
 	    }
 	     repaint();
 	}
     }
 
-    //Display a screen of instructions
+    /** Handler for instructions button
+	Button displays a messageDialog with text instructions
+     */
 
     public class instructButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    JOptionPane.showMessageDialog(f,"Each * represents a letter in a word. Your task\nis to guess each letter in the word until you\ncomplete the word. Each wrong guess adds a \nbody part to the hanger. Once an entire\nman is created from wrong guesses\n(6 wrong guesses) then you lose the game.\nIf you guess the word before then, you win!\n To get a letter that is in the word press the hint button and a pop-up button will display with a letter from a random position in the word","Instructions", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(f,
+		"Each * represents a letter in a word. Your task\nis to guess each letter in the word until you\ncomplete the word. Each wrong guess adds a \nbody part to the hanger. Once an entire\nman is created from wrong guesses\n(6 wrong guesses) then you lose the game.\nIf you guess the word before then, you win!\n To get a letter that is in the word press the hint button and a pop-up button will display with a letter from a random position in the word",
+		"Instructions", 
+		JOptionPane.INFORMATION_MESSAGE);
 	}
     }
     
-    //Exit from the game
+    /** Handler for exit button.
+	Button closes the application
+     */
     public class ExitButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    System.exit(0);
 	}
     }
     
-    //Start the new game
+    /** Handler for Restart Button.
+	Clears old game state, create a new game, and updates UI accordingly.
+     */
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    lettertf.requestFocusInWindow();
 	    submit.setEnabled(true);
+	    lettertf.setEditable(true);
+	    prompt.setText("Guess a letter: ");
 	    
 	    try {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
 		message.setText("");
+		guesses.setText("Wrong guesses:");
 		repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
@@ -227,7 +261,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
 
-    //A pop-up window displays a letter that is in the word
+    /** Handler for Hint button.
+	Button pops up a messageDialog with a letter than is in the word
+     */
     public class hintButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    int wordlength = hg.getSecretWord().length();
@@ -238,6 +274,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 	}
         
+    /** Class to handle loading and playing of game sounds
+     */
     public class MakeSound {
 	
 	private final int BUFFER_SIZE = 128000;
@@ -246,6 +284,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	private AudioFormat audioFormat;
 	private  SourceDataLine sourceLine;
 	
+	/** Plays a sound by filename
+	    @param filename Path to the sound file to play
+	 */
 	public void playSound(String filename){
 	        
 	    String strFilename = filename;
@@ -298,6 +339,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    sourceLine.close();
 	}
 
+	/** Plays a sound by inputstream
+	    @param is InputStream representing file to play
+	 */
+
 	public void playSound(InputStream is){
 	    
 	    try {
@@ -344,35 +389,37 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	
     } // inner class MakeSound
     
-    //Drawing a hangman with a gallow
-    public class hanger extends JPanel {
+    /** Component that draws a gallows in progressive states
+     */
+    public class hanger extends JComponent {
 	hanger() {
 	    setPreferredSize(new Dimension(150,150));
 	}
 
-	/**
-	 *@param g the Hangman graphic that is drawn on the screen which changes depending at what stage you are in the game
+	/** This is an override from Component, and draws a gallows at proper state directly from getWrongAttemptsLeft retrieved from game instance
 	 */
-	
-	public void paint (Graphics g) {
+	@Override
+	public void paintComponent (Graphics g) {
+	    Graphics2D g2 = (Graphics2D)g;
 
-	    g.setColor(Color.BLACK);
-	    g.drawRect(10,70, 50, 5);
-	    g.drawLine(35, 70, 35, 5);
-	    g.drawLine(35,5,70,5);
+	    g2.setColor(Color.BLACK);
+	    g2.drawRect(10,70, 50, 5);
+	    g2.drawLine(35, 70, 35, 5);
+	    g2.drawLine(35,5,70,5);
+	    g2.drawLine(70,5,70,10);
 	    
 	    if(hg.getWrongAttemptsLeft() < 6)
-		g.drawOval(60, 10, 20, 20);
+		g2.drawOval(60, 10, 20, 20);
 	    if(hg.getWrongAttemptsLeft() < 5)
-		g.drawLine(70, 30, 70, 60);
+		g2.drawLine(70, 30, 70, 60);
 	    if(hg.getWrongAttemptsLeft() < 4)
-		g.drawLine(70,60,50,65);
+		g2.drawLine(70,60,50,65);
 	    if(hg.getWrongAttemptsLeft() < 3)
-		g.drawLine(70,60,90,65);
+		g2.drawLine(70,60,90,65);
 	    if(hg.getWrongAttemptsLeft() < 2)
-		g.drawLine(70, 30, 50, 25);
+		g2.drawLine(70, 35, 50, 30);
 	    if(hg.getWrongAttemptsLeft() < 1)
-		g.drawLine(70, 30, 90, 25);
+		g2.drawLine(70, 35, 90, 30);
 	}
     } // inner class hanger
 }
