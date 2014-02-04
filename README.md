@@ -1,6 +1,8 @@
 cs56-games-hangman
 ==================
 
+W14 Ready! (Brynn Kiefer)
+
 Hangman game with both Command-line and Graphical interfaces.
 
 To run: 
