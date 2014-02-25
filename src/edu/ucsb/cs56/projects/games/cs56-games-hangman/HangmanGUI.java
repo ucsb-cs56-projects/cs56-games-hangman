@@ -68,7 +68,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      	gallow = new hanger();
     	message = new JLabel();
 	board = new JLabel(hg.getBoard());
-
+	board.setFont(newFont);
 	guesses = new JLabel("Wrong guesses: ");
 	guesses.setFont(newFont);
 	prompt = new JLabel("Guess a letter: ");
