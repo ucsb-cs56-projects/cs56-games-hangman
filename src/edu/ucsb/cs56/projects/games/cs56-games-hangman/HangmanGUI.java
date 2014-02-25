@@ -19,7 +19,8 @@ import javax.sound.sampled.SourceDataLine;
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
  *@author Evan West
- *@version Spring 2013, CS56
+ *@author Blake Zimmerman, CS56 W14
+ *@version Winter 2014, CS56
  *@see HangmanGame
  *@see WordList
  */
@@ -58,24 +59,29 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public void play() {
 	f = new JFrame();
-	f.setSize(450, 400);
+	f.setSize(700, 700);
 	Panel upper = new Panel();
+	Font newFont = new Font("serif", Font.BOLD, 16);
 
 	upper.setLayout(new BoxLayout(upper,BoxLayout.Y_AXIS));
 	
      	gallow = new hanger();
     	message = new JLabel();
 	board = new JLabel(hg.getBoard());
+
 	guesses = new JLabel("Wrong guesses: ");
+       	guesses.setFont(newFont);
 	prompt = new JLabel("Guess a letter: ");
+	prompt.setFont(newFont);
 	lettertf = new JTextField(3);
 	
 
 	submit = new JButton("Submit");
+	submit.setFont(newFont);
 	submitHandler = new SubmitButtonHandler();
 	submit.addActionListener(submitHandler);
 	f.getRootPane().setDefaultButton(submit); //Use "Enter key" as default for submit button.
-	f.getContentPane().add(upper,BorderLayout.NORTH);	
+	f.getContentPane().add(upper,BorderLayout.NORTH);
 
 	//add items to the upper pannel
 	upper.add(gallow);
@@ -91,18 +97,22 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	lower.setLayout(new FlowLayout());
 
 	instructions = new JButton("Instructions");
+	instructions.setFont(newFont);
 	instructHandler = new instructButtonHandler();
 	instructions.addActionListener(instructHandler);
 
 	exit = new JButton("Exit");
+	exit.setFont(newFont);
 	exitHandler = new ExitButtonHandler();
 	exit.addActionListener(exitHandler);
 	
 	restart = new JButton("Restart");
+	restart.setFont(newFont);
 	restartHandler = new RestartButtonHandler();
 	restart.addActionListener(restartHandler);
 
 	hint = new JButton("Hint");
+	hint.setFont(newFont);
         hintHandler = new hintButtonHandler();
 	hint.addActionListener(hintHandler);
 
@@ -131,11 +141,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    String word = lettertf.getText();   
 	    repaint();
 	    MakeSound sound = new MakeSound();
+	    Font newFont = new Font("serif", Font.BOLD, 16);
 
 	    lettertf.requestFocusInWindow();
 	    
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
+		message.setFont(newFont);
 		if (soundOn) {
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
 		}
@@ -143,6 +155,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		return;
 	    } else if(word.length() > 1) {
 		message.setText("Do not type more than one letter at a time.");
+		message.setFont(newFont);
 		if (soundOn) { 
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
 		}
@@ -157,6 +170,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    try{
 		if(hg.guessLetter(letter) == true) {
 		    message.setText("Good Guess!");
+		    message.setFont(newFont);
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
@@ -164,7 +178,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 		else
 	        {
-		    message.setText("wrongAttemptsLeft left: " + hg.getWrongAttemptsLeft());
+		    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+		    message.setFont(newFont);
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
@@ -190,12 +205,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		wrongGuesses+=(" "+item);
 	    }
 	    guesses.setText(wrongGuesses);
+	    guesses.setFont(newFont);
 
 	    if(hg.hasWon()) {
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
 		prompt.setText("");
 		message.setText("Congratulations, You have won!");
+		message.setFont(newFont);
 			if (soundOn) {
 		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
 			}  
@@ -207,6 +224,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		lettertf.setEditable(false);
 		prompt.setText("");
 		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
+		message.setFont(newFont);
 	
 			if (soundOn) {
 		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
@@ -247,13 +265,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.requestFocusInWindow();
 	    submit.setEnabled(true);
 	    lettertf.setEditable(true);
+	    Font newFont = new Font("serif", Font.BOLD, 16);
 	    prompt.setText("Guess a letter: ");
+	    prompt.setFont(newFont);
 	    
 	    try {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
 		message.setText("");
 		guesses.setText("Wrong guesses:");
+		guesses.setFont(newFont);
 		repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
@@ -262,7 +283,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     }
 
     /** Handler for Hint button.
-	Button pops up a messageDialog with a letter than is in the word
+	Button pops up a messageDialog with a letter that is in the word
      */
     public class hintButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
@@ -393,7 +414,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class hanger extends JComponent {
 	hanger() {
-	    setPreferredSize(new Dimension(150,150));
+	    setPreferredSize(new Dimension(300,300));
 	}
 
 	/** This is an override from Component, and draws a gallows at proper state directly from getWrongAttemptsLeft retrieved from game instance
@@ -403,23 +424,23 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    Graphics2D g2 = (Graphics2D)g;
 
 	    g2.setColor(Color.BLACK);
-	    g2.drawRect(10,70, 50, 5);
-	    g2.drawLine(35, 70, 35, 5);
-	    g2.drawLine(35,5,70,5);
-	    g2.drawLine(70,5,70,10);
+	    g2.drawRect(190,250, 200, 15);
+	    g2.drawLine(290, 250, 290, 5);
+	    g2.drawLine(290,5,410,5);
+	    g2.drawLine(410,5,410,20);
 	    
 	    if(hg.getWrongAttemptsLeft() < 6)
-		g2.drawOval(60, 10, 20, 20);
+		g2.drawOval(385, 20, 50, 50);
 	    if(hg.getWrongAttemptsLeft() < 5)
-		g2.drawLine(70, 30, 70, 60);
+		g2.drawLine(410, 70, 410, 150);
 	    if(hg.getWrongAttemptsLeft() < 4)
-		g2.drawLine(70,60,50,65);
+		g2.drawLine(410,150,350,190);
 	    if(hg.getWrongAttemptsLeft() < 3)
-		g2.drawLine(70,60,90,65);
+		g2.drawLine(410,150,470,190);
 	    if(hg.getWrongAttemptsLeft() < 2)
-		g2.drawLine(70, 35, 50, 30);
+		g2.drawLine(410, 100, 350, 75);
 	    if(hg.getWrongAttemptsLeft() < 1)
-		g2.drawLine(70, 35, 90, 30);
+		g2.drawLine(410, 100, 470, 75);
 	}
     } // inner class hanger
 }
