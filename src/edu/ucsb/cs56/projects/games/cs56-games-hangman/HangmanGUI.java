@@ -31,13 +31,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
     private HangmanGame hg;
     private JComponent gallow;
-    private JLabel prompt, board, message, guesses;
+    private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint;
     private WordList wordList;
-    private Panel upper, lower;
+    private Panel upper, lower, lowerRight;
     private JFrame f;
     private Applet song;
+    private int hintsA,hintsL;
         
     //Button handler
     private SubmitButtonHandler submitHandler;
@@ -116,13 +117,24 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
         hintHandler = new hintButtonHandler();
 	hint.addActionListener(hintHandler);
 
+	Panel lowerRight = new Panel();
+	lowerRight.setLayout(new BoxLayout(lowerRight,BoxLayout.Y_AXIS));
+	String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+	hintsAllowed = new JLabel(hintsAllowedString);
+	hintsAllowed.setFont(newFont);
+	hintsLeft = new JLabel("Hints left: ");
+	hintsLeft.setFont(newFont);
+
 	f.getContentPane().add(lower,BorderLayout.SOUTH);
 
-	//add buttons to lower pannel
+	//add buttons to lower panel
 	lower.add(instructions);
 	lower.add(exit);
 	lower.add(restart);
 	lower.add(hint);
+	lowerRight.add(hintsAllowed);
+	lowerRight.add(hintsLeft);
+	lower.add(lowerRight);
 	
 	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -275,6 +287,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		message.setText("");
 		guesses.setText("Wrong guesses:");
 		guesses.setFont(newFont);
+		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+		hintsAllowed.setText(hintsAllowedString);
+		hintsAllowed.setFont(newFont);
 		repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
@@ -287,13 +302,35 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class hintButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    int wordlength = hg.getSecretWord().length();
-	    int randomNum = (int) (Math.random()*(wordlength));
-
-	   char displayletter = hg.getSecretWord().charAt(randomNum);
-	    JOptionPane.showMessageDialog(f,"Your hint is  "+displayletter );
+	    int wordLength = hg.getSecretWord().length();
+	    int randomNum = (int) (Math.random()*(wordLength));
+	    
+	    char displayLetter = hg.getSecretWord().charAt(randomNum);
+	    JOptionPane.showMessageDialog(f,"Your hint is  "+displayLetter );
 		}
 	}
+
+    /** Helper method for hintsAllowed
+     */
+    public int getHintsAllowed() {
+	int wordLength = hg.getSecretWord().length();
+	if (wordLength < 3)
+	    hintsA = 0;
+	else if (wordLength > 2 && wordLength < 5)
+	    hintsA = 1;
+	else if (wordLength == 5)
+	    hintsA = 2;
+	else
+	    hintsA = 3;
+	return hintsA;
+    }
+    /*
+    public int getHintsLeft() {
+	hintsA = getHintsAllowed();
+	return;
+    }
+    */
+    
         
     /** Class to handle loading and playing of game sounds
      */
