@@ -122,7 +122,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 	hintsAllowed = new JLabel(hintsAllowedString);
 	hintsAllowed.setFont(newFont);
-	hintsLeft = new JLabel("Hints left: ");
+	String hintsLeftString = "Hints left: " + getHintsLeft();
+	hintsLeft = new JLabel(hintsLeftString);
 	hintsLeft.setFont(newFont);
 
 	f.getContentPane().add(lower,BorderLayout.SOUTH);
@@ -287,9 +288,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		message.setText("");
 		guesses.setText("Wrong guesses:");
 		guesses.setFont(newFont);
-		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+		String hintsAllowedString = "Hints allowed: " + getHintsLeft();
 		hintsAllowed.setText(hintsAllowedString);
 		hintsAllowed.setFont(newFont);
+		String hintsLeftString = "Hints left: " + getHintsLeft();
+		hintsLeft.setText(hintsLeftString);
+		hintsLeft.setFont(newFont);
 		repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
@@ -304,18 +308,27 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void actionPerformed(ActionEvent e) {
 	    int wordLength = hg.getSecretWord().length();
 	    int randomNum = (int) (Math.random()*(wordLength));
-	    
-	    char displayLetter = hg.getSecretWord().charAt(randomNum);
-	    JOptionPane.showMessageDialog(f,"Your hint is  "+displayLetter );
-		}
+	    Font newFont = new Font("serif", Font.BOLD, 16);
+	    if (hintsL != 0) {
+		hintsL--;
+		char displayLetter = hg.getSecretWord().charAt(randomNum);
+		JOptionPane.showMessageDialog(f,"Your hint is  "+displayLetter );
+		String hintsLeftString = "Hints left: " + hintsL;
+		hintsLeft.setText(hintsLeftString);
+		hintsLeft.setFont(newFont);
+	    }
+	    else
+		JOptionPane.showMessageDialog(f,"No hints remaining");
 	}
+    }
 
-    /** Helper method for hintsAllowed
+    /** Getter for hintsAllowed
      */
     public int getHintsAllowed() {
 	int wordLength = hg.getSecretWord().length();
 	if (wordLength < 3)
 	    hintsA = 0;
+      
 	else if (wordLength > 2 && wordLength < 5)
 	    hintsA = 1;
 	else if (wordLength == 5)
@@ -324,13 +337,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    hintsA = 3;
 	return hintsA;
     }
-    /*
+
+    /** Getter for hintsLeft
+     */
     public int getHintsLeft() {
-	hintsA = getHintsAllowed();
-	return;
+	hintsL = getHintsAllowed();
+	return hintsL;
     }
-    */
-    
         
     /** Class to handle loading and playing of game sounds
      */
