@@ -288,7 +288,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		message.setText("");
 		guesses.setText("Wrong guesses:");
 		guesses.setFont(newFont);
-		String hintsAllowedString = "Hints allowed: " + getHintsLeft();
+		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 		hintsAllowed.setText(hintsAllowedString);
 		hintsAllowed.setFont(newFont);
 		String hintsLeftString = "Hints left: " + getHintsLeft();
