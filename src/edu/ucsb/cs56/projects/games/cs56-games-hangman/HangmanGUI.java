@@ -63,7 +63,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public void play() {
 	f = new JFrame();
-	f.setSize(700, 700);
+	f.setSize(700, 500);
 	Panel upper = new Panel();
 
 	upper.setLayout(new BoxLayout(upper,BoxLayout.Y_AXIS));
@@ -225,7 +225,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
 		prompt.setText("");
-		message.setText("Congratulations, You have won!");
+		message.setText("Congratulations, you have won!");
 		message.setFont(newFont);
 			if (soundOn) {
 		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
@@ -327,7 +327,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	int wordLength = hg.getSecretWord().length();
 	if (wordLength < 3)
 	    hintsA = 0;
-      
 	else if (wordLength > 2 && wordLength < 5)
 	    hintsA = 1;
 	else if (wordLength > 4 && wordLength < 7)
