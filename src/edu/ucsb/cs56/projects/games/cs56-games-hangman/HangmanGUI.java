@@ -46,6 +46,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private RestartButtonHandler restartHandler;
     private instructButtonHandler instructHandler;
     private hintButtonHandler hintHandler;
+
+    Font newFont = new Font("serif", Font.BOLD, 16);
+
         
     /** Constructor for GUI that takes a Wordlist parameter
      *@param wordList takes in the wordList.txt by default but will also take in a user created wordList
@@ -62,7 +65,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	f = new JFrame();
 	f.setSize(700, 700);
 	Panel upper = new Panel();
-	Font newFont = new Font("serif", Font.BOLD, 16);
 
 	upper.setLayout(new BoxLayout(upper,BoxLayout.Y_AXIS));
 	
@@ -154,7 +156,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    String word = lettertf.getText();   
 	    repaint();
 	    MakeSound sound = new MakeSound();
-	    Font newFont = new Font("serif", Font.BOLD, 16);
 
 	    lettertf.requestFocusInWindow();
 	    
@@ -278,7 +279,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.requestFocusInWindow();
 	    submit.setEnabled(true);
 	    lettertf.setEditable(true);
-	    Font newFont = new Font("serif", Font.BOLD, 16);
 	    prompt.setText("Guess a letter: ");
 	    prompt.setFont(newFont);
 	    
@@ -308,17 +308,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void actionPerformed(ActionEvent e) {
 	    int wordLength = hg.getSecretWord().length();
 	    int randomNum = (int) (Math.random()*(wordLength));
-	    Font newFont = new Font("serif", Font.BOLD, 16);
 	    if (hintsL != 0) {
 		hintsL--;
 		char displayLetter = hg.getSecretWord().charAt(randomNum);
-		JOptionPane.showMessageDialog(f,"Your hint is  "+displayLetter );
+		JOptionPane.showMessageDialog(f,"Your hint is:  "+displayLetter);
 		String hintsLeftString = "Hints left: " + hintsL;
 		hintsLeft.setText(hintsLeftString);
 		hintsLeft.setFont(newFont);
 	    }
 	    else
-		JOptionPane.showMessageDialog(f,"No hints remaining");
+		JOptionPane.showMessageDialog(f,"No hints remaining.");
 	}
     }
 
@@ -331,7 +330,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
       
 	else if (wordLength > 2 && wordLength < 5)
 	    hintsA = 1;
-	else if (wordLength == 5)
+	else if (wordLength > 4 && wordLength < 7)
 	    hintsA = 2;
 	else
 	    hintsA = 3;
