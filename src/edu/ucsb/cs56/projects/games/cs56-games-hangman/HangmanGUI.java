@@ -93,15 +93,15 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	submitHandler = new SubmitButtonHandler();
 	submit.addActionListener(submitHandler);
 
-	String numOfWins = "Wins: " + getNumWins();
+	String numOfWins = "Wins: " + numWins;
 	wins = new JLabel(numOfWins);
 	wins.setFont(newFont);
 
-	String numOfLosses = "Losses: " + getNumLosses();
+	String numOfLosses = "Losses: " + numLosses;
 	losses = new JLabel(numOfLosses);
 	losses.setFont(newFont);
 
-	String numOfPoints = "Points: " + getNumPoints();
+	String numOfPoints = "Points: " + numPoints;
 	points = new JLabel(numOfPoints);
 	points.setFont(newFont);
 
@@ -165,7 +165,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 	hintsAllowed = new JLabel(hintsAllowedString);
 	hintsAllowed.setFont(newFont);
-	String hintsLeftString = "Hints left: " + getHintsLeft();
+	String hintsLeftString = "Hints left: " + hintsL;
 	hintsLeft = new JLabel(hintsLeftString);
 	hintsLeft.setFont(newFont);
 
@@ -225,7 +225,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    try{
 		if(hg.guessLetter(letter) == true) {
 		    numPoints++;
-		    String numOfPoints = "Points: " + getNumPoints();
+		    String numOfPoints = "Points: " + numPoints;
 		    points.setText(numOfPoints);
 		    message.setText("Good Guess!");
 		    if (soundOn) {
@@ -265,9 +265,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    if(hg.hasWon()) {
 		numWins++;
 		numPoints += 10;
-		String numOfWins = "Wins: " + getNumWins();
+		String numOfWins = "Wins: " + numWins;
 		wins.setText(numOfWins);
-		String numOfPoints = "Points: " + getNumPoints();
+		String numOfPoints = "Points: " + numPoints;
 		points.setText(numOfPoints);
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
@@ -281,13 +281,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    }
 	    if(hg.hasLost()) {
 		numLosses++;
-		String numOfLosses = "Losses: " + getNumLosses();
+		String numOfLosses = "Losses: " + numLosses;
 		losses.setText(numOfLosses);
 		if (numPoints > 4)
 		    numPoints -= 5;
 		else
 		    numPoints = 0;
-		String numOfPoints = "Points: " + getNumPoints();
+		String numOfPoints = "Points: " + numPoints;
 		points.setText(numOfPoints);
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
@@ -342,7 +342,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		guesses.setText("Wrong guesses:");
 		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 		hintsAllowed.setText(hintsAllowedString);
-		String hintsLeftString = "Hints left: " + getHintsLeft();
+		String hintsLeftString = "Hints left: " + hintsL;
 		hintsLeft.setText(hintsLeftString);
 		repaint();
 	    } catch(IOException ex) {
@@ -364,7 +364,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    numPoints--;
 		else
 		    numPoints = 0;
-		String numOfPoints = "Points: " + getNumPoints();
+		String numOfPoints = "Points: " + numPoints;
 		points.setText(numOfPoints);
 		char displayLetter = hg.getSecretWord().charAt(randomNum);
 		JOptionPane.showMessageDialog(f,"Your hint is:  "+displayLetter);
@@ -465,46 +465,29 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	o.setTitle("Options for Hangman");
     }
 
-    // getter methods
+    // setter/getter method
 
-    /** Getter for hintsAllowed
+    /** Setter/getter for hintsAllowed that gets the hints allowed and sets the hints left
      */
     public int getHintsAllowed() {
 	int wordLength = hg.getSecretWord().length();
-	if (wordLength < 3)
+	if (wordLength < 3) {
 	    hintsA = 0;
-	else if (wordLength > 2 && wordLength < 5)
+	    hintsL = 0;
+	}
+	else if (wordLength > 2 && wordLength < 5) {
 	    hintsA = 1;
-	else if (wordLength > 4 && wordLength < 7)
+	    hintsL = 1;
+	}
+	else if (wordLength > 4 && wordLength < 7) {
 	    hintsA = 2;
-	else
+	    hintsL = 2;
+	}
+	else {
 	    hintsA = 3;
+	    hintsL = 3;
+	}
 	return hintsA;
-    }
-
-    /** Getter for hintsLeft
-     */
-    public int getHintsLeft() {
-	hintsL = getHintsAllowed();
-	return hintsL;
-    }
-    
-    /** Getter for number of points.
-     */
-    public int getNumPoints() {
-	return numPoints;
-    }
-
-    /** Getter for number of wins
-     */
-    public int getNumWins() {
-	return numWins;
-    }
-
-    /** Getter for number of losses
-     */
-    public int getNumLosses() {
-	return numLosses;
     }
 
         
