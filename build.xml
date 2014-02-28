@@ -3,7 +3,8 @@
 
   <!-- build.xml for github.com/UCSB-CS56-Projects/cs56-games-hangman
        original author: Gyeonghun Lee for CS56, W12
-       updated Blake Zimmerman for github W14   -->
+       modified by David Borden and Ernesto Cojulun S12
+       modified by Blake Zimmerman for github W14   -->
 
   <property environment="env"/> <!-- load the environment variables --> 
   <property name="webRoot" value="${env.HOME}/public_html/cs56" />
