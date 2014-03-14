@@ -227,7 +227,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.setText("");
 	    
 	    try{
-		// the player guesses a correct letter, one point is earned
+		// inform the player when the guess is correct, one point is earned
 		if(hg.guessLetter(letter) == true) {
 		    numPoints++;
 		    String numOfPoints = "Points: " + numPoints;
@@ -240,7 +240,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 		else
 	        {
-		    // the player guesses incorrectly
+		    // inform the player when the guess is incorrect
 		    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
@@ -269,7 +269,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    }
 	    guesses.setText(wrongGuesses);
 
-	    // if the player wins, ten points are earned
+	    // inform if the player wins, ten points are earned
 	    if(hg.hasWon()) {
 		numWins++;
 		numPoints += 10;
@@ -287,7 +287,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		repaint();
 
 	    }
-	    // if the player loses, five points are removed if the player has five or more points
+	    // inform if the player loses, five points are removed if the player has five or more points
 	    if(hg.hasLost()) {
 		numLosses++;
 		String numOfLosses = "Losses: " + numLosses;
@@ -403,7 +403,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class finishButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    optionsOn = "true";
+	    optionsOn = "true"; // intended to save and active chosen options
 	    o.dispose();
 	}
     }
@@ -412,7 +412,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class cancelButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    optionsOn = "false";
+	    optionsOn = "false"; // intended to cancel chosen options
 	    o.dispose();
 	}
     }
