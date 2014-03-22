@@ -77,6 +77,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	Panel upper = new Panel();
 	upper.setLayout(new BoxLayout(upper,BoxLayout.Y_AXIS));
 	
+	// create upper panel items
      	gallow = new hanger();
     	message = new JLabel();
 	message.setFont(newFont);
@@ -134,6 +135,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	Panel lower = new Panel();
 	lower.setLayout(new FlowLayout());
 
+	// create lower panel items
 	instructions = new JButton("Instructions");
 	instructions.setFont(newFont);
 	instructHandler = new instructButtonHandler();
@@ -181,11 +183,11 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	lowerRight.add(hintsLeft);
 	lower.add(lowerRight);
 	
-	f.setLocationRelativeTo(null);
+	f.setLocationRelativeTo(null); // centers frame on screen
 	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-	f.setVisible(true);
 	f.setTitle("Hangman Game: GUI Version");
+	f.setVisible(true);
     }
 
 	//Specify handlers for each button and add (register) ActionListeners to each button.
@@ -202,6 +204,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	    lettertf.requestFocusInWindow();
 	    
+	    // inform the player if they left the textfield blank and clicked submit
+	    // or if they typed more than one character and clicked submit
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
 		if (soundOn) {
@@ -223,6 +227,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.setText("");
 	    
 	    try{
+		// inform the player when the guess is correct, one point is earned
 		if(hg.guessLetter(letter) == true) {
 		    numPoints++;
 		    String numOfPoints = "Points: " + numPoints;
@@ -235,6 +240,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 		else
 	        {
+		    // inform the player when the guess is incorrect
 		    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
@@ -245,6 +251,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 
 	    } catch(AlreadyTriedException ex) {
+		// inform the player when a guess has already been tried
 		message.setText("You have already tried that letter, please try another one.");
 			if (soundOn) {
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
@@ -262,6 +269,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    }
 	    guesses.setText(wrongGuesses);
 
+	    // inform if the player wins, ten points are earned
 	    if(hg.hasWon()) {
 		numWins++;
 		numPoints += 10;
@@ -279,6 +287,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		repaint();
 
 	    }
+	    // inform if the player loses, five points are removed if the player has five or more points
 	    if(hg.hasLost()) {
 		numLosses++;
 		String numOfLosses = "Losses: " + numLosses;
@@ -335,6 +344,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.setEditable(true);
 	    prompt.setText("Guess a letter: ");
 	    
+	    // attempt to start a new game, updating hints allowed and hints left
 	    try {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
@@ -358,7 +368,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void actionPerformed(ActionEvent e) {
 	    int wordLength = hg.getSecretWord().length();
 	    int randomNum = (int) (Math.random()*(wordLength));
-	    if (hintsL != 0) {
+	    
+	    // subtract from hints left (and one point) for each hint used unless zero hints remain
+	    if (hintsL > 0) {
 		hintsL--;
 		if (numPoints > 0)
 		    numPoints--;
@@ -391,7 +403,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class finishButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    optionsOn = "true";
+	    optionsOn = "true"; // intended to save and active chosen options
 	    o.dispose();
 	}
     }
@@ -400,7 +412,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class cancelButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    optionsOn = "false";
+	    optionsOn = "false"; // intended to cancel chosen options
 	    o.dispose();
 	}
     }
@@ -409,7 +421,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class randBGCButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    // Random color
+	    // create a random color
 	    int red = (int) (Math.random() * 255);
 	    int green = (int) (Math.random() * 255);
 	    int blue = (int) (Math.random() * 255);
@@ -461,8 +473,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	
 	o.setLocationRelativeTo(null);
 	o.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	o.setVisible(true);
 	o.setTitle("Options for Hangman");
+	o.setVisible(true);
     }
 
     // setter/getter method
@@ -471,18 +483,22 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public int getHintsAllowed() {
 	int wordLength = hg.getSecretWord().length();
+	// words 1-2 characters in length get 0 hints
 	if (wordLength < 3) {
 	    hintsA = 0;
 	    hintsL = 0;
 	}
+	// words 3-4 characters in length get 1 hint
 	else if (wordLength > 2 && wordLength < 5) {
 	    hintsA = 1;
 	    hintsL = 1;
 	}
+	// words 5-6 characters in length get 2 hints
 	else if (wordLength > 4 && wordLength < 7) {
 	    hintsA = 2;
 	    hintsL = 2;
 	}
+	// words of length 7+ get 3 hints
 	else {
 	    hintsA = 3;
 	    hintsL = 3;
@@ -619,22 +635,29 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void paintComponent (Graphics g) {
 	    Graphics2D g2 = (Graphics2D)g;
 
+	    // draw the gallow
 	    g2.setColor(Color.BLACK);
 	    g2.drawRect(190,250, 200, 15);
 	    g2.drawLine(290, 250, 290, 5);
 	    g2.drawLine(290,5,410,5);
 	    g2.drawLine(410,5,410,20);
 	    
+	    // draw the head
 	    if(hg.getWrongAttemptsLeft() < 6)
 		g2.drawOval(385, 20, 50, 50);
+	    // draw the body
 	    if(hg.getWrongAttemptsLeft() < 5)
 		g2.drawLine(410, 70, 410, 150);
+	    // draw the left leg
 	    if(hg.getWrongAttemptsLeft() < 4)
 		g2.drawLine(410,150,350,190);
+	    // draw the right leg
 	    if(hg.getWrongAttemptsLeft() < 3)
 		g2.drawLine(410,150,470,190);
+	    // draw the left arm
 	    if(hg.getWrongAttemptsLeft() < 2)
 		g2.drawLine(410, 100, 350, 75);
+	    // draw the right arm
 	    if(hg.getWrongAttemptsLeft() < 1)
 		g2.drawLine(410, 100, 470, 75);
 	}
