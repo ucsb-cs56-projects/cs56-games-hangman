@@ -5,6 +5,12 @@ W14 Ready! (Brynn Kiefer)
 
 Hangman game with both Command-line and Graphical interfaces.
 
+project history
+===============
+```
+ W14 | bkiefer13 5pm | bzimm | Graphical hangman game
+```
+
 To run: 
  * CLI version: ant runCLI
  * GUI version: ant runGUI
