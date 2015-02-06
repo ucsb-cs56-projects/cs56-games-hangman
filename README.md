@@ -8,6 +8,9 @@ Hangman game with both Command-line and Graphical interfaces.
 project history
 ===============
 ```
+YES | mastergberry | bzimm | Graphical hangman game
+```
+```
  W14 | bkiefer13 5pm | bzimm | Graphical hangman game
 ```
 
