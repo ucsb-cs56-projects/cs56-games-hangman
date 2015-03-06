@@ -379,6 +379,11 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		String numOfPoints = "Points: " + numPoints;
 		points.setText(numOfPoints);
 		char displayLetter = hg.getSecretWord().charAt(randomNum);
+		String alreadyGuessed = hg.getBoard();
+		while(alreadyGuessed.indexOf(displayLetter)!= -1){
+			randomNum = (int) (Math.random()*(wordLength));
+			displayLetter = hg.getSecretWord().charAt(randomNum);
+		    }
 		JOptionPane.showMessageDialog(f,"Your hint is:  "+displayLetter);
 		String hintsLeftString = "Hints left: " + hintsL;
 		hintsLeft.setText(hintsLeftString);
