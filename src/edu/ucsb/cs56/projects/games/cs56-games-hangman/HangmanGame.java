@@ -49,6 +49,17 @@ public class HangmanGame {
         }
     }
 
+    //for when player guesses entire word
+    public boolean guessWord(String word) {
+	if(secretWord.equals(word)) {
+	    for(int i=0; i<word.length(); i++) {
+		flipLetters(word.charAt(i));
+	    }
+	    return true;
+	}
+	return false;
+    }
+
     // flips * to letters
     private void flipLetters(char letter) {
 	//create character of opposite case as argument

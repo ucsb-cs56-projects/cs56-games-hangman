@@ -213,55 +213,101 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 		
 		return;
-	    } else if(word.length() > 1) {
-		message.setText("Do not type more than one letter at a time.");
-		if (soundOn) { 
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
-		}
-		lettertf.setText("");
-		repaint();
-		return;
 	    }
-	    
+	    else if(word.length() > 1) {
+		//check to see if player entered a full word guess
+		if(word.length() == hg.getSecretWord().length()) {
+		    if(hg.guessWord(word)==true) {
+			message.setText("You guessed the word!");
+			int count = 0;
+			for(int i = 0; i<hg.getBoard().length(); i++) {
+			    if(hg.getBoard().charAt(i) == '*') 
+				count++;
+			}
+			numPoints += count;
+			String numOfPoints = "Points: " + numPoints;
+			points.setText(numOfPoints);
+			if(soundOn) {
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
+			lettertf.setText("");
+			repaint();
+		    }
+		    //if word is wrong
+		    //subtract points according to how many letters left to guess
+		    else {
+			int count=0;
+			for(int i=0; i<hg.getBoard().length(); i++) {
+			    if(hg.getBoard().charAt(i) == '*')
+				count++;
+			}
+			if(numPoints>=count)
+			    numPoints -= count;
+			else
+			    numPoints = 0;
+			String numOfPoints = "Points: " + numPoints;
+			points.setText(numOfPoints);
+			message.setText("Incorrect. Guesses left: " + hg.getWrongAttemptsLeft());
+			if(soundOn) {
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
+			gallow.repaint();
+			repaint();
+			lettertf.setText("");
+		    }
+		}
+		else{
+		    message.setText("Please enter only one letter or whole word.");
+		    if (soundOn) { 
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+		    }
+		
+		    lettertf.setText("");
+		    repaint();
+		    return;
+		}
+		board.setText(hg.getBoard());
+	    }//end else-if
+	    else{
 	    char letter = word.charAt(0);
 	    lettertf.setText("");
 	    
 	    try{
-		// inform the player when the guess is correct, one point is earned
-		if(hg.guessLetter(letter) == true) {
-		    numPoints++;
-		    String numOfPoints = "Points: " + numPoints;
-		    points.setText(numOfPoints);
-		    message.setText("Good Guess!");
-		    if (soundOn) {
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		    }
-		    repaint();
-		}
-		else
-	        {
-		    // inform the player when the guess is incorrect
-		    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
-		    if (soundOn) {
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		    }
-		    gallow.repaint();
-		repaint();
-
-		}
-
-	    } catch(AlreadyTriedException ex) {
-		// inform the player when a guess has already been tried
-		message.setText("You have already tried that letter, please try another one.");
+		    // inform the player when the guess is correct, one point is earned
+		    if(hg.guessLetter(letter) == true) {
+			numPoints++;
+			String numOfPoints = "Points: " + numPoints;
+			points.setText(numOfPoints);
+			message.setText("Good Guess!");
 			if (soundOn) {
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			}
+			repaint();
+		    }
+		    else
+			{
+			    // inform the player when the guess is incorrect
+			    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+			    if (soundOn) {
+				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    }
+			    gallow.repaint();
+			    repaint();
+			    
+			}
+		    
+		} catch(AlreadyTriedException ex) {
+		    // inform the player when a guess has already been tried
+		    message.setText("You have already tried that letter, please try another one.");
+		    if (soundOn) {
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		    }
 		repaint();
-
+		
 	    }
-	    
-	    board.setText(hg.getBoard());
-	    
+		
+		board.setText(hg.getBoard());
+	    }
 	    //update incorrect guesses
 	    String wrongGuesses = "Wrong guesses:";
 	    for(Character item : hg.getWrongLetters()){
