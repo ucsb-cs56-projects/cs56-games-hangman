@@ -57,6 +57,7 @@ public class HangmanGame {
 	    }
 	    return true;
 	}
+	wrongAttemptsLeft--;
 	return false;
     }
 

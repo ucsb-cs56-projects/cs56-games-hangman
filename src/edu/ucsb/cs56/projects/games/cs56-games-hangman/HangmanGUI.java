@@ -234,19 +234,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			repaint();
 		    }
 		    //if word is wrong
-		    //subtract points according to how many letters left to guess
+		    //add bodypart to hangman and decrement guesses left
 		    else {
-			int count=0;
-			for(int i=0; i<hg.getBoard().length(); i++) {
-			    if(hg.getBoard().charAt(i) == '*')
-				count++;
-			}
-			if(numPoints>=count)
-			    numPoints -= count;
-			else
-			    numPoints = 0;
-			String numOfPoints = "Points: " + numPoints;
-			points.setText(numOfPoints);
 			message.setText("Incorrect. Guesses left: " + hg.getWrongAttemptsLeft());
 			if(soundOn) {
 			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
@@ -365,7 +354,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class instructButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    JOptionPane.showMessageDialog(f,
-		"Each * represents a letter in a word.\nYour task is to guess each letter in the word until you complete the word.\nEach wrong guess adds a body part to the hanger.\nIf an entire man is created (6 wrong guesses), you lose the game.\nIf you guess the word before then, however, you win!\nTo get a letter that is in the word press the hint button.\nA pop-up message will display with a letter from a random position in the word.\n(note: for multiple hints you may obtain the same hint more than once)\n\nThe point system is the following:\n+10 for a win.\n+1 for a correct guess.\n-5 for a loss.\n-1 for a used hint.\n",
+		"Each * represents a letter in a word.\nYour task is to guess each letter in the word until you complete the word.\nYou may either enter a single letter or full word guess.\nEach wrong guess adds a body part to the hanger.\nIf an entire man is created (6 wrong guesses), you lose the game.\nIf you guess the word before then, however, you win!\nTo get a letter that is in the word press the hint button.\nA pop-up message will display with a letter from a random position in the word.\n\nThe point system is the following:\n+10 for a win.\n+1 for a correct guess.\n-5 for a loss.\n-1 for a used hint.\n",
 		"Instructions", 
 		JOptionPane.INFORMATION_MESSAGE);
 	}
