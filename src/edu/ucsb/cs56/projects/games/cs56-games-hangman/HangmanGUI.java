@@ -344,6 +344,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		repaint();
 	    }
 	     repaint();
+	     
 	}
     }
 
@@ -390,6 +391,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		String hintsLeftString = "Hints left: " + hintsL;
 		hintsLeft.setText(hintsLeftString);
 		repaint();
+		gallow.repaint();
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
 	    }
