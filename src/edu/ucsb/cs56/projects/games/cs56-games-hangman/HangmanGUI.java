@@ -676,32 +676,53 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	@Override
 	public void paintComponent (Graphics g) {
 	    Graphics2D g2 = (Graphics2D)g;
-
+	    Image Gallow=Toolkit.getDefaultToolkit().getImage("gallow.png");
+	    Image Head= Toolkit.getDefaultToolkit().getImage("head.png");
+	    Image Body = Toolkit.getDefaultToolkit().getImage("body.png");
+	    Image RightLeg = Toolkit.getDefaultToolkit().getImage("rightleg.png");
+	    Image LeftLeg = Toolkit.getDefaultToolkit().getImage("leftleg.png");
+	    Image LeftArm = Toolkit.getDefaultToolkit().getImage("leftarm.png");
+	    Image RightArm = Toolkit.getDefaultToolkit().getImage("rightarm.png");
+	    
 	    // draw the gallow
+	    g2.drawImage(Gallow, 200, 10, 300, 300, this);
+	    /*
 	    g2.setColor(Color.BLACK);
 	    g2.drawRect(190,250, 200, 15);
 	    g2.drawLine(290, 250, 290, 5);
 	    g2.drawLine(290,5,410,5);
 	    g2.drawLine(410,5,410,20);
+	    */
 	    
 	    // draw the head
 	    if(hg.getWrongAttemptsLeft() < 6)
-		g2.drawOval(385, 20, 50, 50);
+	    	g2.drawImage(Head,350, 32, 50, 50,this);
+	    //g2.drawOval(385, 20, 50, 50);
+	    
 	    // draw the body
 	    if(hg.getWrongAttemptsLeft() < 5)
-		g2.drawLine(410, 70, 410, 150);
+	    	g2.drawImage(Body,325, 73, 102, 81,this);	
+		//g2.drawLine(410, 70, 410, 150);
+	    
 	    // draw the left leg
 	    if(hg.getWrongAttemptsLeft() < 4)
-		g2.drawLine(410,150,350,190);
+	    	g2.drawImage(LeftLeg,304,135,147,100,this);
+	    //g2.drawLine(410,150,350,190);
+	    
 	    // draw the right leg
 	    if(hg.getWrongAttemptsLeft() < 3)
-		g2.drawLine(410,150,470,190);
+	    	g2.drawImage(RightLeg,300,135,147,100,this);
+		//g2.drawLine(410,150,470,190);
+	    
 	    // draw the left arm
 	    if(hg.getWrongAttemptsLeft() < 2)
-		g2.drawLine(410, 100, 350, 75);
+	    	g2.drawImage(LeftArm,318, 31, 205, 155,this);
+		//g2.drawLine(410, 100, 350, 75);
+	    
 	    // draw the right arm
 	    if(hg.getWrongAttemptsLeft() < 1)
-		g2.drawLine(410, 100, 470, 75);
+	    	g2.drawImage(RightArm,235, 35, 200, 150,this);
+		//g2.drawLine(410, 100, 470, 75);
 	}
     } // inner class hanger
 }
