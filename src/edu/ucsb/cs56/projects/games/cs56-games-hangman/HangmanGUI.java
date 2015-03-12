@@ -20,6 +20,7 @@ import javax.sound.sampled.SourceDataLine;
  *@author David Borden and Ernesto Cojulun
  *@author Evan West
  *@author Blake Zimmerman, CS56 W14
+ *@author Tripti Singhal & Erica Carnohan W15
  *@version Winter 2014, CS56
  *@see HangmanGame
  *@see WordList
