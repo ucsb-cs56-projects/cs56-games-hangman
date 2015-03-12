@@ -37,12 +37,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private JComponent gallow;
     private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft, points, wins, losses;
     private JTextField lettertf;
-    private JButton submit, exit, restart, instructions, hint, options, randBGColor, finish, cancel;
+    private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
     private WordList wordList;
     private Panel upper, lower, lowerRight, optionsUpper, optionsLower;
     private JFrame f, o;
     private Applet song;
     private Color randBGC;
+    // default hangman is tan colored
+    private Color randHMC = new Color(0xFFBB88);
 
     // Button handlers
     private SubmitButtonHandler submitHandler;
@@ -54,6 +56,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private finishButtonHandler finishHandler;
     private cancelButtonHandler cancelHandler;
     private randBGCButtonHandler randBGCHandler;
+    private randHMCButtonHandler randHMCHandler;
 
     // Font for text
     Font newFont = new Font("serif", Font.BOLD, 16);
@@ -471,7 +474,17 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    f.getContentPane().setBackground(randBGC);
 	}
     }
+
+    public class randHMCButtonHandler implements ActionListener {
+	public void actionPerformed(ActionEvent e) {
+	    //create a random color
+	    int red = (int) (Math.random() * 255);
+	    int green = (int) (Math.random() * 255);
+	    int blue = (int) (Math.random() * 255);
+	    randHMC = new Color(red, green, blue);
 	    
+	}
+    }
 
     /** Build options frame for optionsButtonHandler
      */
@@ -490,9 +503,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	randBGCHandler = new randBGCButtonHandler();
 	randBGColor.addActionListener(randBGCHandler);
 	
+	randHMColor = new JButton("Random Hangman Color");
+	randHMColor.setFont(newFont);
+	randHMCHandler = new randHMCButtonHandler();
+	randHMColor.addActionListener(randHMCHandler);
+
 	// add options components to upper panel
 	optionsUpper.add(randBGColor);
 	randBGColor.setAlignmentX(Component.CENTER_ALIGNMENT);
+	optionsUpper.add(randHMColor);
+	randHMColor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 	// creates lower panel for Options
 	optionsLower = new Panel();
@@ -676,53 +696,45 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	@Override
 	public void paintComponent (Graphics g) {
 	    Graphics2D g2 = (Graphics2D)g;
-	    Image Gallow=Toolkit.getDefaultToolkit().getImage("gallow.png");
-	    Image Head= Toolkit.getDefaultToolkit().getImage("head.png");
-	    Image Body = Toolkit.getDefaultToolkit().getImage("body.png");
-	    Image RightLeg = Toolkit.getDefaultToolkit().getImage("rightleg.png");
-	    Image LeftLeg = Toolkit.getDefaultToolkit().getImage("leftleg.png");
-	    Image LeftArm = Toolkit.getDefaultToolkit().getImage("leftarm.png");
-	    Image RightArm = Toolkit.getDefaultToolkit().getImage("rightarm.png");
 	    
 	    // draw the gallow
-	    g2.drawImage(Gallow, 200, 10, 300, 300, this);
-	    /*
-	    g2.setColor(Color.BLACK);
+	    Stroke normalStroke = g2.getStroke();
+	    BasicStroke thickStroke = new BasicStroke(10);
+	    
+	    g2.setColor(new Color(0x663300));
+	    g2.setStroke(thickStroke);
 	    g2.drawRect(190,250, 200, 15);
+	    g2.fillRect(190, 250, 200, 15);
 	    g2.drawLine(290, 250, 290, 5);
 	    g2.drawLine(290,5,410,5);
 	    g2.drawLine(410,5,410,20);
-	    */
 	    
+	    g2.setColor(randHMC);
 	    // draw the head
-	    if(hg.getWrongAttemptsLeft() < 6)
-	    	g2.drawImage(Head,350, 32, 50, 50,this);
-	    //g2.drawOval(385, 20, 50, 50);
+	    if(hg.getWrongAttemptsLeft() < 6){ 
+		g2.drawOval(385, 20, 50, 50);
+		g2.fillOval(385, 20, 50, 50);
+	    }
 	    
 	    // draw the body
-	    if(hg.getWrongAttemptsLeft() < 5)
-	    	g2.drawImage(Body,325, 73, 102, 81,this);	
-		//g2.drawLine(410, 70, 410, 150);
+	    if(hg.getWrongAttemptsLeft() < 5) 	
+		g2.drawLine(410, 70, 410, 150);
 	    
 	    // draw the left leg
-	    if(hg.getWrongAttemptsLeft() < 4)
-	    	g2.drawImage(LeftLeg,304,135,147,100,this);
-	    //g2.drawLine(410,150,350,190);
+	    if(hg.getWrongAttemptsLeft() < 4) 
+		g2.drawLine(410,150,350,190);
 	    
 	    // draw the right leg
 	    if(hg.getWrongAttemptsLeft() < 3)
-	    	g2.drawImage(RightLeg,300,135,147,100,this);
-		//g2.drawLine(410,150,470,190);
+		g2.drawLine(410,150,470,190);
 	    
 	    // draw the left arm
 	    if(hg.getWrongAttemptsLeft() < 2)
-	    	g2.drawImage(LeftArm,318, 31, 205, 155,this);
-		//g2.drawLine(410, 100, 350, 75);
+		g2.drawLine(410, 100, 350, 75);
 	    
 	    // draw the right arm
 	    if(hg.getWrongAttemptsLeft() < 1)
-	    	g2.drawImage(RightArm,235, 35, 200, 150,this);
-		//g2.drawLine(410, 100, 470, 75);
+		g2.drawLine(410, 100, 470, 75);
 	}
     } // inner class hanger
 }
