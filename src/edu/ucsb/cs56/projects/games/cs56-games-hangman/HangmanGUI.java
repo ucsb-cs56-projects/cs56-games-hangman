@@ -401,6 +401,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
 		message.setText("");
+		guessesRemaining.setText("Guesses Remaining: " + hg.getWrongAttemptsLeft());
 		guesses.setText("Wrong guesses:");
 		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 		hintsAllowed.setText(hintsAllowedString);
