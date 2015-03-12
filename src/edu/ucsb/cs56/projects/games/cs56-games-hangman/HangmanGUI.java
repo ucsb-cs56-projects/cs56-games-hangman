@@ -39,7 +39,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
     private WordList wordList;
-    private Panel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter;
+    private JPanel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter;
     private JFrame f, o;
     private Applet song;
     private Color randBGC;
@@ -76,10 +76,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public void play() {
 	f = new JFrame();
 	f.setSize(700, 600);
+	
 
 	// create upper panel
-	Panel upper = new Panel();
+	JPanel upper = new JPanel();
 	upper.setLayout(new BoxLayout(upper,BoxLayout.Y_AXIS));
+	upper.setOpaque(false);
 	
 	// create upper panel items
      	gallow = new hanger();
@@ -140,8 +142,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	points.setAlignmentX(Component.CENTER_ALIGNMENT);
 	
 	// create lower panel
-	Panel lower = new Panel();
+	JPanel lower = new JPanel();
 	lower.setLayout(new FlowLayout());
+	lower.setOpaque(false); //T
+	
 
 	// create lower panel items
 	instructions = new JButton("Instructions");
@@ -170,8 +174,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	hint.addActionListener(hintHandler);
 
 	// create a new panel in the lower right part of the frame
-	Panel lowerRight = new Panel();
+	JPanel lowerRight = new JPanel();
 	lowerRight.setLayout(new BoxLayout(lowerRight,BoxLayout.Y_AXIS));
+	lowerRight.setOpaque(false);	//T
 	String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 	hintsAllowed = new JLabel(hintsAllowedString);
 	hintsAllowed.setFont(newFont);
@@ -478,7 +483,11 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int green = (int) (Math.random() * 255);
 	    int blue = (int) (Math.random() * 255);
 	    Color randBGC = new Color(red,green,blue);
-	    f.getContentPane().setBackground(randBGC);
+	    f.getContentPane().setBackground(randBGC); 
+	    upper.setBackground(randBGC);//T
+	    lower.setBackground(randBGC);//T
+	    lowerRight.setBackground(randBGC);//T
+	
 	}
     }
 
@@ -512,7 +521,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	o.setSize(400,400);
 
 	// creates upper panel for Options
-	optionsUpper = new Panel();
+	optionsUpper = new JPanel();
 	optionsUpper.setLayout(new BoxLayout(optionsUpper,BoxLayout.Y_AXIS));
 	o.getContentPane().add(optionsUpper,BorderLayout.NORTH);
 	
@@ -539,7 +548,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	randHMColor.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 	// creates lower panel for Options
-	optionsLower = new Panel();
+	optionsLower = new JPanel();
 	optionsLower.setLayout(new FlowLayout());
 	o.getContentPane().add(optionsLower,BorderLayout.SOUTH);
 
