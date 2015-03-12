@@ -34,17 +34,18 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
     // Swing components
     private HangmanGame hg;
-    private JComponent gallow;
+    private JComponent gallow, square;
     private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft, points, wins, losses;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
     private WordList wordList;
-    private Panel upper, lower, lowerRight, optionsUpper, optionsLower;
+    private Panel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter;
     private JFrame f, o;
     private Applet song;
     private Color randBGC;
     // default hangman is tan colored
     private Color randHMC = new Color(0xFFBB88);
+
 
     // Button handlers
     private SubmitButtonHandler submitHandler;
@@ -482,7 +483,18 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int green = (int) (Math.random() * 255);
 	    int blue = (int) (Math.random() * 255);
 	    randHMC = new Color(red, green, blue);
+	    square.repaint();
 	    
+	}
+    }
+
+    public class squareComponent extends JComponent {
+	@Override 
+	public void paintComponent(Graphics g) {
+	    Graphics2D g2 = (Graphics2D)g;
+	    g2.setColor(randHMC);
+	    g2.drawRect(150,50,100,100);
+	    g2.fillRect(150,50,100,100);
 	}
     }
 
@@ -507,6 +519,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	randHMColor.setFont(newFont);
 	randHMCHandler = new randHMCButtonHandler();
 	randHMColor.addActionListener(randHMCHandler);
+
+
+
+	// color swatch
+	square = new squareComponent();
+	o.getContentPane().add(square,BorderLayout.CENTER);
 
 	// add options components to upper panel
 	optionsUpper.add(randBGColor);
