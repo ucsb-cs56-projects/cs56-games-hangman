@@ -35,7 +35,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     // Swing components
     private HangmanGame hg;
     private JComponent gallow, square;
-    private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft, points, wins, losses;
+    private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
     private WordList wordList;
@@ -84,7 +84,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	// create upper panel items
      	gallow = new hanger();
     	message = new JLabel();
+	guessesRemaining = new JLabel("Guesses Remaining: "+hg.getWrongAttemptsLeft());
 	message.setFont(newFont);
+	guessesRemaining.setFont(newFont);
 	board = new JLabel(hg.getBoard());
 	board.setFont(newFont);
 	guesses = new JLabel("Wrong guesses: ");
@@ -117,6 +119,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	upper.add(gallow);
 	upper.add(message);
 	upper.add(board);
+	upper.add(guessesRemaining);
 	upper.add(guesses);
 	upper.add(prompt);
 	upper.add(lettertf);
@@ -129,6 +132,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	message.setAlignmentX(Component.CENTER_ALIGNMENT);
 	board.setAlignmentX(Component.CENTER_ALIGNMENT);
 	guesses.setAlignmentX(Component.CENTER_ALIGNMENT);
+	guessesRemaining.setAlignmentX(Component.CENTER_ALIGNMENT);
 	prompt.setAlignmentX(Component.CENTER_ALIGNMENT);
 	submit.setAlignmentX(Component.CENTER_ALIGNMENT);
 	wins.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -240,7 +244,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    //if word is wrong
 		    //add bodypart to hangman and decrement guesses left
 		    else {
-			message.setText("Incorrect. Guesses left: " + hg.getWrongAttemptsLeft());
+			message.setText("Incorrect");
+			guessesRemaining.setText(""+hg.getWrongAttemptsLeft());
 			if(soundOn) {
 			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			}
@@ -280,7 +285,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    else
 			{
 			    // inform the player when the guess is incorrect
-			    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+			    message.setText("Incorrect");
+			    guessesRemaining.setText("Guesses Remaining: "+hg.getWrongAttemptsLeft());
 			    if (soundOn) {
 				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			    }
