@@ -14,6 +14,7 @@ public class HangmanGameTest {
     @Test
     public void testGameSessionWin() throws AlreadyTriedException {
 	HangmanGame hg = new HangmanGame("magic");
+	assertEquals("magic", hg.getSecretWord());
         assertEquals("*****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
 	assertEquals("", hg.getWrongLetters());
@@ -23,6 +24,7 @@ public class HangmanGameTest {
         hg.guessLetter('m');
         assertEquals("m****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
+	assertEquals("", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
@@ -35,6 +37,7 @@ public class HangmanGameTest {
         hg.guessLetter('s');
         assertEquals("ma***", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
+	assertEquals("s", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
@@ -80,35 +83,49 @@ public class HangmanGameTest {
         hg.guessLetter('b');
         assertEquals("*****", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
+	assertEquals("b", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('d');
         assertEquals("*****", hg.getBoard());
         assertEquals(4, hg.getWrongAttemptsLeft());
+	assertEquals("bd", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('e');
         assertEquals("*****", hg.getBoard());
         assertEquals(3, hg.getWrongAttemptsLeft());
+	assertEquals("bde", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('f');
+	assertEquals("*****", hg.getBoard());
         assertEquals(2, hg.getWrongAttemptsLeft());
+	assertEquals("bdef", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('h');
         assertEquals("*****", hg.getBoard());
         assertEquals(1, hg.getWrongAttemptsLeft());
+	assertEquals("bdefh", hg.getWrongLetters());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('m');
+        assertEquals("m****", hg.getBoard());
+        assertEquals(1, hg.getWrongAttemptsLeft());
+	assertEquals("bdefh", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('j');
-        assertEquals("*****", hg.getBoard());
+        assertEquals("m****", hg.getBoard());
         assertEquals(0, hg.getWrongAttemptsLeft());
+	assertEquals("bdefhj", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertTrue(hg.hasLost());
     }
@@ -190,6 +207,7 @@ public class HangmanGameTest {
 	hg.guessLetter('p');
 	assertEquals("polynomial", hg.getBoard());
         assertEquals(4, hg.getWrongAttemptsLeft());
+	assertEquals("bfdc", hg.getWrongLetters());
         assertTrue(hg.hasWon());
         assertFalse(hg.hasLost());
 	}
@@ -271,6 +289,7 @@ public class HangmanGameTest {
 	hg.guessLetter('z');
         assertEquals("*olynomial", hg.getBoard());
         assertEquals(0, hg.getWrongAttemptsLeft());
+	assertEquals("bfdcrz", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertTrue(hg.hasLost());
 	}	
