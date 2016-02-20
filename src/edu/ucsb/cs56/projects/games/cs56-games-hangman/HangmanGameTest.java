@@ -1,6 +1,10 @@
 package edu.ucsb.cs56.projects.games.cs56_games_hangman;
+
 import java.io.*;
 import java.util.*;
+import java.lang.Class.*;
+import java.lang.ClassLoader.*;
+import java.net.URLClassLoader.*;
 
 import org.junit.* ;
 import static org.junit.Assert.* ;
@@ -9,9 +13,10 @@ import static org.junit.Assert.* ;
 public class HangmanGameTest {
     @Test
     public void testGameSessionWin() throws AlreadyTriedException {
-        HangmanGame hg = new HangmanGame("magic");
+	HangmanGame hg = new HangmanGame("magic");
         assertEquals("*****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
+	assertEquals("", hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
@@ -107,4 +112,167 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertTrue(hg.hasLost());
     }
+	@Test
+    public void testLongGameSessionWin() throws AlreadyTriedException {
+        HangmanGame hg = new HangmanGame("polynomial");
+	assertEquals("polynomial", hg.getSecretWord());
+        assertEquals("**********", hg.getBoard());
+        assertEquals(6, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('b');
+        assertEquals("**********", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('i');
+        assertEquals("*******i**", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('a');
+        assertEquals("*******ia*", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('f');
+	assertEquals("*******ia*", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('o');
+        assertEquals("*o***o*ia*", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('l');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('d');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(3, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('c');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('m');
+        assertEquals("*ol**omial", hg.getBoard());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('n');
+        assertEquals("*ol*nomial", hg.getBoard());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('y');
+        assertEquals("*olynomial", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('p');
+	assertEquals("polynomial", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertTrue(hg.hasWon());
+        assertFalse(hg.hasLost());
+	}
+	
+	public void testLongGameSessionLose() throws AlreadyTriedException {
+        HangmanGame hg = new HangmanGame("polynomial");
+	assertEquals("polynomial", hg.getSecretWord());
+        assertEquals("**********", hg.getBoard());
+        assertEquals(6, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('b');
+        assertEquals("**********", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('i');
+        assertEquals("*******i**", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('a');
+        assertEquals("*******ia*", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('f');
+	assertEquals("*******ia*", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('o');
+        assertEquals("*o***o*ia*", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+        hg.guessLetter('l');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('d');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(3, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('c');
+        assertEquals("*ol**o*ial", hg.getBoard());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('m');
+        assertEquals("*ol**omial", hg.getBoard());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('r');
+        assertEquals("*ol**omial", hg.getBoard());
+        assertEquals(1, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('y');
+        assertEquals("*olynomial", hg.getBoard());
+        assertEquals(1, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	hg.guessLetter('z');
+        assertEquals("*olynomial", hg.getBoard());
+        assertEquals(0, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertTrue(hg.hasLost());
+	}	
 }
+
