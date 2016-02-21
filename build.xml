@@ -9,7 +9,7 @@
   <property environment="env"/> <!-- load the environment variables --> 
   <property name="webRoot" value="${env.HOME}/public_html/cs56" />
   <property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
-
+  <property name="propertyPackage" value="edu.ucsb.cs56.projects.games.cs56_games_hangman" />
 
   <property name="mainClassCLI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.CLIMain" />
   <property name="mainClassGUI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.GUIMain" />
@@ -18,6 +18,10 @@
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" /> 
   <property name="javadocURL" value="${webBaseUrl}/${project}/javadoc" /> 
 
+  <target name="HangmanGameTest" depends="compile"
+	  description="run HangmanGametest">
+    <java fork="true" classpathref="project.class.path" classname="${propertyPackage}.HangmanGameTest" />
+  </target>
   
   <path id="project.class.path">
     <pathelement location="build"/>
@@ -90,12 +94,15 @@ You can also use "Enter" key instead of clicking a "Submit" button.
   <target name="test" depends="compile">
 
     <junit haltonerror="no" haltonfailure="no">
-      <classpath refid="project.class.path" />
-
+      <classpath>
+	<pathelement location="lib/junit-4.8.2.jar"/>
+	<pathelement location="build"/>
+      </classpath>
+      
       <batchtest fork="yes">
         <fileset dir="src">
           <!-- this will pick up every class with a name ending in Test -->
-          <include name="**/*Test.java"/>
+          <include name="**/HangmanGameTest.java"/>
         </fileset>
       </batchtest>
 
