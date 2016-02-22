@@ -11,20 +11,22 @@ import static org.junit.Assert.* ;
 
 // Test HangmanGame
 public class HangmanGameTest {
+   
     @Test
     public void testGameSessionWin() throws AlreadyTriedException {
 	HangmanGame hg = new HangmanGame("magic");
 	assertEquals("magic", hg.getSecretWord());
         assertEquals("*****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
-	assertEquals("", hg.getWrongLetters());
+	ArrayList<Character> testlist = new ArrayList<Character>(Arrays.asList());
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('m');
         assertEquals("m****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
-	assertEquals("", hg.getWrongLetters());
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
@@ -37,7 +39,8 @@ public class HangmanGameTest {
         hg.guessLetter('s');
         assertEquals("ma***", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
-	assertEquals("s", hg.getWrongLetters());
+	testlist.add('s');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
@@ -83,49 +86,56 @@ public class HangmanGameTest {
         hg.guessLetter('b');
         assertEquals("*****", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
-	assertEquals("b", hg.getWrongLetters());
+	ArrayList<Character> testlist = new ArrayList<Character>();
+	testlist.add('b');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('d');
         assertEquals("*****", hg.getBoard());
         assertEquals(4, hg.getWrongAttemptsLeft());
-	assertEquals("bd", hg.getWrongLetters());
+	testlist.add('d');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('e');
         assertEquals("*****", hg.getBoard());
         assertEquals(3, hg.getWrongAttemptsLeft());
-	assertEquals("bde", hg.getWrongLetters());
+	testlist.add('e');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('f');
 	assertEquals("*****", hg.getBoard());
         assertEquals(2, hg.getWrongAttemptsLeft());
-	assertEquals("bdef", hg.getWrongLetters());
+	testlist.add('f');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('h');
         assertEquals("*****", hg.getBoard());
         assertEquals(1, hg.getWrongAttemptsLeft());
-	assertEquals("bdefh", hg.getWrongLetters());
+	testlist.add('h');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
 	hg.guessLetter('m');
         assertEquals("m****", hg.getBoard());
         assertEquals(1, hg.getWrongAttemptsLeft());
-	assertEquals("bdefh", hg.getWrongLetters());
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
         hg.guessLetter('j');
         assertEquals("m****", hg.getBoard());
         assertEquals(0, hg.getWrongAttemptsLeft());
-	assertEquals("bdefhj", hg.getWrongLetters());
+	testlist.add('j');
+	assertEquals(testlist, hg.getWrongLetters());
         assertFalse(hg.hasWon());
         assertTrue(hg.hasLost());
     }
@@ -200,14 +210,15 @@ public class HangmanGameTest {
 
 	hg.guessLetter('y');
         assertEquals("*olynomial", hg.getBoard());
-        assertEquals(4, hg.getWrongAttemptsLeft());
+        assertEquals(2, hg.getWrongAttemptsLeft());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
 	hg.guessLetter('p');
 	assertEquals("polynomial", hg.getBoard());
-        assertEquals(4, hg.getWrongAttemptsLeft());
-	assertEquals("bfdc", hg.getWrongLetters());
+        assertEquals(2, hg.getWrongAttemptsLeft());
+	ArrayList<Character> testlist = new ArrayList<Character>(Arrays.asList('b','f','d','c'));
+	assertEquals(testlist, hg.getWrongLetters());
         assertTrue(hg.hasWon());
         assertFalse(hg.hasLost());
 	}
