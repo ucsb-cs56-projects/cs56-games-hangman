@@ -4,7 +4,8 @@
   <!-- build.xml for github.com/UCSB-CS56-Projects/cs56-games-hangman
        original author: Gyeonghun Lee for CS56, W12
        modified by David Borden and Ernesto Cojulun S12
-       modified by Blake Zimmerman for github W14   -->
+       modified by Blake Zimmerman for github W14
+       modified by Ziliang Zeng and Matin Akhamzadeh for CS56, W16 -->
 
   <property environment="env"/> <!-- load the environment variables --> 
   <property name="webRoot" value="${env.HOME}/public_html/cs56" />
@@ -17,18 +18,13 @@
   <property name="project" value="cs56-games-hangman" />
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" /> 
   <property name="javadocURL" value="${webBaseUrl}/${project}/javadoc" /> 
-
-  <target name="HangmanGameTest" depends="compile"
-	  description="run HangmanGametest">
-    <java fork="true" classpathref="project.class.path" classname="${propertyPackage}.HangmanGameTest" />
-  </target>
   
   <path id="project.class.path">
     <pathelement location="build"/>
     <pathelement location="lib/junit-4.8.2.jar"/>
   </path>
 
-  <target name="compile" >
+  <target name="compile" description="compile the code">
     <mkdir dir="build" />
     <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime ="false">
       <classpath refid="project.class.path" />
@@ -40,16 +36,15 @@
       <fileset dir="resources"/> 
     </copy> 
 
-
   </target>
 
-  <target name="run" depends="compile, runGUI-noarg, runGUI-witharg"/>
+  <target name="run" depends="compile, runGUI-noarg, runGUI-witharg" description="run the hangman GUI version of the game"/>
 
-  <target name="runGUI" depends="compile, runGUI-noarg, runGUI-witharg"/>
+  <target name="runGUI" depends="compile, runGUI-noarg, runGUI-witharg" description="runs the hangman GUI version of the game"/>
 
-  <target name="runCLI" depends="compile, runCLI-noarg, runCLI-witharg"/>
+  <target name="runCLI" depends="compile, runCLI-noarg, runCLI-witharg" description="runs the hangman CLI version of the game"/>
 
-  <target name="runGUI-noarg" unless="arg0">
+  <target name="runGUI-noarg" unless="arg0" description="runs the hangman GUI version of the game with custom words">
     <echo>
 To run with your own word list file, you can type `ant run -Darg0="YourFileName"`
 You can also use "Enter" key instead of clicking a "Submit" button.
@@ -66,7 +61,7 @@ You can also use "Enter" key instead of clicking a "Submit" button.
     </java>
   </target>
 
-  <target name="runCLI-noarg" unless="arg0">
+  <target name="runCLI-noarg" unless="arg0" description="runs the hangman CLI version of the game with custom words">
     <echo>
 To run with your own word list file, you can type `ant run -Darg0="YourFileName"`
 You can also use "Enter" key instead of clicking a "Submit" button.
@@ -84,20 +79,15 @@ You can also use "Enter" key instead of clicking a "Submit" button.
   </target>
 
 
-  <target name="clean" >
-    <delete failonerror="false" verbose="true">
-      <fileset dir="build" includes="**/*.class"/>
-    </delete>
+  <target name="clean" description="delete unnecessary files and directories">
     <delete dir="javadoc" quiet="true" />
+    <delete dir="build" quiet="true"/>
   </target>
 
-  <target name="test" depends="compile">
+  <target name="test" depends="compile" description="runs all .java that ends in *Test.java">
 
     <junit haltonerror="no" haltonfailure="no">
-      <classpath>
-	<pathelement location="lib/junit-4.8.2.jar"/>
-	<pathelement location="build"/>
-      </classpath>
+	<classpath refid="project.class.path" />
       
       <batchtest fork="yes">
         <fileset dir="src">
@@ -111,7 +101,7 @@ You can also use "Enter" key instead of clicking a "Submit" button.
     </junit>
   </target>
 
-  <target name="javadoc" depends="compile"> 
+  <target name="javadoc" depends="compile" description="creates a javadoc of the files"> 
 
     <delete dir="javadoc" quiet="true" /> 
     <javadoc  destdir="javadoc" author="true" version="true" use="true" >  
@@ -139,7 +129,5 @@ You can also use "Enter" key instead of clicking a "Submit" button.
     <echo> or if not on CSIL, try file:///${javadocDest}/index.html</echo>
 
   </target>
-
-
-
+  
 </project>
