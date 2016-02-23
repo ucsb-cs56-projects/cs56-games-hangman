@@ -144,4 +144,16 @@ public class HangmanGame {
     public String getSecretWord() {
 	return secretWord;
     }
+
+    public char getNotFlippedLetter() {
+	int i=0;
+	char letter = getSecretWord().charAt(i);
+	while(letters[i] == true) {
+	    i++;
+	    letter = getSecretWord().charAt(i);
+	}
+      	return letter;
+    }
 }
+
+
