@@ -36,6 +36,18 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
+	boolean thrown = false;
+	try {
+	    hg.guessLetter('1');
+	} catch(NotAValidLetterException e) {
+	    thrown = true;
+	}
+	assertTrue(thrown);
+	assertEquals("ma***", hg.getBoard());
+        assertEquals(6, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+	
         hg.guessLetter('s');
         assertEquals("ma***", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
@@ -44,7 +56,7 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
-	boolean thrown = false;
+	thrown = false;
 	try {
 	    hg.guessLetter('s');
 	} catch(AlreadyTriedException e) {
@@ -131,6 +143,19 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
+	boolean thrown = false;
+	try {
+	    hg.guessLetter('5');
+	} catch(NotAValidLetterException e) {
+	    thrown = true;
+	}
+	assertTrue(thrown);
+	assertEquals("m****", hg.getBoard());
+	assertEquals(1, hg.getWrongAttemptsLeft());
+	assertEquals(testlist, hg.getWrongLetters());
+	assertFalse(hg.hasWon());
+	assertFalse(hg.hasLost());
+	
         hg.guessLetter('j');
         assertEquals("m****", hg.getBoard());
         assertEquals(0, hg.getWrongAttemptsLeft());
@@ -190,6 +215,18 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
+	boolean thrown = false;
+	try {
+	    hg.guessLetter('8');
+	} catch(NotAValidLetterException e) {
+	    thrown = true;
+	}
+	assertTrue(thrown);
+	assertEquals("*ol**o*ial", hg.getBoard());
+	assertEquals(3, hg.getWrongAttemptsLeft());
+	assertFalse(hg.hasWon());
+	assertFalse(hg.hasLost());
+	
 	hg.guessLetter('c');
         assertEquals("*ol**o*ial", hg.getBoard());
         assertEquals(2, hg.getWrongAttemptsLeft());
@@ -243,8 +280,32 @@ public class HangmanGameTest {
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
 
+	boolean thrown = false;
+	try {
+	    hg.guessLetter('8');
+	} catch(NotAValidLetterException e) {
+	    thrown = true;
+	}
+	assertTrue(thrown);
+	assertEquals("*******i**", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
         hg.guessLetter('a');
         assertEquals("*******ia*", hg.getBoard());
+        assertEquals(5, hg.getWrongAttemptsLeft());
+        assertFalse(hg.hasWon());
+        assertFalse(hg.hasLost());
+
+	thrown = false;
+	try {
+	    hg.guessLetter('b');
+	} catch(AlreadyTriedException e) {
+	    thrown = true;
+	}
+	assertTrue(thrown);
+	assertEquals("*******ia*", hg.getBoard());
         assertEquals(5, hg.getWrongAttemptsLeft());
         assertFalse(hg.hasWon());
         assertFalse(hg.hasLost());
