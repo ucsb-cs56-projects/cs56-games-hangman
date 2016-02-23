@@ -21,8 +21,9 @@ public class HangmanGame {
      *@throws AlreadyTriedException if the letter inputted has already been guessed
      */ 
 
-    public boolean guessLetter(char letter) throws AlreadyTriedException {
+    public boolean guessLetter(char letter) throws AlreadyTriedException throws NotAValidLetterException{
 	//create character of opposite case as argument
+	if (!
 	char letterOpposite = Character.isLowerCase(letter) ?
 	    Character.toUpperCase(letter) : 
 	    Character.toLowerCase(letter);
@@ -107,9 +108,16 @@ public class HangmanGame {
     }
 
     /**
+     *@return true if the char the player entered is a valid letter; cannot be a letter or symbol
+     */
+    
+    public boolean isLetter(char guess) {
+	return Character.isLetter(guess);
+    }
+    /**
      *@return the amount of wrong attempts the player has left
      */
-
+    
     public int getWrongAttemptsLeft() {
         return wrongAttemptsLeft;
     }
@@ -125,7 +133,7 @@ public class HangmanGame {
     /**
      *@return the word the player must guess
      */
-
+    
     public String getSecretWord() {
 	return secretWord;
     }

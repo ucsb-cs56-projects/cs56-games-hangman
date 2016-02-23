@@ -214,15 +214,18 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		}
 		
 		return;
-	    } else if(word.length() > 1) {
-		message.setText("Enter a single letter guess or an entire word guess.");
-		if (soundOn) { 
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
-		}
-		lettertf.setText("");
-		repaint();
-		return;
 	    }
+	    else
+		if(word.length() > 1) {
+		    message.setText("Enter a single letter guess.");
+		    if (soundOn) { 
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+		    }
+		    lettertf.setText("");
+		    repaint();
+		    return;
+		}
+	    
 	    
 	    char letter = word.charAt(0);
 	    lettertf.setText("");
@@ -240,36 +243,34 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    repaint();
 		}
 		else
-	        {
-		    // inform the player when the guess is incorrect
-		    message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+		    {
+			// inform the player when the guess is incorrect
+			message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+			if (soundOn) {
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			}
+			gallow.repaint();
+			repaint();	
+		    }
+	    }
+		catch(AlreadyTriedException ex) {
+		    // inform the player when a guess has already been tried
+		    message.setText("You have already tried that letter, please try another one.");
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
-		    gallow.repaint();
-		repaint();
-
+		    repaint();
+		    
 		}
-
-	    } catch(AlreadyTriedException ex) {
-		// inform the player when a guess has already been tried
-		message.setText("You have already tried that letter, please try another one.");
-			if (soundOn) {
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-			}
-			repaint();
-
-	    }
-	    
 	    board.setText(hg.getBoard());
-	    
+	
 	    //update incorrect guesses
 	    String wrongGuesses = "Wrong guesses:";
 	    for(Character item : hg.getWrongLetters()){
 		wrongGuesses+=(" "+item);
 	    }
 	    guesses.setText(wrongGuesses);
-
+	
 	    // inform if the player wins, ten points are earned
 	    if(hg.hasWon()) {
 		numWins++;
@@ -312,7 +313,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
 
-    /** Handler for instructions button
+/** Handler for instructions button
 	Button displays a messageDialog with text instructions
      */
 
@@ -669,4 +670,4 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		
 	}
     } // inner class hanger
-}
+    }
