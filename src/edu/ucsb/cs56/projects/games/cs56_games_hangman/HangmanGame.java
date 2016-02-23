@@ -21,9 +21,16 @@ public class HangmanGame {
      *@throws AlreadyTriedException if the letter inputted has already been guessed
      */ 
 
-    public boolean guessLetter(char letter) throws AlreadyTriedException throws NotAValidLetterException{
+    public boolean guessLetter(char letter) throws AlreadyTriedException, NotAValidLetterException {
+	
+	//see if guess is a letter
+	
+	if (!isLetter(letter)){
+	    throw new NotAValidLetterException();
+	}
+	
 	//create character of opposite case as argument
-	if (!
+	
 	char letterOpposite = Character.isLowerCase(letter) ?
 	    Character.toUpperCase(letter) : 
 	    Character.toLowerCase(letter);

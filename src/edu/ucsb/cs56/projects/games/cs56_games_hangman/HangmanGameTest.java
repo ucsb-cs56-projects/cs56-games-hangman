@@ -13,7 +13,7 @@ import static org.junit.Assert.* ;
 public class HangmanGameTest {
    
     @Test
-    public void testGameSessionWin() throws AlreadyTriedException {
+    public void testGameSessionWin() throws AlreadyTriedException, NotAValidLetterException{
 	HangmanGame hg = new HangmanGame("magic");
 	assertEquals("magic", hg.getSecretWord());
         assertEquals("*****", hg.getBoard());
@@ -76,7 +76,7 @@ public class HangmanGameTest {
     }
 
     @Test
-    public void testGameSessionLose() throws AlreadyTriedException {
+    public void testGameSessionLose() throws AlreadyTriedException, NotAValidLetterException {
         HangmanGame hg = new HangmanGame("magic");
         assertEquals("*****", hg.getBoard());
         assertEquals(6, hg.getWrongAttemptsLeft());
@@ -140,7 +140,7 @@ public class HangmanGameTest {
         assertTrue(hg.hasLost());
     }
 	@Test
-    public void testLongGameSessionWin() throws AlreadyTriedException {
+	public void testLongGameSessionWin() throws AlreadyTriedException,NotAValidLetterException {
         HangmanGame hg = new HangmanGame("polynomial");
 	assertEquals("polynomial", hg.getSecretWord());
         assertEquals("**********", hg.getBoard());
@@ -223,7 +223,7 @@ public class HangmanGameTest {
         assertFalse(hg.hasLost());
 	}
 	
-	public void testLongGameSessionLose() throws AlreadyTriedException {
+    public void testLongGameSessionLose() throws AlreadyTriedException, NotAValidLetterException {
         HangmanGame hg = new HangmanGame("polynomial");
 	assertEquals("polynomial", hg.getSecretWord());
         assertEquals("**********", hg.getBoard());

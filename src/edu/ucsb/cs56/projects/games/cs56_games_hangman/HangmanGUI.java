@@ -253,9 +253,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			repaint();	
 		    }
 	    }
-		catch(AlreadyTriedException ex) {
-		    // inform the player when a guess has already been tried
-		    message.setText("You have already tried that letter, please try another one.");
+	    catch (Exception ex) {
+		    // inform the player when a guess is not valid
+		    if( ex instanceof AlreadyTriedException)
+			message.setText("You have already tried that letter, please try another one.");
+		    if( ex instanceof NotAValidLetterException )
+			message.setText("This guess is not valid, please enter a valid letter");
 		    if (soundOn) {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }

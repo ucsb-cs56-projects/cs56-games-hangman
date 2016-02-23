@@ -64,9 +64,9 @@ public class HangmanCLI implements HangmanInterface {
 		    System.out.println("Good Guess!");
 		else
 		    System.out.println("Wrong! Guesses left: " + hg.getWrongAttemptsLeft());
-	    } catch(AlreadyTriedException ex) {
-		System.out.println("You have already tried that letter, please try another one.");
-	    }
+	    } catch(NotAValidLetterException|AlreadyTriedException ex) {
+		System.out.println("Not a valid letter, please try another one.");}
+	
 
 	    if(hg.hasWon())
 		System.out.println("Congratulations, You have won!\nThe word was: "+hg.getSecretWord());
