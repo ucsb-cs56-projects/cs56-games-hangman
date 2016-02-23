@@ -193,6 +193,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	//Specify handlers for each button and add (register) ActionListeners to each button.
     
     /** Inner class for Handler for Submit button
+
 	(button that handles guess commits)
 	Handles all game state and UI changes
      */
@@ -214,7 +215,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		
 		return;
 	    } else if(word.length() > 1) {
-		message.setText("Do not type more than one letter at a time.");
+		message.setText("Enter a single letter guess or an entire word guess.");
 		if (soundOn) { 
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
 		}
@@ -256,7 +257,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			if (soundOn) {
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 			}
-		repaint();
+			repaint();
 
 	    }
 	    
@@ -279,13 +280,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		points.setText(numOfPoints);
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
-		prompt.setText("");
+		prompt.setVisible(false);
 		message.setText("Congratulations, you have won!");
-			if (soundOn) {
-		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
-			}  
+		if (soundOn) {
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+		}
 		repaint();
-
 	    }
 	    // inform if the player loses, five points are removed if the player has five or more points
 	    if(hg.hasLost()) {
@@ -300,15 +300,15 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		points.setText(numOfPoints);
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
-		prompt.setText("");
+		prompt.setVisible(false);
 		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
-	
-			if (soundOn) {
-		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-			}
+	       
+		if (soundOn) {
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		}
 		repaint();
 	    }
-	     repaint();
+	    repaint();
 	}
     }
 
@@ -339,17 +339,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    lettertf.requestFocusInWindow();
-	    submit.setEnabled(true);
-	    lettertf.setEditable(true);
-	    prompt.setText("Guess a letter: ");
-	    
 	    // attempt to start a new game, updating hints allowed and hints left
 	    try {
 		hg = new HangmanGame(wordList.getRandomLine());
 		board.setText(hg.getBoard());
 		message.setText("");
 		guesses.setText("Wrong guesses:");
+		hg.setWrongAttemptsLeft(6);
+	  
 		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 		hintsAllowed.setText(hintsAllowedString);
 		String hintsLeftString = "Hints left: " + hintsL;
@@ -358,6 +355,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    } catch(IOException ex) {
 		throw new RuntimeException(ex);
 	    }
+	    
+	    lettertf.requestFocusInWindow();
+	    submit.setEnabled(true);
+	    lettertf.setEditable(true);
+	    prompt.setVisible(true);
+	    gallow.repaint();
 	}
     }
 
@@ -427,6 +430,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int blue = (int) (Math.random() * 255);
 	    Color randBGC = new Color(red,green,blue);
 	    f.getContentPane().setBackground(randBGC);
+	    upper.setBackground(randBGC);
+	    lower.setBackground(randBGC);
 	}
     }
 	    
@@ -634,13 +639,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	@Override
 	public void paintComponent (Graphics g) {
 	    Graphics2D g2 = (Graphics2D)g;
-
 	    // draw the gallow
+	    
 	    g2.setColor(Color.BLACK);
 	    g2.drawRect(190,250, 200, 15);
 	    g2.drawLine(290, 250, 290, 5);
 	    g2.drawLine(290,5,410,5);
 	    g2.drawLine(410,5,410,20);
+	    
 	    
 	    // draw the head
 	    if(hg.getWrongAttemptsLeft() < 6)
@@ -660,6 +666,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    // draw the right arm
 	    if(hg.getWrongAttemptsLeft() < 1)
 		g2.drawLine(410, 100, 470, 75);
+		
 	}
     } // inner class hanger
 }

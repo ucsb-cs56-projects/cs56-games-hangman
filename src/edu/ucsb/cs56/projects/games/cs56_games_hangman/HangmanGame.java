@@ -107,11 +107,19 @@ public class HangmanGame {
     }
 
     /**
-     *@return the amount of wront attempts the player has left
+     *@return the amount of wrong attempts the player has left
      */
 
     public int getWrongAttemptsLeft() {
         return wrongAttemptsLeft;
+    }
+
+    /**
+     *@set amount of wrong attempts the player has left
+     */
+    
+    public void setWrongAttemptsLeft(int wrongAttemptsLeft) {
+	this.wrongAttemptsLeft = wrongAttemptsLeft;
     }
 
     /**
