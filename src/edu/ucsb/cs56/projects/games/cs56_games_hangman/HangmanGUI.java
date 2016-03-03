@@ -31,15 +31,17 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public static final boolean soundOn = false;
     private int hintsA, hintsL, numPoints, numWins, numLosses;
     private String optionsOn = "false", randBGColOn = "false", BGColorOn = "false";
-
+    private String mysteryWord;
+    
     // Swing components
     private HangmanGame hg;
     private JComponent gallow;
-    private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft, points, wins, losses;
-    private JTextField lettertf;
+    private JLabel prompt, board, message, guesses, hintsAllowed, hintsLeft, points, wins, losses, twoPlayerInstruction;
+    private JTextField lettertf, playerInput;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor, finish, cancel;
     private WordList wordList;
     private Panel upper, lower, lowerRight, optionsUpper, optionsLower;
+    private JCheckBox playermode;
     private JFrame f, o;
     private Applet song;
     private Color randBGC;
@@ -54,6 +56,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private finishButtonHandler finishHandler;
     private cancelButtonHandler cancelHandler;
     private randBGCButtonHandler randBGCHandler;
+    private twoPlayersCheckBoxHandler twoPlayersHandler;
 
     // Font for text
     Font newFont = new Font("serif", Font.BOLD, 16);
@@ -94,18 +97,20 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	submitHandler = new SubmitButtonHandler();
 	submit.addActionListener(submitHandler);
 
+	
+
 	String numOfWins = "Wins: " + numWins;
 	wins = new JLabel(numOfWins);
 	wins.setFont(newFont);
-
+	
 	String numOfLosses = "Losses: " + numLosses;
 	losses = new JLabel(numOfLosses);
 	losses.setFont(newFont);
-
+	
 	String numOfPoints = "Points: " + numPoints;
 	points = new JLabel(numOfPoints);
 	points.setFont(newFont);
-
+	
 	f.getRootPane().setDefaultButton(submit); //Use "Enter key" as default for submit button.
 	f.getContentPane().add(upper,BorderLayout.NORTH);
 
@@ -161,6 +166,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
         hintHandler = new hintButtonHandler();
 	hint.addActionListener(hintHandler);
 
+	//stub add handlers
+	playermode = new JCheckBox("2 Players");
+	playermode.setFont(newFont);
+	twoPlayersHandler = new twoPlayersCheckBoxHandler();
+	playermode.addActionListener(twoPlayersHandler);
+	
 	// create a new panel in the lower right part of the frame
 	Panel lowerRight = new Panel();
 	lowerRight.setLayout(new BoxLayout(lowerRight,BoxLayout.Y_AXIS));
@@ -179,6 +190,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	lower.add(exit);
 	lower.add(restart);
 	lower.add(hint);
+	lower.add(playermode);
 	lowerRight.add(hintsAllowed);
 	lowerRight.add(hintsLeft);
 	lower.add(lowerRight);
@@ -323,7 +335,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class instructButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    JOptionPane.showMessageDialog(f,
-		"Each * represents a letter in a word.\nYour task is to guess each letter in the word until you complete the word.\nEach wrong guess adds a body part to the hanger.\nIf an entire man is created (6 wrong guesses), you lose the game.\nIf you guess the word before then, however, you win!\nTo get a letter that is in the word press the hint button.\nA pop-up message will display with a letter from a random position in the word.\n(note: for multiple hints you may obtain the same hint more than once)\n\nThe point system is the following:\n+10 for a win.\n+1 for a correct guess.\n-5 for a loss.\n-1 for a used hint.\n",
+		"Each * represents a letter in a word.\nYour task is to guess each letter in the word until you complete the word.\nEach wrong guess adds a body part to the hanger.\nIf an entire man is created (6 wrong guesses), you lose the game.\nIf you guess the word before then, however, you win!\nTo get a letter that is in the word press the hint button.\nA pop-up message will display with a letter from a random position in the word.\n(note: for multiple hints you may obtain the same hint more than once)\n\nThe point system is the following:\n+10 for a win.\n+1 for a correct guess.\n-5 for a loss.\n-1 for a used hint.\n\n\n For the two player mode, one player is supposed to go to the options menu and \n type the mystery word that the opposing player should guess into the text field. \n Once you have done that, make sure to press FINISH and then click on the two player \n option in the bottom right corner of the game. Then, the second player is ready to \n start guessing letters. HAVE FUN. \n",
 		"Instructions", 
 		JOptionPane.INFORMATION_MESSAGE);
 	}
@@ -344,30 +356,52 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    // attempt to start a new game, updating hints allowed and hints left
-	    try {
-		hg = new HangmanGame(wordList.getRandomLine());
+	    if (!playermode.isSelected()){
+		try {
+		    hg = new HangmanGame(wordList.getRandomLine());
+		    board.setText(hg.getBoard());
+		    message.setText("");
+		    guesses.setText("Wrong guesses:");
+		    hg.setWrongAttemptsLeft(6);
+		    
+		    String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+		    hintsAllowed.setText(hintsAllowedString);
+		    String hintsLeftString = "Hints left: " + hintsL;
+		    hintsLeft.setText(hintsLeftString);
+		    repaint();
+		} catch(IOException ex) {
+		    throw new RuntimeException(ex);
+		}
+		
+		lettertf.requestFocusInWindow();
+		submit.setEnabled(true);
+		lettertf.setEditable(true);
+		prompt.setVisible(true);
+		gallow.repaint();
+	    }
+	    else {
+		hg = new HangmanGame(mysteryWord);
+		
 		board.setText(hg.getBoard());
 		message.setText("");
 		guesses.setText("Wrong guesses:");
 		hg.setWrongAttemptsLeft(6);
-	  
+		
 		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
 		hintsAllowed.setText(hintsAllowedString);
 		String hintsLeftString = "Hints left: " + hintsL;
 		hintsLeft.setText(hintsLeftString);
 		repaint();
-	    } catch(IOException ex) {
-		throw new RuntimeException(ex);
-	    }
-	    
-	    lettertf.requestFocusInWindow();
-	    submit.setEnabled(true);
-	    lettertf.setEditable(true);
-	    prompt.setVisible(true);
-	    gallow.repaint();
+		
+		lettertf.requestFocusInWindow();
+		submit.setEnabled(true);
+		lettertf.setEditable(true);
+		prompt.setVisible(true);
+		gallow.repaint();
+	    }	
 	}
     }
-
+	
     /** Handler for Hint button.
 	Button pops up a messageDialog with a letter that is in the word
      */
@@ -412,6 +446,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class finishButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    optionsOn = "true"; // intended to save and active chosen options
+	    mysteryWord = playerInput.getText();
 	    o.dispose();
 	}
     }
@@ -439,6 +474,33 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lower.setBackground(randBGC);
 	}
     }
+
+    /** Handler for a two player mode
+     */
+    public class twoPlayersCheckBoxHandler implements ActionListener {
+	public void actionPerformed(ActionEvent e)  {
+	      // attempt to start a new game in two player mode, updating hints allowed and hints left
+	    hg = new HangmanGame(mysteryWord);
+	    
+	    board.setText(hg.getBoard());
+	    message.setText("");
+	    guesses.setText("Wrong guesses:");
+	    hg.setWrongAttemptsLeft(6);
+	    
+	    String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+	    hintsAllowed.setText(hintsAllowedString);
+	    String hintsLeftString = "Hints left: " + hintsL;
+	    hintsLeft.setText(hintsLeftString);
+	    repaint();
+
+	    lettertf.requestFocusInWindow();
+	    submit.setEnabled(true);
+	    lettertf.setEditable(true);
+	    prompt.setVisible(true);
+	    gallow.repaint();
+	}
+    }
+
 	    
 
     /** Build options frame for optionsButtonHandler
@@ -446,11 +508,20 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public void buildOptions() {
 	// creates new Options JFrame
 	o = new JFrame();
-	o.setSize(400,400);
+	o.setSize(450,400);
 
 	// creates upper panel for Options
 	optionsUpper = new Panel();
 	optionsUpper.setLayout(new BoxLayout(optionsUpper,BoxLayout.Y_AXIS));
+	o.getContentPane().add(optionsUpper,BorderLayout.NORTH);
+
+	// displays instructions to give mystery word to other player
+	twoPlayerInstruction = new JLabel();
+	twoPlayerInstruction.setFont(newFont);
+	twoPlayerInstruction.setText("Enter a word for the other player to guess.");
+	
+	// creates textfield to save mystery word for two player game
+	playerInput = new JTextField(3);
 	o.getContentPane().add(optionsUpper,BorderLayout.NORTH);
 	
 	randBGColor = new JButton("Random Background Color");
@@ -461,12 +532,16 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	// add options components to upper panel
 	optionsUpper.add(randBGColor);
 	randBGColor.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+	optionsUpper.add(twoPlayerInstruction);
+	twoPlayerInstruction.setAlignmentX(Component.CENTER_ALIGNMENT);
+	optionsUpper.add(playerInput);
+	playerInput.setAlignmentX(Component.CENTER_ALIGNMENT);
+	
 	// creates lower panel for Options
 	optionsLower = new Panel();
 	optionsLower.setLayout(new FlowLayout());
 	o.getContentPane().add(optionsLower,BorderLayout.SOUTH);
-
+	
 	finish = new JButton("Finish");
 	finish.setFont(newFont);
 	finishHandler = new finishButtonHandler();
