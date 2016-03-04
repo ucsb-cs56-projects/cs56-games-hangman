@@ -58,7 +58,7 @@ public class HangmanGame {
     }
 
     // flips * to letters
-    private void flipLetters(char letter) {
+    public void flipLetters(char letter) {
 	//create character of opposite case as argument
 	char letterOpposite = Character.isLowerCase(letter) ? Character.toUpperCase(letter) : Character.toLowerCase(letter);
         for(int i = 0; i < secretWord.length(); i++) {

@@ -227,9 +227,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		
 		return;
 	    }
-	    else
-		if(word.length() > 1) {
-		    message.setText("Enter a single letter guess.");
+	    
+	    if((word.length() != 1) && (word.length()!=hg.getSecretWord().length())) {
+		    message.setText("Enter a single letter guess or full word guess.");
 		    if (soundOn) { 
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
 		    }
@@ -237,35 +237,70 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    repaint();
 		    return;
 		}
-	    
-	    
-	    char letter = word.charAt(0);
-	    lettertf.setText("");
-	    
-	    try{
-		// inform the player when the guess is correct, one point is earned
-		if(hg.guessLetter(letter) == true) {
-		    numPoints++;
-		    String numOfPoints = "Points: " + numPoints;
-		    points.setText(numOfPoints);
-		    message.setText("Good Guess!");
-		    if (soundOn) {
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
-		    }
-		    repaint();
-		}
-		else
-		    {
-			// inform the player when the guess is incorrect
-			message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
-			if (soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		
+		char letter = word.charAt(0);
+		lettertf.setText("");
+		
+		try{
+		    // inform the player when the guess is correct, one point is earned
+		    if(word.length()==1){
+			if(hg.guessLetter(letter) == true) {
+			    numPoints++;
+			    String numOfPoints = "Points: " + numPoints;
+			    points.setText(numOfPoints);
+			    message.setText("Good Guess!");
+			    if (soundOn) {
+				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    }
+			    repaint();
 			}
-			gallow.repaint();
-			repaint();	
+			else
+			    {
+				// inform the player when the guess is incorrect
+				message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+				if (soundOn) {
+				    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+				}
+				gallow.repaint();
+				repaint();	
+			}
 		    }
-	    }
-	    catch (Exception ex) {
+		    else{
+			if(word.length()==hg.getSecretWord().length()){
+			    boolean sameWord = true;
+			    for (int i=0; i<word.length(); i++) {
+				if(hg.getSecretWord().charAt(i) != word.charAt(i))
+				    sameWord = false;
+			    }
+			    if (sameWord == true) {
+				for (int i=0; i<word.length();i++){
+				    hg.flipLetters(hg.getSecretWord().charAt(i));
+				}
+				numWins++;
+				numPoints += 10;
+				String numOfWins = "Wins: " + numWins;
+				wins.setText(numOfWins);
+				String numOfPoints = "Points: " + numPoints;
+				points.setText(numOfPoints);
+				submit.setEnabled(false);
+				lettertf.setEditable(false);
+				prompt.setVisible(false);
+				message.setText("Congratulations, you have won!");
+				if (soundOn) {
+				    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+				}
+			    }
+			    else{
+				hg.setWrongAttemptsLeft(hg.getWrongAttemptsLeft()-1);
+				message.setText("Incorrect. Guesses Left: " + hg.getWrongAttemptsLeft());
+
+				repaint();
+			    }
+			    repaint();
+			}
+		    }
+		}
+		catch (Exception ex) {
 		    // inform the player when a guess is not valid
 		    if( ex instanceof AlreadyTriedException)
 			message.setText("You have already tried that letter, please try another one.");
@@ -275,59 +310,59 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		    }
 		    repaint();
+		   
+		}
+		board.setText(hg.getBoard());
+		
+		//update incorrect guesses
+		String wrongGuesses = "Wrong guesses:";
+		for(Character item : hg.getWrongLetters()){
+		    wrongGuesses+=(" "+item);
+		}
+		guesses.setText(wrongGuesses);
+		
+		// inform if the player wins, ten points are earned
+		if(hg.hasWon()) {
+		    numWins++;
+		    numPoints += 10;
+		    String numOfWins = "Wins: " + numWins;
+		    wins.setText(numOfWins);
+		    String numOfPoints = "Points: " + numPoints;
+		    points.setText(numOfPoints);
+		    submit.setEnabled(false);
+		    lettertf.setEditable(false);
+		    prompt.setVisible(false);
+		    message.setText("Congratulations, you have won!");
+		    if (soundOn) {
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+		    }
+		    repaint();
+		}
+		// inform if the player loses, five points are removed if the player has five or more points
+		if(hg.hasLost()) {
+		    numLosses++;
+		    String numOfLosses = "Losses: " + numLosses;
+		    losses.setText(numOfLosses);
+		    if (numPoints > 4)
+			numPoints -= 5;
+		    else
+			numPoints = 0;
+		    String numOfPoints = "Points: " + numPoints;
+		    points.setText(numOfPoints);
+		    submit.setEnabled(false);
+		    lettertf.setEditable(false);
+		    prompt.setVisible(false);
+		    message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
 		    
-		}
-	    board.setText(hg.getBoard());
-	
-	    //update incorrect guesses
-	    String wrongGuesses = "Wrong guesses:";
-	    for(Character item : hg.getWrongLetters()){
-		wrongGuesses+=(" "+item);
-	    }
-	    guesses.setText(wrongGuesses);
-	
-	    // inform if the player wins, ten points are earned
-	    if(hg.hasWon()) {
-		numWins++;
-		numPoints += 10;
-		String numOfWins = "Wins: " + numWins;
-		wins.setText(numOfWins);
-		String numOfPoints = "Points: " + numPoints;
-		points.setText(numOfPoints);
-		submit.setEnabled(false);
-		lettertf.setEditable(false);
-		prompt.setVisible(false);
-		message.setText("Congratulations, you have won!");
-		if (soundOn) {
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
-		}
-		repaint();
-	    }
-	    // inform if the player loses, five points are removed if the player has five or more points
-	    if(hg.hasLost()) {
-		numLosses++;
-		String numOfLosses = "Losses: " + numLosses;
-		losses.setText(numOfLosses);
-		if (numPoints > 4)
-		    numPoints -= 5;
-		else
-		    numPoints = 0;
-		String numOfPoints = "Points: " + numPoints;
-		points.setText(numOfPoints);
-		submit.setEnabled(false);
-		lettertf.setEditable(false);
-		prompt.setVisible(false);
-		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
-	       
 		if (soundOn) {
 		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
 		}
 		repaint();
+		}
+		repaint();
 	    }
-	    repaint();
 	}
-    }
-
+	
 /** Handler for instructions button
 	Button displays a messageDialog with text instructions
      */
