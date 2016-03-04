@@ -480,6 +480,15 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class twoPlayersCheckBoxHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e)  {
 	      // attempt to start a new game in two player mode, updating hints allowed and hints left
+	    numPoints = 0;
+	    numWins = 0;
+	    numLosses = 0;
+	    wins.setText("Wins: " + numWins);
+	    losses.setText("Losses: " + numLosses);
+	    points.setText("Points: " + numPoints);
+
+	    repaint();
+	    
 	    hg = new HangmanGame(mysteryWord);
 	    
 	    board.setText(hg.getBoard());
