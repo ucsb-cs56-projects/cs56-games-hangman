@@ -11,8 +11,8 @@
   <property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/cs56" />
 
 
-  <property name="mainClassCLI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.CLIMain" />
-  <property name="mainClassGUI" value="edu.ucsb.cs56.projects.games.cs56_games_hangman.GUIMain" />
+  <property name="mainClassCLI" value="edu.ucsb.cs56.projects.games.hangman.CLIMain" />
+  <property name="mainClassGUI" value="edu.ucsb.cs56.projects.games.hangman.GUIMain" />
 
   <property name="project" value="cs56-games-hangman" />
   <property name="javadocDest" value="${webRoot}/${project}/javadoc" /> 
