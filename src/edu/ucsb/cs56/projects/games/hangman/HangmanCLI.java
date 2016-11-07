@@ -68,9 +68,10 @@ public class HangmanCLI implements HangmanInterface {
 		System.out.println("You have already tried that letter, please try another one.");
 	    }
 
-	    if(hg.hasWon())
+	    if(hg.hasWon()) {
 		System.out.println("Congratulations, You have won!\nThe word was: "+hg.getSecretWord());
-
+	    }
+		
             if(hg.hasLost()) {
                 System.out.println(getGallows());
                 System.out.println(hg.getBoard());
