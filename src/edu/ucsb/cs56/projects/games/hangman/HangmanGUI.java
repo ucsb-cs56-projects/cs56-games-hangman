@@ -235,7 +235,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
 		if (soundOn) {
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff")); 
 		}
 		
 		return;
@@ -254,7 +254,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			String numOfPoints = "Points: " + numPoints;
 			points.setText(numOfPoints);
 			if(soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			lettertf.setText("");
 			repaint();
@@ -265,7 +265,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			message.setText("Incorrect");
 			guessesRemaining.setText(""+hg.getWrongAttemptsLeft());
 			if(soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			gallow.repaint();
 			repaint();
@@ -275,7 +275,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		else{
 		    message.setText("Please enter only one letter or whole word.");
 		    if (soundOn) { 
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Sosumi.aiff"));
 		    }
 		
 		    lettertf.setText("");
@@ -296,7 +296,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			points.setText(numOfPoints);
 			message.setText("Good Guess!");
 			if (soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			repaint();
 		    }
@@ -306,7 +306,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			    message.setText("Incorrect");
 			    guessesRemaining.setText("Guesses Remaining: "+hg.getWrongAttemptsLeft());
 			    if (soundOn) {
-				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			    }
 			    gallow.repaint();
 			    repaint();
@@ -317,7 +317,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    // inform the player when a guess has already been tried
 		    message.setText("You have already tried that letter, please try another one.");
 		    if (soundOn) {
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 		    }
 		repaint();
 		
@@ -345,9 +345,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		prompt.setText("");
 		message.setText("Congratulations, you have won!");
 			if (soundOn) {
-		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
+		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/BOO.wav"));
 			}
-		gif.setIcon(new ImageIcon("images/WinLogo.gif"));
+		gif.setIcon(new ImageIcon("resources/images/WinLogo.gif"));
 		gif.validate();
 	      	big.setLocationRelativeTo(null); // centers frame on screen
 		gif.setSize(850,247);
@@ -370,7 +370,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		lettertf.setEditable(false);
 		prompt.setText("");
 	       	message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
-	        gif.setIcon(new ImageIcon("images/LoseLogo.gif"));
+	        gif.setIcon(new ImageIcon("resources/images/LoseLogo.gif"));
 		gif.validate();
 		big.setLocationRelativeTo(null); // centers frame on screen
 		big.setSize(563,155);
@@ -378,7 +378,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		big.setVisible(true);
 		
 			if (soundOn) {
-		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 
 			big.setVisible(true);	
