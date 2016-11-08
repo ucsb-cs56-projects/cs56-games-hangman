@@ -450,7 +450,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int randomNum = (int) (Math.random()*(wordLength));
 	    
 	    // subtract from hints left (and one point) for each hint used unless zero hints remain
-	    if (hintsL > 0 && !hg.hasWon() ) {
+	    if (hintsL > 0 && !hg.hasWon() && !hg.hasLost()  ) {
 		hintsL--;
 		if (numPoints > 0)
 		    numPoints--;
