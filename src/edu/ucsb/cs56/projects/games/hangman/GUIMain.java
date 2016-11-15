@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.games.cs56_games_hangman;
+package edu.ucsb.cs56.projects.games.hangman;
 import java.io.*;
 import java.util.*;
 import java.awt.*;

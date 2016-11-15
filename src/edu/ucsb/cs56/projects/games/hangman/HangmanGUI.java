@@ -1,4 +1,4 @@
-package edu.ucsb.cs56.projects.games.cs56_games_hangman;
+package edu.ucsb.cs56.projects.games.hangman;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -35,13 +35,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
     // Swing components
     private HangmanGame hg;
-    private JComponent gallow, square;
-    private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses;
+    private JComponent gallow, square;                                                      //ADDED
+    private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses, gif;
     private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
     private WordList wordList;
     private JPanel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter;
-    private JFrame f, o;
+    private JFrame f, o, big;                // ADDED
     private Applet song;
     private Color randBGC;
     // default hangman is tan colored
@@ -77,7 +77,10 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public void play() {
 	f = new JFrame();
 	f.setSize(700, 600);
-	
+
+	big = new JFrame();
+	big.pack();
+        big.setLocationRelativeTo(null);
 
 	// create upper panel
 	JPanel upper = new JPanel();
@@ -87,6 +90,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	// create upper panel items
      	gallow = new hanger();
     	message = new JLabel();
+	gif = new JLabel();
 	guessesRemaining = new JLabel("Guesses Remaining: "+hg.getWrongAttemptsLeft());
 	message.setFont(newFont);
 	guessesRemaining.setFont(newFont);
@@ -117,7 +121,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 
 	f.getRootPane().setDefaultButton(submit); //Use "Enter key" as default for submit button.
 	f.getContentPane().add(upper,BorderLayout.NORTH);
-
+	
 	//add items to the upper panel
 	upper.add(gallow);
 	upper.add(message);
@@ -130,6 +134,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	upper.add(wins);
 	upper.add(losses);
 	upper.add(points);
+
+	big.add(gif);   //ADDED
 	
 	// center upper panel items
 	message.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -202,6 +208,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
         f.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 	f.setTitle("Hangman Game: GUI Version");
 	f.setVisible(true);
+
+	//   ADDED
+        big.applyComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+	big.setTitle("Game Over");
+	big.setVisible(false);
+	
     }
 
 	//Specify handlers for each button and add (register) ActionListeners to each button.
@@ -223,7 +235,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    if(word.length() < 1) {
 		message.setText("Must type something!");
 		if (soundOn) {
-		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff")); 
+		    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff")); 
 		}
 		
 		return;
@@ -242,7 +254,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			String numOfPoints = "Points: " + numPoints;
 			points.setText(numOfPoints);
 			if(soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			lettertf.setText("");
 			repaint();
@@ -253,7 +265,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			message.setText("Incorrect");
 			guessesRemaining.setText(""+hg.getWrongAttemptsLeft());
 			if(soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			gallow.repaint();
 			repaint();
@@ -263,7 +275,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		else{
 		    message.setText("Please enter only one letter or whole word.");
 		    if (soundOn) { 
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Sosumi.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Sosumi.aiff"));
 		    }
 		
 		    lettertf.setText("");
@@ -284,7 +296,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			points.setText(numOfPoints);
 			message.setText("Good Guess!");
 			if (soundOn) {
-			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			    sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
 			repaint();
 		    }
@@ -294,7 +306,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 			    message.setText("Incorrect");
 			    guessesRemaining.setText("Guesses Remaining: "+hg.getWrongAttemptsLeft());
 			    if (soundOn) {
-				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+				sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			    }
 			    gallow.repaint();
 			    repaint();
@@ -305,7 +317,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		    // inform the player when a guess has already been tried
 		    message.setText("You have already tried that letter, please try another one.");
 		    if (soundOn) {
-			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+			sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 		    }
 		repaint();
 		
@@ -333,10 +345,15 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		prompt.setText("");
 		message.setText("Congratulations, you have won!");
 			if (soundOn) {
-		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/BOO.wav"));
-			}  
-		repaint();
-
+		     sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/BOO.wav"));
+			}
+		gif.setIcon(new ImageIcon("resources/images/WinLogo.gif"));
+		gif.validate();
+	      	big.setLocationRelativeTo(null); // centers frame on screen
+		gif.setSize(850,247);
+		big.pack();
+		big.setVisible(true);
+			
 	    }
 	    // inform if the player loses, five points are removed if the player has five or more points
 	    if(hg.hasLost()) {
@@ -352,17 +369,25 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		submit.setEnabled(false);
 		lettertf.setEditable(false);
 		prompt.setText("");
-		message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
-	
+	       	message.setText("Sorry, you have lost!" + "  " + "The secret word was " + hg.getSecretWord() + ".  " + "Try again!");
+	        gif.setIcon(new ImageIcon("resources/images/LoseLogo.gif"));
+		gif.validate();
+		big.setLocationRelativeTo(null); // centers frame on screen
+		big.setSize(563,155);
+		big.pack();
+		big.setVisible(true);
+		
 			if (soundOn) {
-		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/Glass.aiff"));
+		      sound.playSound( GUIMain.class.getClassLoader().getResourceAsStream("resources/sounds/Glass.aiff"));
 			}
-		repaint();
+
+			big.setVisible(true);	
 	    }
 	     repaint();
 	     
 	}
     }
+    
 
     /** Handler for instructions button
 	Button displays a messageDialog with text instructions
@@ -394,6 +419,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    lettertf.requestFocusInWindow();
 	    submit.setEnabled(true);
 	    lettertf.setEditable(true);
+	    big.setVisible(false);
 	    prompt.setText("Guess a letter: ");
 	    
 	    // attempt to start a new game, updating hints allowed and hints left
@@ -424,7 +450,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int randomNum = (int) (Math.random()*(wordLength));
 	    
 	    // subtract from hints left (and one point) for each hint used unless zero hints remain
-	    if (hintsL > 0) {
+	    if (hintsL > 0 && !hg.hasWon() ) {
 		hintsL--;
 		if (numPoints > 0)
 		    numPoints--;
@@ -486,10 +512,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int blue = (int) (Math.random() * 255);
 	    Color randBGC = new Color(red,green,blue);
 	    f.getContentPane().setBackground(randBGC); 
-	    upper.setBackground(randBGC);//T
-	    lower.setBackground(randBGC);//T
-	    lowerRight.setBackground(randBGC);//T
-	
 	}
     }
 
@@ -501,7 +523,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int blue = (int) (Math.random() * 255);
 	    randHMC = new Color(red, green, blue);
 	    square.repaint();
-	    
 	}
     }
 
