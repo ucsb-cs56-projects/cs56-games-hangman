@@ -512,10 +512,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int blue = (int) (Math.random() * 255);
 	    Color randBGC = new Color(red,green,blue);
 	    f.getContentPane().setBackground(randBGC); 
-	    upper.setBackground(randBGC);//T
-	    lower.setBackground(randBGC);//T
-	    lowerRight.setBackground(randBGC);//T
-	
 	}
     }
 
@@ -527,7 +523,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int blue = (int) (Math.random() * 255);
 	    randHMC = new Color(red, green, blue);
 	    square.repaint();
-	    
 	}
     }
 
