@@ -14,6 +14,12 @@ public class HangmanGame {
         this.letters = new boolean[secretWord.length()];
         Arrays.fill(letters, false);
 
+	/*  Give More Guesses For Phrases  */
+        for (int x = 0; x < secretWord.length(); x++)
+	    {
+		if (secretWord.substring(x,x+1).equals(" "))
+		    wrongAttemptsLeft++;
+	    }
     }
 
     /**
