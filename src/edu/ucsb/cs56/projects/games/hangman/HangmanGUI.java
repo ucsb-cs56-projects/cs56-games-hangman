@@ -529,8 +529,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	        if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
 		     return;
 	        int red = Integer.parseInt(redTF.getText());
-	        int green = Integer.parseInt(blueTF.getText());
-	        int blue = Integer.parseInt(greenTF.getText());
+	        int blue = Integer.parseInt(blueTF.getText());
+	        int green = Integer.parseInt(greenTF.getText());
 		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
 		    return;
 	        Color customBack = new Color(red,green,blue);
@@ -562,8 +562,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
 		     return;
 	        int red = Integer.parseInt(redTF.getText());
-	        int green = Integer.parseInt(blueTF.getText());
-	        int blue = Integer.parseInt(greenTF.getText());
+	        int blue = Integer.parseInt(blueTF.getText());
+	        int green = Integer.parseInt(greenTF.getText());
 		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
 		    return;
 	        randHMC = new Color(red,green,blue);
