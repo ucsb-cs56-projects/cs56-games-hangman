@@ -678,9 +678,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	o.dispose();
 	CustomColorFrame = new JFrame();
 	CustomColorFrame.setSize(400,200);
-	CustomColorFrame.setVisible(true);
 	CustomColorFrame.setLocationRelativeTo(null);
-
+    CustomColorFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+    {
+            f.setEnabled(true);
+    }
+    });
 	colorPanel = new JPanel();
 
 	customBGC = new JButton("Change Background Color");
@@ -712,6 +717,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	colorPanel.add(customHMC);
 
 	CustomColorFrame.add(colorPanel);
+        CustomColorFrame.setVisible(true);
      }
 	
     // setter/getter method
