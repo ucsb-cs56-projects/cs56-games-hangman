@@ -482,7 +482,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     */
     public class optionsButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+        f.setEnabled(false);
 	    buildOptions();
+        f.setEnabled(true);
 	}
     }
     
@@ -545,8 +547,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int green = (int) (Math.random() * 255);
 	    int blue = (int) (Math.random() * 255);
 	    randHMC = new Color(red, green, blue);
+        gallow.repaint();
 	    square.repaint();
-	    gallow.repaint();
 	}
     }
 
