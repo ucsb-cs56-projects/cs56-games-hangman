@@ -484,7 +484,6 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	public void actionPerformed(ActionEvent e) {
         f.setEnabled(false);
 	    buildOptions();
-        f.setEnabled(true);
 	}
     }
     
@@ -494,6 +493,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class finishButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    optionsOn = "true"; // intended to save and active chosen options
+        f.setEnabled(true);
 	    o.dispose();
 	}
     }
@@ -503,6 +503,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class cancelButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    optionsOn = "false"; // intended to cancel chosen options
+        f.setEnabled(true);
 	    o.dispose();
 	}
     }
@@ -662,6 +663,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	o.setLocationRelativeTo(null);
 	o.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	o.setTitle("Options for Hangman");
+    o.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+    {
+            f.setEnabled(true);
+    }
+    });
 	o.setVisible(true);
     }
 
