@@ -36,14 +36,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     // Swing components
     private HangmanGame hg;
     private JComponent gallow, square;                                                      //ADDED
-    private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses, gif;
-    private JTextField lettertf;
-    private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel;
+    private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses, gif, redLabel, blueLabel, greenLabel;
+    private JTextField lettertf, redTF, blueTF, greenTF ;
+    private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel, CustomColorButton, customBGC, customHMC;
     private WordList wordList;
-    private JPanel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter;
-    private JFrame f, o, big;                // ADDED
+    private JPanel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter, colorPanel;
+    private JFrame f, o, big, CustomColorFrame;                // ADDED
     private Applet song;
-    private Color randBGC;
+    private Color randBGC, CustomBGC;
     // default hangman is tan colored
     private Color randHMC = new Color(0xFFBB88);
 
@@ -56,6 +56,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private hintButtonHandler hintHandler;
     private optionsButtonHandler optionsHandler;
     private finishButtonHandler finishHandler;
+    private customButtonHandler customHandler;   //ADDED
+    private customHMCButtonHandler customHMCHandler;
+    private customBGCButtonHandler customBGCHandler; 
     private cancelButtonHandler cancelHandler;
     private randBGCButtonHandler randBGCHandler;
     private randHMCButtonHandler randHMCHandler;
@@ -450,7 +453,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int randomNum = (int) (Math.random()*(wordLength));
 	    
 	    // subtract from hints left (and one point) for each hint used unless zero hints remain
-	    if (hintsL > 0 && !hg.hasWon() ) {
+	    if (hintsL > 0 && !hg.hasWon() && !hg.hasLost()  ) {
 		hintsL--;
 		if (numPoints > 0)
 		    numPoints--;
@@ -479,6 +482,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     */
     public class optionsButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
+        f.setEnabled(false);
 	    buildOptions();
 	}
     }
@@ -489,6 +493,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class finishButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    optionsOn = "true"; // intended to save and active chosen options
+        f.setEnabled(true);
 	    o.dispose();
 	}
     }
@@ -498,6 +503,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public class cancelButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 	    optionsOn = "false"; // intended to cancel chosen options
+        f.setEnabled(true);
 	    o.dispose();
 	}
     }
@@ -514,6 +520,26 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    f.getContentPane().setBackground(randBGC); 
 	}
     }
+    //ADDED
+     public class customBGCButtonHandler implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+		String redString = (redTF.getText());
+		String blueString = (blueTF.getText());
+	        String greenString = (greenTF.getText());
+	        if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
+		     return;
+	        int red = Integer.parseInt(redTF.getText());
+	        int blue = Integer.parseInt(blueTF.getText());
+	        int green = Integer.parseInt(greenTF.getText());
+		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
+		    return;
+	        Color customBack = new Color(red,green,blue);
+	        f.getContentPane().setBackground(customBack);
+		redTF.setText("");
+		blueTF.setText("");
+		greenTF.setText("");
+	    }
+    }
 
     public class randHMCButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
@@ -522,9 +548,39 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    int green = (int) (Math.random() * 255);
 	    int blue = (int) (Math.random() * 255);
 	    randHMC = new Color(red, green, blue);
+        gallow.repaint();
 	    square.repaint();
 	}
     }
+
+	 //ADDED
+     public class customHMCButtonHandler implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+	        String redString = (redTF.getText());
+		String blueString = (blueTF.getText());
+	        String greenString = (greenTF.getText());
+		if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
+		     return;
+	        int red = Integer.parseInt(redTF.getText());
+	        int blue = Integer.parseInt(blueTF.getText());
+	        int green = Integer.parseInt(greenTF.getText());
+		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
+		    return;
+	        randHMC = new Color(red,green,blue);
+		square.repaint();
+		gallow.repaint();
+		redTF.setText("");
+		blueTF.setText("");
+		greenTF.setText("");
+	    }
+    }
+
+     public class customButtonHandler implements ActionListener {
+	 public void actionPerformed(ActionEvent e) {
+	     buildCustomColor();   
+	 }
+    }
+	 
 
     public class squareComponent extends JComponent {
 	@Override 
@@ -536,6 +592,15 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	}
     }
 
+    public static boolean isNumeric(String str){
+	if (str.equals("")) return false;
+	for (char c : str.toCharArray()){
+	    if (!Character.isDigit(c))
+		return false;
+	}
+	return true;
+    }
+    
     /** Build options frame for optionsButtonHandler
      */
     public void buildOptions() {
@@ -558,9 +623,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	randHMCHandler = new randHMCButtonHandler();
 	randHMColor.addActionListener(randHMCHandler);
 
+	CustomColorButton = new JButton("Choose Custom Color");
+	CustomColorButton.setFont(newFont);
+	customHandler = new customButtonHandler();
+	CustomColorButton.addActionListener(customHandler);
+	
 
-
-	// color swatch
+	// color switch
 	square = new squareComponent();
 	o.getContentPane().add(square,BorderLayout.CENTER);
 
@@ -569,6 +638,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	randBGColor.setAlignmentX(Component.CENTER_ALIGNMENT);
 	optionsUpper.add(randHMColor);
 	randHMColor.setAlignmentX(Component.CENTER_ALIGNMENT);
+	optionsUpper.add(CustomColorButton);
+	CustomColorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 	// creates lower panel for Options
 	optionsLower = new JPanel();
@@ -592,9 +663,63 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	o.setLocationRelativeTo(null);
 	o.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	o.setTitle("Options for Hangman");
+    o.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+    {
+            f.setEnabled(true);
+    }
+    });
 	o.setVisible(true);
     }
 
+    public void buildCustomColor() {
+	// creates new Color JFrame
+	o.dispose();
+	CustomColorFrame = new JFrame();
+	CustomColorFrame.setSize(400,200);
+	CustomColorFrame.setLocationRelativeTo(null);
+    CustomColorFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+    {
+            f.setEnabled(true);
+    }
+    });
+	colorPanel = new JPanel();
+
+	customBGC = new JButton("Change Background Color");
+	customBGC.setFont(newFont);
+	customBGCHandler = new customBGCButtonHandler();
+	customBGC.addActionListener(customBGCHandler);
+
+	customHMC = new JButton("Change Hangman Color");
+	customHMC.setFont(newFont);
+	customHMCHandler = new customHMCButtonHandler();
+	customHMC.addActionListener(customHMCHandler);	
+
+	redLabel = new JLabel("Red Value(0-255):");
+	blueLabel = new JLabel("Blue Value(0-255):");
+	greenLabel = new JLabel("Green Value(0-255):");
+
+	redTF = new JTextField(3);
+	blueTF = new JTextField(3);
+	greenTF = new JTextField(3);
+		
+	setLayout(new FlowLayout());
+	colorPanel.add(redLabel);
+	colorPanel.add(redTF);
+	colorPanel.add(blueLabel);
+	colorPanel.add(blueTF);
+	colorPanel.add(greenLabel);
+	colorPanel.add(greenTF);
+	colorPanel.add(customBGC);
+	colorPanel.add(customHMC);
+
+	CustomColorFrame.add(colorPanel);
+        CustomColorFrame.setVisible(true);
+     }
+	
     // setter/getter method
 
     /** Setter/getter for hintsAllowed that gets the hints allowed and sets the hints left
@@ -793,4 +918,4 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		g2.drawLine(410, 100, 470, 75);
 	}
     } // inner class hanger
-}
+}     

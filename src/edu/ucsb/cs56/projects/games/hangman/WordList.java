@@ -7,7 +7,7 @@ public class WordList {
 
 
     /**
-     *@param takes in a file that contains a word list in which the word to be guessed is chosen.
+     *@param wordListFile a file that contains a word list in which the word to be guessed is chosen.
      */
     public WordList(File wordListFile) {
 	this.wordListFile = wordListFile;
