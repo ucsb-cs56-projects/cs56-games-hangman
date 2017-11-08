@@ -37,13 +37,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     private HangmanGame hg;
     private JComponent gallow, square;                                                      //ADDED
     private JLabel prompt, board, message, guesses, guessesRemaining, hintsAllowed, hintsLeft, points, wins, losses, gif, redLabel, blueLabel, greenLabel;
-    private JTextField lettertf, redTF, blueTF, greenTF ;
+    private JTextField lettertf;
     private JButton submit, exit, restart, instructions, hint, options, randBGColor,randHMColor, finish, cancel, CustomColorButton, customBGC, customHMC;
     private WordList wordList;
     private JPanel upper, lower, lowerRight, optionsUpper, optionsLower, optionsCenter, colorPanel;
     private JFrame f, o, big, CustomColorFrame;                // ADDED
     private Applet song;
     private Color randBGC, CustomBGC;
+    private JColorChooser colorChooser;
     // default hangman is tan colored
     private Color randHMC = new Color(0xFFBB88);
 
@@ -523,21 +524,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     //ADDED
      public class customBGCButtonHandler implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
-		String redString = (redTF.getText());
-		String blueString = (blueTF.getText());
-	        String greenString = (greenTF.getText());
-	        if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
-		     return;
-	        int red = Integer.parseInt(redTF.getText());
-	        int blue = Integer.parseInt(blueTF.getText());
-	        int green = Integer.parseInt(greenTF.getText());
-		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
-		    return;
-	        Color customBack = new Color(red,green,blue);
+	        Color customBack = colorChooser.getColor();
 	        f.getContentPane().setBackground(customBack);
-		redTF.setText("");
-		blueTF.setText("");
-		greenTF.setText("");
 	    }
     }
 
@@ -556,22 +544,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	 //ADDED
      public class customHMCButtonHandler implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
-	        String redString = (redTF.getText());
-		String blueString = (blueTF.getText());
-	        String greenString = (greenTF.getText());
-		if ( ! (isNumeric(redString) && isNumeric(blueString) && isNumeric(greenString) ) )
-		     return;
-	        int red = Integer.parseInt(redTF.getText());
-	        int blue = Integer.parseInt(blueTF.getText());
-	        int green = Integer.parseInt(greenTF.getText());
-		if (red < 0 || blue < 0 || green < 0 || red > 255 || blue >255 || green >255)
-		    return;
-	        randHMC = new Color(red,green,blue);
+	        randHMC = colorChooser.getColor();
 		square.repaint();
 		gallow.repaint();
-		redTF.setText("");
-		blueTF.setText("");
-		greenTF.setText("");
 	    }
     }
 
@@ -677,7 +652,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	// creates new Color JFrame
 	o.dispose();
 	CustomColorFrame = new JFrame();
-	CustomColorFrame.setSize(400,200);
+	CustomColorFrame.setSize(650,400);
 	CustomColorFrame.setLocationRelativeTo(null);
     CustomColorFrame.addWindowListener(new java.awt.event.WindowAdapter() {
     @Override
@@ -696,25 +671,17 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	customHMC = new JButton("Change Hangman Color");
 	customHMC.setFont(newFont);
 	customHMCHandler = new customHMCButtonHandler();
-	customHMC.addActionListener(customHMCHandler);	
+	customHMC.addActionListener(customHMCHandler);
+	
+	colorChooser = new JColorChooser();
 
-	redLabel = new JLabel("Red Value(0-255):");
-	blueLabel = new JLabel("Blue Value(0-255):");
-	greenLabel = new JLabel("Green Value(0-255):");
 
-	redTF = new JTextField(3);
-	blueTF = new JTextField(3);
-	greenTF = new JTextField(3);
-		
 	setLayout(new FlowLayout());
-	colorPanel.add(redLabel);
-	colorPanel.add(redTF);
-	colorPanel.add(blueLabel);
-	colorPanel.add(blueTF);
-	colorPanel.add(greenLabel);
-	colorPanel.add(greenTF);
+	colorPanel.add(colorChooser);
 	colorPanel.add(customBGC);
 	colorPanel.add(customHMC);
+
+	
 
 	CustomColorFrame.add(colorPanel);
         CustomColorFrame.setVisible(true);
