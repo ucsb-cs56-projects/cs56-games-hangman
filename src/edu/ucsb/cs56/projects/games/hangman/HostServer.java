@@ -74,11 +74,26 @@ public class HostServer{
 	public void startGame(){
 		try{
 			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+			if(connectFrame != null){
+				connectFrame.dispose();
+			}
 		}
 		catch(IOException nat){
 			nat.printStackTrace();
 		}
 	}
+	
+	public void showConnectMessage(){
+		connectFrame = new JFrame();
+                connectFrame.setSize(300, 90);
+                connectLabel = new JLabel("Connecting....Waiting for opponent to connect.");
+                connectFrame.getContentPane().add(connectLabel, BorderLayout.NORTH);
+
+                connectFrame.setLocationRelativeTo(null);
+                connectFrame.setVisible(true);
+                connectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
 
 	public String getIpAddress(){
 	  	try {
@@ -99,14 +114,7 @@ public class HostServer{
 			hostPortString = portTextField.getText();
 			hostPortNumber = Integer.parseInt(hostPortString);
 			hostFrame.dispose();
-			connectFrame = new JFrame();
-			connectFrame.setSize(300, 90);
-			connectLabel = new JLabel("Connecting....Waiting for opponent to connect.");
-			connectFrame.getContentPane().add(connectLabel, BorderLayout.NORTH);
-			
-			connectFrame.setLocationRelativeTo(null);
-			connectFrame.setVisible(true);
-			connectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			showConnectMessage();
 			try{ connect(); }
 			catch(IOException toomanyNATNATs){
 				System.out.println("Eliminate that NAT!");
