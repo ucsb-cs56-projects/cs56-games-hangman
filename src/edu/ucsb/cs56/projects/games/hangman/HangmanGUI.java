@@ -32,6 +32,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public static final boolean soundOn = false;
     private int hintsA, hintsL, numPoints, numWins, numLosses;
     private String optionsOn = "false", randBGColOn = "false", BGColorOn = "false";
+    private boolean isMultiplayer;
 
     // Swing components
     private HangmanGame hg;
@@ -74,6 +75,13 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public HangmanGUI(WordList wordList) throws IOException {
 	hg = new HangmanGame(wordList.getRandomLine());
 	this.wordList = wordList;
+	this.isMultiplayer = false;
+    }
+
+    public HangmanGUI(WordList wordList, String twoPlayerGuess) throws IOException {
+	hg = new HangmanGame(twoPlayerGuess);
+	this.wordList = wordList;
+	this.isMultiplayer = true;
     }
     
     /** Initializes and shows all GUI elements
