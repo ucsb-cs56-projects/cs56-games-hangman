@@ -74,8 +74,11 @@ public class HostServer{
 	}
 
 	public void startGame(){
+		System.out.println("Started Game Method");
 		try{
-			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+			System.out.println("Started Try");
+			HangmanGUI newGame =  new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+			System.out.println("Ended Try Block");
 		}
 		catch(IOException nat){
 			nat.printStackTrace();

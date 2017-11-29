@@ -67,8 +67,10 @@ public class JoinServer{
 
 	public void startGame(){
 		try {
-			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
-		
+			System.out.println("Gonna Start Try");
+			HangmanGUI newGame =  new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+			System.out.println("Ended Try Block");
+
 		}catch (IOException exp){
 			exp.printStackTrace();
 		
