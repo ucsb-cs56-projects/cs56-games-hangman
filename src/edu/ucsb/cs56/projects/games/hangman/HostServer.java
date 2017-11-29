@@ -78,7 +78,7 @@ public class HostServer{
 		try{
 
 			System.out.println("Started Try");
-			HangmanGUI newGame =  new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
 			System.out.println("Ended Try Block");
 
 			if(connectFrame != null){
