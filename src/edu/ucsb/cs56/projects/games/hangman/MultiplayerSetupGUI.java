@@ -61,6 +61,10 @@ public class MultiplayerSetupGUI extends JFrame{
 		new Matchmaking().choose();
 	}
 
+	public static WordList getWordList(){
+		return wordList;
+	}
+
 	public class SinglePlayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			try{
