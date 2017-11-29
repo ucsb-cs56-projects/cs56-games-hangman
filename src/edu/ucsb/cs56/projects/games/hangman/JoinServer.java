@@ -23,7 +23,7 @@ public class JoinServer{
                 ipTextField = new JTextField("Enter IP Address of host.");
 		oppWordTextField = new JTextField("Enter opponent's word");
                 portTextField = new JTextField("Enter port number of host. Default: 1738");
-                joinFrame.setTitle("Host Server Settings");
+                joinFrame.setTitle("Join Server Settings");
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
 

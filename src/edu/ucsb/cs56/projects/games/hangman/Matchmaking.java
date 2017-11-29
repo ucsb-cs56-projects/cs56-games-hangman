@@ -18,6 +18,8 @@ import java.net.*;
 
 */
 
+//TODO fix naming and remove commented code. get rid of startgame and ipadress.
+
 public class Matchmaking{
 	String ipAdress; 
 	private JFrame chooseFrame; 

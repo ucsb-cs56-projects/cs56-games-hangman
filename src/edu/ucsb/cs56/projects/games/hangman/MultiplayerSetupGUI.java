@@ -16,7 +16,7 @@ import java.awt.event.*;
 
 */
 
-
+//TODO FIX: make MainMenu mainMenu
 public class MultiplayerSetupGUI extends JFrame{
 	
 	private JFrame MainMenu;
