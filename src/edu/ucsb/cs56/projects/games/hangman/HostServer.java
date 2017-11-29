@@ -53,21 +53,23 @@ public class HostServer{
 		serverSocket = new ServerSocket(hostPortNumber);
 		sock = serverSocket.accept();
 		writer = new PrintWriter(sock.getOutputStream());
-		writer.append(oppWord);
+		writer.println(oppWord);
 		writer.flush();
 		
 		InputStreamReader streamReader = new InputStreamReader(sock.getInputStream()); 
 		BufferedReader reader = new BufferedReader(streamReader);
 		String line;
+		System.out.println("Starting Loop");
 		do{
 			line = reader.readLine();
 		}while(line == null);
-		
+		System.out.println("Ended Loop");
 		myWord = line;
 		
 		System.out.println(myWord);
 		writer.close();
 		reader.close();
+		System.out.println("Gonna Start Game");
 		startGame();
 	}
 

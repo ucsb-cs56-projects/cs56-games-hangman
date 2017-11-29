@@ -40,28 +40,39 @@ public class JoinServer{
         }
 
 	public void connect() throws IOException{
+			System.out.println("Connection Method Started");
 			sock = new Socket(ipString, hostPortNumber);
 			InputStreamReader reader = new InputStreamReader(sock.getInputStream());
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			
 			String line = null;
+			System.out.println("Starting Loop");
 			do{
 				line = bufferedReader.readLine();
 			}while(line == null);
+			System.out.println("Ended Loop");
 			myWord = line;
-			bufferedReader.close();
 			
 			System.out.println(myWord);
-			
 
 			PrintWriter writer = new PrintWriter(sock.getOutputStream());
-			writer.append(oppWord);
+			writer.println(oppWord);
 			writer.flush();
 			writer.close();
+			bufferedReader.close();
+			System.out.println("Gonna Start Game");
+			startGame();
 
+	}
 
-
-
+	public void startGame(){
+		try {
+			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord);
+		
+		}catch (IOException exp){
+			exp.printStackTrace();
+		
+		}
 	}
 
 	 public class SubmitButtonHandler implements ActionListener{
