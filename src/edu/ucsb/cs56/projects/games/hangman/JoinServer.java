@@ -36,33 +36,32 @@ public class JoinServer{
         }
 
 	public void connect(){
-			try {
-				sock = new Socket(ipString, hostPortNumber);
-				InputStreamReader reader = new InputStreamReader(sock.getInputStream());
-				BufferedReader bufferedReader = new BufferedReader(reader);
+		try {
+			sock = new Socket(ipString, hostPortNumber);
+			InputStreamReader reader = new InputStreamReader(sock.getInputStream());
+			BufferedReader bufferedReader = new BufferedReader(reader);
 				
-				String line = null;
-				do{
-					line = bufferedReader.readLine();
-				}while(line == null);
-				myWord = line;
+			String line = null;
+			do{
+				line = bufferedReader.readLine();
+			}while(line == null);
+			myWord = line;
 
-				PrintWriter writer = new PrintWriter(sock.getOutputStream());
-				writer.println(oppWord);
-				writer.flush();
-				writer.close();
-				bufferedReader.close();
-				startGame();
-			}catch(IOException ex) {
+			PrintWriter writer = new PrintWriter(sock.getOutputStream());
+			writer.println(oppWord);
+			writer.flush();
+			writer.close();
+			bufferedReader.close();
+			startGame();
+		}catch(IOException ex) {
 
-				if (joinFrame != null){
-					joinFrame.dispose();
-				}
-				JLabel errorLabel = new JLabel("The port number or IP address is invalid. Please try again.");
-				joiningFrame.getContentPane().add(errorLabel, BorderLayout.SOUTH);
-				setup();
-
+			if (joinFrame != null){
+				joinFrame.dispose();
 			}
+			JLabel errorLabel = new JLabel("The port number or IP address is invalid. Please try again.");
+			joiningFrame.getContentPane().add(errorLabel, BorderLayout.SOUTH);
+			setup();
+		}
 
 	}
 
@@ -71,12 +70,9 @@ public class JoinServer{
 			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
 			if(joiningFrame != null){
                                 joiningFrame.dispose();
-                        }
-
-
+			}
 		}catch (IOException exp){
 			exp.printStackTrace();
-		
 		}
 	}
 

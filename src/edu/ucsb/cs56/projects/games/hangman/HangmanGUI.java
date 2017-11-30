@@ -16,6 +16,7 @@ import javax.sound.sampled.SourceDataLine;
 /** HangmanGUI.java is a program that has added features from a
  * previous Hangman game
 
+ *@author BlakeJohnson, Fernando Mendoza F17
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
  *@author Evan West

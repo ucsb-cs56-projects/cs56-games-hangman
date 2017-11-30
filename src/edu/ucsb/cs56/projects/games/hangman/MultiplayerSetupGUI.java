@@ -52,10 +52,6 @@ public class MultiplayerSetupGUI extends JFrame{
 
 	}
 
-	public void startMatchmaking(){
-		new Matchmaking().choose();
-	}
-
 	public static WordList getWordList(){
 		return wordList;
 	}

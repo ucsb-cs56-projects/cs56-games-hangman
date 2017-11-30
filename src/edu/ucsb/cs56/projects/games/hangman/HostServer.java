@@ -7,7 +7,7 @@ import java.applet.*;
 import java.awt.event.*;
 import java.net.*;
 import java.net.InetAddress.*;
-
+import java.lang.Thread;
 
 public class HostServer{
         private JFrame hostFrame, connectFrame;
@@ -103,10 +103,15 @@ public class HostServer{
 			hostPortNumber = Integer.parseInt(hostPortString);
 			hostFrame.dispose();
 			showConnectMessage();
-			try{ connect(); }
-			catch(IOException ex){
-				ex.printStackTrace();
-			}
+			new Thread(new Runnable(){
+				@Override
+				public void run(){
+					try{ connect(); }
+					catch(IOException ex){
+						ex.printStackTrace();
+					}	
+				}
+			}).start();
 		}
 	}
 

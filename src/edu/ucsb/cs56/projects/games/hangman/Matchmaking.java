@@ -38,8 +38,8 @@ public class Matchmaking{
                 chooseFrame.setTitle("Server Settings");
                 chooseLabel = new JLabel("Choose to host or join a Hangman game");
                 chooseFrame.getContentPane().add(mainPanel, BorderLayout.NORTH);
-                joinButton.addActionListener(new joinGameListener());
-                hostButton.addActionListener(new hostGameListener());
+                joinButton.addActionListener(new JoinGameListener());
+                hostButton.addActionListener(new HostGameListener());
                 chooseFrame.setLocationRelativeTo(null);
                 mainPanel.add(chooseLabel);
                 mainPanel.add(hostButton);
@@ -50,7 +50,7 @@ public class Matchmaking{
                 chooseFrame.setVisible(true);
 	}
 
-	public class joinGameListener implements ActionListener {
+	private class JoinGameListener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			JoinServer myJoinServer = new JoinServer();
 			myJoinServer.setup();
@@ -58,7 +58,7 @@ public class Matchmaking{
 		}
 	}
 
-	public class hostGameListener implements ActionListener{
+	private class HostGameListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			HostServer myHostServer = new HostServer();
 			myHostServer.setup();
