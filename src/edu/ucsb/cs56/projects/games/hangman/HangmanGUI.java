@@ -428,27 +428,39 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    lettertf.requestFocusInWindow();
-	    submit.setEnabled(true);
-	    lettertf.setEditable(true);
-	    big.setVisible(false);
-	    prompt.setText("Guess a letter: ");
-	    
-	    // attempt to start a new game, updating hints allowed and hints left
-	    try {
-		hg = new HangmanGame(wordList.getRandomLine());
-		board.setText(hg.getBoard());
-		message.setText("");
-		guessesRemaining.setText("Guesses Remaining: " + hg.getWrongAttemptsLeft());
-		guesses.setText("Wrong guesses:");
-		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
-		hintsAllowed.setText(hintsAllowedString);
-		String hintsLeftString = "Hints left: " + hintsL;
-		hintsLeft.setText(hintsLeftString);
-		repaint();
-		gallow.repaint();
-	    } catch(IOException ex) {
-		throw new RuntimeException(ex);
+	    if (!isMultiplayer){	
+	    	lettertf.requestFocusInWindow();
+	    	submit.setEnabled(true);
+	    	lettertf.setEditable(true);
+	    	big.setVisible(false);
+	    	prompt.setText("Guess a letter: ");
+	    	
+	    	// attempt to start a new game, updating hints allowed and hints left
+	   	 try {
+			hg = new HangmanGame(wordList.getRandomLine());
+			board.setText(hg.getBoard());
+			message.setText("");
+			guessesRemaining.setText("Guesses Remaining: " + hg.getWrongAttemptsLeft());
+			guesses.setText("Wrong guesses:");
+			String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+			hintsAllowed.setText(hintsAllowedString);
+			String hintsLeftString = "Hints left: " + hintsL;
+			hintsLeft.setText(hintsLeftString);
+			repaint();
+			gallow.repaint();
+		    } catch(IOException ex) {
+			throw new RuntimeException(ex);
+		    }
+	    }else {
+	    	if (f != null)
+			f.dispose();
+		if (o != null)
+			f.dispose();
+		if (big != null)
+			big.dispose();
+
+		new MultiplayerSetupGUI(wordList).go();
+
 	    }
 	}
     }
