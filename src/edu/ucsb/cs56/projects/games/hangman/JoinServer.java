@@ -35,23 +35,34 @@ public class JoinServer{
                 joinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
-	public void connect() throws IOException{
-			sock = new Socket(ipString, hostPortNumber);
-			InputStreamReader reader = new InputStreamReader(sock.getInputStream());
-			BufferedReader bufferedReader = new BufferedReader(reader);
-			
-			String line = null;
-			do{
-				line = bufferedReader.readLine();
-			}while(line == null);
-			myWord = line;
+	public void connect(){
+			try {
+				sock = new Socket(ipString, hostPortNumber);
+				InputStreamReader reader = new InputStreamReader(sock.getInputStream());
+				BufferedReader bufferedReader = new BufferedReader(reader);
+				
+				String line = null;
+				do{
+					line = bufferedReader.readLine();
+				}while(line == null);
+				myWord = line;
 
-			PrintWriter writer = new PrintWriter(sock.getOutputStream());
-			writer.println(oppWord);
-			writer.flush();
-			writer.close();
-			bufferedReader.close();
-			startGame();
+				PrintWriter writer = new PrintWriter(sock.getOutputStream());
+				writer.println(oppWord);
+				writer.flush();
+				writer.close();
+				bufferedReader.close();
+				startGame();
+			}catch(IOException ex) {
+
+				if (joinFrame != null){
+					joinFrame.dispose();
+				}
+				JLabel errorLabel = new JLabel("The port number or IP address is invalid. Please try again.");
+				joiningFrame.getContentPane().add(errorLabel, BorderLayout.SOUTH);
+				setup();
+
+			}
 
 	}
 
@@ -89,10 +100,7 @@ public class JoinServer{
                         hostPortNumber = Integer.parseInt(portString);
                         joinFrame.dispose();
                         showJoiningFrame();
-                        try{ connect(); }
-                        catch(IOException ex){
-                                ex.printStackTrace();
-                        }
+                        connect();
                 }
         }
 
