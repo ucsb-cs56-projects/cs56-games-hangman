@@ -18,55 +18,36 @@ import java.net.*;
 
 */
 
-//TODO fix naming and remove commented code. get rid of startgame and ipadress.
-
 public class Matchmaking{
-	String ipAdress; 
 	private JFrame chooseFrame; 
 	private JButton hostButton, joinButton;
 	private JLabel chooseLabel;
 	private JPanel mainPanel;
 
 	public void choose(){
-	/*	try {
-			InetAdress adress = InetAdress.getLocaHost();
-			ipAdress = adress.getHostAdress();
-
-		}catch (UnknownHostException natnat) {
-			System.out.println("Hoest on the loose!");
-			natnat.printStackTrace();
-		}
-*/
-		chooseFrame = new JFrame();
-		chooseFrame.setSize(350, 100);
-		mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		hostButton = new JButton("Host Game");
-		joinButton = new JButton("Join Game");
-		chooseFrame.setTitle("Server Settings");
-		chooseLabel = new JLabel("Choose to host or join a Hangman game");
-		chooseFrame.getContentPane().add(mainPanel, BorderLayout.NORTH);
-		joinButton.addActionListener(new joinGameListener());
-		hostButton.addActionListener(new hostGameListener());
-
-		chooseFrame.setLocationRelativeTo(null);
-		
-		mainPanel.add(chooseLabel);
-		mainPanel.add(hostButton);
-		mainPanel.add(joinButton);
-
-		chooseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		hostButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		chooseFrame.setVisible(true);
-
-
-
+		startGameTypeGUI();
 	}
 
-	public void startGame(){
-		
+	public void startGameTypeGUI(){
+		chooseFrame = new JFrame();
+                chooseFrame.setSize(350, 100);
+                mainPanel = new JPanel();
+                mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+                hostButton = new JButton("Host Game");
+                joinButton = new JButton("Join Game");
+                chooseFrame.setTitle("Server Settings");
+                chooseLabel = new JLabel("Choose to host or join a Hangman game");
+                chooseFrame.getContentPane().add(mainPanel, BorderLayout.NORTH);
+                joinButton.addActionListener(new joinGameListener());
+                hostButton.addActionListener(new hostGameListener());
+                chooseFrame.setLocationRelativeTo(null);
+                mainPanel.add(chooseLabel);
+                mainPanel.add(hostButton);
+                mainPanel.add(joinButton);
+                chooseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                hostButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                chooseFrame.setVisible(true);
 	}
 
 	public class joinGameListener implements ActionListener {

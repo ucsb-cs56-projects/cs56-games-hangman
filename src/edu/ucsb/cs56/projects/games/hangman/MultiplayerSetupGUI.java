@@ -16,10 +16,9 @@ import java.awt.event.*;
 
 */
 
-//TODO FIX: make MainMenu mainMenu
 public class MultiplayerSetupGUI extends JFrame{
 	
-	private JFrame MainMenu;
+	private JFrame mainMenu;
 	private JButton singlePlayer, onlineMultiplayer;
 	private JLabel title;
 	private JPanel mainPanel;
@@ -30,30 +29,26 @@ public class MultiplayerSetupGUI extends JFrame{
 	}
 
 	public void go(){
-		MainMenu = new JFrame();
-		MainMenu.setSize(250, 90);
+		mainMenu = new JFrame();
+		mainMenu.setSize(250, 90);
 		title = new JLabel("Choose Game Type");
 		singlePlayer = new JButton("Single Player");
 		onlineMultiplayer = new JButton("Online Multiplayer");
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		MainMenu.getContentPane().add(mainPanel, BorderLayout.NORTH);
-		MainMenu.setTitle("Main Menu");
-		MainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainMenu.getContentPane().add(mainPanel, BorderLayout.NORTH);
+		mainMenu.setTitle("Main Menu");
+		mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		singlePlayer.addActionListener(new SinglePlayerHandler());
 		onlineMultiplayer.addActionListener(new MultiplayerHandler());
-
-		MainMenu.setLocationRelativeTo(null);
-
+		mainMenu.setLocationRelativeTo(null);
 		mainPanel.add(title);
 		mainPanel.add(singlePlayer);
 		mainPanel.add(onlineMultiplayer);
-
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 		singlePlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
 		onlineMultiplayer.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		MainMenu.setVisible(true);
+		mainMenu.setVisible(true);
 
 	}
 
@@ -68,12 +63,11 @@ public class MultiplayerSetupGUI extends JFrame{
 	public class SinglePlayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			try{
-				MainMenu.dispose();
+				mainMenu.dispose();
 				new HangmanGUI(wordList).play();
 			}
-			catch(IOException natnat){
-				System.out.println("Catch that filthy nat!");
-				natnat.printStackTrace();
+			catch(IOException na){
+				na.printStackTrace();
 			}
 		}
 	}
@@ -81,7 +75,7 @@ public class MultiplayerSetupGUI extends JFrame{
 	public class MultiplayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			new Matchmaking().choose();
-			MainMenu.dispose();
+			mainMenu.dispose();
 		}
 	}
 	

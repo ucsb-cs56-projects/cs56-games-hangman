@@ -38,18 +38,12 @@ public class HostServer{
 		hostPanel.add(wordTextField);
 		submitButton = new JButton("Submit");
 		submitButton.addActionListener(new SubmitButtonHandler());
-
 		hostFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
-
-
 		hostFrame.setVisible(true);
-
                 hostFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
 	public void connect()throws IOException{
-		System.out.println("Connection Started");
-		
 		serverSocket = new ServerSocket(hostPortNumber);
 		sock = serverSocket.accept();
 		writer = new PrintWriter(sock.getOutputStream());
@@ -59,28 +53,18 @@ public class HostServer{
 		InputStreamReader streamReader = new InputStreamReader(sock.getInputStream()); 
 		BufferedReader reader = new BufferedReader(streamReader);
 		String line;
-		System.out.println("Starting Loop");
 		do{
 			line = reader.readLine();
 		}while(line == null);
-		System.out.println("Ended Loop");
 		myWord = line;
-		
-		System.out.println(myWord);
 		writer.close();
 		reader.close();
-		System.out.println("Gonna Start Game");
 		startGame();
 	}
 
 	public void startGame(){
-		System.out.println("Started Game Method");
 		try{
-
-			System.out.println("Started Try");
 			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
-			System.out.println("Ended Try Block");
-
 			if(connectFrame != null){
 				connectFrame.dispose();
 			}
@@ -92,10 +76,9 @@ public class HostServer{
 	
 	public void showConnectMessage(){
 		connectFrame = new JFrame();
-                connectFrame.setSize(300, 90);
+                connectFrame.setSize(350, 90);
                 connectLabel = new JLabel("Connecting....Waiting for opponent to connect.");
                 connectFrame.getContentPane().add(connectLabel, BorderLayout.NORTH);
-
                 connectFrame.setLocationRelativeTo(null);
                 connectFrame.setVisible(true);
                 connectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,25 +90,22 @@ public class HostServer{
                         InetAddress address = InetAddress.getLocalHost();
                         getIpString = address.getHostAddress();
 			return getIpString;
-
-                }catch (UnknownHostException natnat) {
-                        System.out.println("Hoest on the loose!");
-                        natnat.printStackTrace();
+                }catch (UnknownHostException ex) {
+                        ex.printStackTrace();
 			return "";
                 }
 	}
 
 	public class SubmitButtonHandler implements ActionListener{
-		public void actionPerformed(ActionEvent nat){
+		public void actionPerformed(ActionEvent e){
 			oppWord = wordTextField.getText();
 			hostPortString = portTextField.getText();
 			hostPortNumber = Integer.parseInt(hostPortString);
 			hostFrame.dispose();
 			showConnectMessage();
 			try{ connect(); }
-			catch(IOException toomanyNATNATs){
-				System.out.println("Eliminate that NAT!");
-				toomanyNATNATs.printStackTrace();
+			catch(IOException ex){
+				ex.printStackTrace();
 			}
 		}
 	}

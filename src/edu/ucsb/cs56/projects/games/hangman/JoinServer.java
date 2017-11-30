@@ -26,50 +26,42 @@ public class JoinServer{
                 joinFrame.setTitle("Join Server Settings");
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
-
                 joinFrame.getContentPane().add(joinLabel, BorderLayout.NORTH);
                 joinFrame.getContentPane().add(ipTextField, BorderLayout.WEST);
                 joinFrame.getContentPane().add(portTextField, BorderLayout.EAST);
 		joinFrame.getContentPane().add(oppWordTextField, BorderLayout.CENTER);
 		joinFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
-		
-
 		joinFrame.setVisible(true);
-
                 joinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
 	public void connect() throws IOException{
-			System.out.println("Connection Method Started");
 			sock = new Socket(ipString, hostPortNumber);
 			InputStreamReader reader = new InputStreamReader(sock.getInputStream());
 			BufferedReader bufferedReader = new BufferedReader(reader);
 			
 			String line = null;
-			System.out.println("Starting Loop");
 			do{
 				line = bufferedReader.readLine();
 			}while(line == null);
-			System.out.println("Ended Loop");
 			myWord = line;
-			
-			System.out.println(myWord);
 
 			PrintWriter writer = new PrintWriter(sock.getOutputStream());
 			writer.println(oppWord);
 			writer.flush();
 			writer.close();
 			bufferedReader.close();
-			System.out.println("Gonna Start Game");
 			startGame();
 
 	}
 
 	public void startGame(){
 		try {
-			System.out.println("Gonna Start Try");
 			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
-			System.out.println("Ended Try Block");
+			if(joiningFrame != null){
+                                joiningFrame.dispose();
+                        }
+
 
 		}catch (IOException exp){
 			exp.printStackTrace();
@@ -77,25 +69,29 @@ public class JoinServer{
 		}
 	}
 
-	 public class SubmitButtonHandler implements ActionListener{
+	public void showJoiningFrame(){
+		joiningFrame = new JFrame();
+                joiningFrame.setSize(300, 90);
+                joiningLabel = new JLabel("Joining Game....Waiting for server to respond.");
+                joiningFrame.getContentPane().add(joiningLabel, BorderLayout.NORTH);
+
+                joiningFrame.setLocationRelativeTo(null);
+                joiningFrame.setVisible(true);
+                joiningFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
+	}
+
+	public class SubmitButtonHandler implements ActionListener{
                 public void actionPerformed(ActionEvent nat){
                         oppWord = oppWordTextField.getText();
                         portString = portTextField.getText();
 			ipString = ipTextField.getText();
                         hostPortNumber = Integer.parseInt(portString);
                         joinFrame.dispose();
-                        joiningFrame = new JFrame();
-                        joiningFrame.setSize(300, 90);
-                        joiningLabel = new JLabel("Joining Game....Waiting for server to respond.");
-                        joiningFrame.getContentPane().add(joiningLabel, BorderLayout.NORTH);
-
-                        joiningFrame.setLocationRelativeTo(null);
-                        joiningFrame.setVisible(true);
-                        joiningFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        showJoiningFrame();
                         try{ connect(); }
-                        catch(IOException toomanyNATNATs){
-                                System.out.println("Eliminate that NAT!join");
-                                toomanyNATNATs.printStackTrace();
+                        catch(IOException ex){
+                                ex.printStackTrace();
                         }
                 }
         }
