@@ -79,9 +79,8 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	this.isMultiplayer = false;
     }
 
-    public HangmanGUI(WordList wordList, String twoPlayerGuess) throws IOException {
+    public HangmanGUI(String twoPlayerGuess) throws IOException {
 	hg = new HangmanGame(twoPlayerGuess);
-	this.wordList = wordList;
 	this.isMultiplayer = true;
     }
     

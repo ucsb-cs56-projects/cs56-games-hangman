@@ -33,7 +33,7 @@ public class GUIMain {
 	
 	WordList wordList = new WordList(wordListFile);
 
-	MultiplayerSetupGUI msGUI = new MultiplayerSetupGUI(wordList);
-	msGUI.go();
+	MainMenuSetupGUI msGUI = new MainMenuSetupGUI(wordList);
+	msGUI.menu();
 	}
 }

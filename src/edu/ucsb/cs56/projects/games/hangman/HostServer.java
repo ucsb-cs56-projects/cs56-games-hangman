@@ -9,6 +9,17 @@ import java.net.*;
 import java.net.InetAddress.*;
 import java.lang.Thread;
 
+/** Hosts Hangman Game Server.
+        Sets up game server with opponents word choice and initializes new hangman game..
+
+        @author Blake Johnson, F17
+        @author Fernando Mendoza, F17
+        @version F17
+
+
+*/
+
+
 public class HostServer{
         private JFrame hostFrame, connectFrame;
         private JLabel hostLabel, ipAddress, connectLabel;
@@ -64,7 +75,7 @@ public class HostServer{
 
 	public void startGame(){
 		try{
-			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
+			new HangmanGUI(myWord).play();
 			if(connectFrame != null){
 				connectFrame.dispose();
 			}

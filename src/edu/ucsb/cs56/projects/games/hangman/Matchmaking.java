@@ -24,10 +24,6 @@ public class Matchmaking{
 	private JLabel chooseLabel;
 	private JPanel mainPanel;
 
-	public void choose(){
-		startGameTypeGUI();
-	}
-
 	public void startGameTypeGUI(){
 		chooseFrame = new JFrame();
                 chooseFrame.setSize(350, 100);

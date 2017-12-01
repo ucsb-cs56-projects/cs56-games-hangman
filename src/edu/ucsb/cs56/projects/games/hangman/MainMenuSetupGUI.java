@@ -16,19 +16,19 @@ import java.awt.event.*;
 
 */
 
-public class MultiplayerSetupGUI extends JFrame{
+public class MainMenuSetupGUI extends JFrame{
 	
 	private JFrame mainMenu;
 	private JButton singlePlayer, onlineMultiplayer;
 	private JLabel title;
 	private JPanel mainPanel;
-	private static WordList wordList;
+	private WordList wordList;
 		
-	public MultiplayerSetupGUI(WordList wordList){
+	public MainMenuSetupGUI(WordList wordList){
 		this.wordList = wordList;
 	}
 
-	public void go(){
+	public void menu(){
 		mainMenu = new JFrame();
 		mainMenu.setSize(250, 90);
 		title = new JLabel("Choose Game Type");
@@ -52,10 +52,6 @@ public class MultiplayerSetupGUI extends JFrame{
 
 	}
 
-	public static WordList getWordList(){
-		return wordList;
-	}
-
 	public class SinglePlayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			try{
@@ -70,7 +66,7 @@ public class MultiplayerSetupGUI extends JFrame{
 
 	public class MultiplayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
-			new Matchmaking().choose();
+			new Matchmaking().startGameTypeGUI();
 			mainMenu.dispose();
 		}
 	}

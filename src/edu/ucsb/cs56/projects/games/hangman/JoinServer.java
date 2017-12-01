@@ -7,6 +7,17 @@ import java.applet.*;
 import java.awt.event.*;
 import java.net.*;
 
+/** Joins Hangman Game Server.
+        Joins game server with opponents word choice and initializes new hangman game.
+
+        @author Blake Johnson, F17
+        @author Fernando Mendoza, F17
+        @version F17
+
+
+*/
+
+
 public class JoinServer{
         private JFrame joinFrame, joiningFrame;
         private JLabel joinLabel, joiningLabel;
@@ -67,7 +78,7 @@ public class JoinServer{
 
 	public void startGame(){
 		try {
-			new HangmanGUI(MultiplayerSetupGUI.getWordList(), myWord).play();
+			new HangmanGUI(myWord).play();
 			if(joiningFrame != null){
                                 joiningFrame.dispose();
 			}
