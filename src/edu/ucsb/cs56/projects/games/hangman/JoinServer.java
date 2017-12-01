@@ -30,18 +30,23 @@ public class JoinServer{
         public void setup(){
                 joinFrame = new JFrame();
                 joinFrame.setSize(500, 500);
-                joinLabel = new JLabel("Give your opponent your IP address and port number");
+                
+		joinLabel = new JLabel("Give your opponent your IP address and port number");
                 ipTextField = new JTextField("Enter IP Address of host.");
 		oppWordTextField = new JTextField("Enter opponent's word");
                 portTextField = new JTextField("Enter port number of host. Default: 1738");
-                joinFrame.setTitle("Join Server Settings");
+		
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
+
+
                 joinFrame.getContentPane().add(joinLabel, BorderLayout.NORTH);
                 joinFrame.getContentPane().add(ipTextField, BorderLayout.WEST);
                 joinFrame.getContentPane().add(portTextField, BorderLayout.EAST);
 		joinFrame.getContentPane().add(oppWordTextField, BorderLayout.CENTER);
 		joinFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
+		
+		joinFrame.setTitle("Join Server Settings");	
 		joinFrame.setVisible(true);
                 joinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
@@ -107,7 +112,12 @@ public class JoinServer{
                         hostPortNumber = Integer.parseInt(portString);
                         joinFrame.dispose();
                         showJoiningFrame();
-                        connect();
+			new Thread(new Runnable(){
+                                @Override
+                                public void run(){
+                                        connect();
+                                }
+                        }).start();
                 }
         }
 

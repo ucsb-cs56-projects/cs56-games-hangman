@@ -35,21 +35,23 @@ public class HostServer{
         public void setup(){
                 hostFrame = new JFrame();
                 hostPanel = new JPanel();
-		hostFrame.setSize(500, 500);
                 hostLabel = new JLabel("Give your opponent your IP address and port number");
                 ipAddress = new JLabel("IP Address: "+getIpAddress());
                 portTextField = new JTextField("1738");
-                hostFrame.setTitle("Host Server Settings");
+		submitButton = new JButton("Submit");
 		wordTextField = new JTextField("enemy");
+		submitButton.addActionListener(new SubmitButtonHandler());
+
 		hostPanel.setLayout(new BoxLayout(hostPanel, BoxLayout.Y_AXIS));
 		hostFrame.getContentPane().add(hostPanel, BorderLayout.NORTH);
 		hostPanel.add(hostLabel);
 		hostPanel.add(ipAddress);
 		hostPanel.add(portTextField);
 		hostPanel.add(wordTextField);
-		submitButton = new JButton("Submit");
-		submitButton.addActionListener(new SubmitButtonHandler());
 		hostFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
+		
+		hostFrame.setSize(500, 500);
+		hostFrame.setTitle("Host Server Settings");
 		hostFrame.setVisible(true);
                 hostFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
