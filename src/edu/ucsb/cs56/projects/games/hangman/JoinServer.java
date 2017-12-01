@@ -20,7 +20,7 @@ import java.net.*;
 
 public class JoinServer{
         private JFrame joinFrame, joiningFrame;
-        private JLabel joinLabel, joiningLabel;
+        private JLabel joinLabel, joiningLabel, enterIP, enterPort, enterWord, space;
         private JTextField portTextField, ipTextField, oppWordTextField;
 	private JButton submitButton;
 	private String ipString, portString, oppWord, myWord;
@@ -33,10 +33,14 @@ public class JoinServer{
                 joinFrame.setSize(500, 500);
                 
 		joinLabel = new JLabel("Give your opponent your IP address and port number");
-                ipTextField = new JTextField("Enter IP Address of host.");
-		oppWordTextField = new JTextField("Enter opponent's word");
-                portTextField = new JTextField("Enter port number of host. Default: 1738");
-		
+                ipTextField = new JTextField();
+		oppWordTextField = new JTextField();
+                portTextField = new JTextField();
+		enterIP = new JLabel("Enter host IP address: ");
+		enterPort = new JLabel("Enter port number. Default is 1738: ");
+		enterWord = new JLabel("Enter word for opponent to guess: ");
+		space = new JLabel("  ");
+
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
 
@@ -46,8 +50,12 @@ public class JoinServer{
 
 
                 joinPanel.add(joinLabel);
+		joinPanel.add(space);
+		joinPanel.add(enterIP);
                 joinPanel.add(ipTextField);
+		joinPanel.add(enterPort);
                 joinPanel.add(portTextField);
+		joinPanel.add(enterWord);
 		joinPanel.add(oppWordTextField);
 		joinFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
 		
