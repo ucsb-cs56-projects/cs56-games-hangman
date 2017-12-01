@@ -111,7 +111,7 @@ public class JoinServer{
 
 	public void showJoiningFrame(){
 		joiningFrame = new JFrame();
-                joiningFrame.setSize(300, 90);
+                joiningFrame.setSize(400, 90);
                 joiningLabel = new JLabel("Joining Game....Waiting for server to respond.");
                 joiningFrame.getContentPane().add(joiningLabel, BorderLayout.NORTH);
 
