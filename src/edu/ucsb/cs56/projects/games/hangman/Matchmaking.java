@@ -26,7 +26,7 @@ public class Matchmaking{
 
 	public void startGameTypeGUI(){
 		chooseFrame = new JFrame();
-                chooseFrame.setSize(350, 100);
+                chooseFrame.setSize(350, 200);
                 mainPanel = new JPanel();
                 mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
                 hostButton = new JButton("Host Game");

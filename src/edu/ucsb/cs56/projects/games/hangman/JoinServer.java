@@ -84,15 +84,18 @@ public class JoinServer{
 			bufferedReader.close();
 			startGame();
 		}catch(IOException ex) {
-
-			if (joinFrame != null){
-				joinFrame.dispose();
-			}
-			JLabel errorLabel = new JLabel("The port number or IP address is invalid. Please try again.");
-			joiningFrame.getContentPane().add(errorLabel, BorderLayout.SOUTH);
-			setup();
+			printErrorMessage();
 		}
 
+	}
+
+	public void printErrorMessage(){
+		 if (joinFrame != null){
+                        joinFrame.dispose();
+                 }
+                 JLabel errorLabel = new JLabel("The port number or IP address is invalid. Please try again.");
+                 joiningFrame.getContentPane().add(errorLabel, BorderLayout.SOUTH);
+                 setup();
 	}
 
 	public void startGame(){
@@ -123,16 +126,22 @@ public class JoinServer{
                         oppWord = oppWordTextField.getText();
                         portString = portTextField.getText();
 			ipString = ipTextField.getText();
-                        hostPortNumber = Integer.parseInt(portString);
-                        joinFrame.dispose();
-                        showJoiningFrame();
-			new Thread(new Runnable(){
-                                @Override
-                                public void run(){
-                                        connect();
-                                }
-                        }).start();
+			if(ipString == null || oppWord == null || portString == null){
+				printErrorMessage();
+			}
+			else{
+                        	hostPortNumber = Integer.parseInt(portString);
+                        	joinFrame.dispose();
+                        	showJoiningFrame();
+				new Thread(new Runnable(){
+                                	@Override
+                                	public void run(){
+                                        	connect();
+                                	}
+                        	}).start();
+			}
                 }
+
         }
 
 

@@ -459,7 +459,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 		if (big != null)
 			big.dispose();
 
-		new MultiplayerSetupGUI(wordList).go();
+		new Matchmaking().startGameTypeGUI();
 
 	    }
 	}
