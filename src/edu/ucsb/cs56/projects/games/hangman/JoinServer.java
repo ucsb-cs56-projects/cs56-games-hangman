@@ -26,6 +26,7 @@ public class JoinServer{
 	private String ipString, portString, oppWord, myWord;
 	private int hostPortNumber;
 	private Socket sock;
+	private JPanel joinPanel;
 
         public void setup(){
                 joinFrame = new JFrame();
@@ -39,14 +40,19 @@ public class JoinServer{
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
 
+		joinPanel = new JPanel();
+                joinPanel.setLayout(new BoxLayout(joinPanel, BoxLayout.Y_AXIS));
+                joinFrame.getContentPane().add(joinPanel, BorderLayout.NORTH);
 
-                joinFrame.getContentPane().add(joinLabel, BorderLayout.NORTH);
-                joinFrame.getContentPane().add(ipTextField, BorderLayout.WEST);
-                joinFrame.getContentPane().add(portTextField, BorderLayout.EAST);
-		joinFrame.getContentPane().add(oppWordTextField, BorderLayout.CENTER);
+
+                joinPanel.add(joinLabel);
+                joinPanel.add(ipTextField);
+                joinPanel.add(portTextField);
+		joinPanel.add(oppWordTextField);
 		joinFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
 		
-		joinFrame.setTitle("Join Server Settings");	
+		joinFrame.setTitle("Join Server Settings");
+		joinFrame.setLocationRelativeTo(null);	
 		joinFrame.setVisible(true);
                 joinFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }

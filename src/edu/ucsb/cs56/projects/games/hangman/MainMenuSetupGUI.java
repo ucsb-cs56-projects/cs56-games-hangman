@@ -30,7 +30,7 @@ public class MainMenuSetupGUI extends JFrame{
 
 	public void menu(){
 		mainMenu = new JFrame();
-		mainMenu.setSize(250, 90);
+		mainMenu.setSize(250, 150);
 		title = new JLabel("Choose Game Type");
 		singlePlayer = new JButton("Single Player");
 		onlineMultiplayer = new JButton("Online Multiplayer");

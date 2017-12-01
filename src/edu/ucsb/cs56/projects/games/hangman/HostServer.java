@@ -38,7 +38,7 @@ public class HostServer{
                 hostLabel = new JLabel("Give your opponent your IP address and port number");
                 ipAddress = new JLabel("IP Address: "+getIpAddress());
                 portTextField = new JTextField("1738");
-		submitButton = new JButton("Submit");
+		submitButton = new JButton("Create Game");
 		wordTextField = new JTextField("enemy");
 		submitButton.addActionListener(new SubmitButtonHandler());
 
@@ -50,6 +50,7 @@ public class HostServer{
 		hostPanel.add(wordTextField);
 		hostFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
 		
+		hostFrame.setLocationRelativeTo(null);
 		hostFrame.setSize(500, 500);
 		hostFrame.setTitle("Host Server Settings");
 		hostFrame.setVisible(true);
