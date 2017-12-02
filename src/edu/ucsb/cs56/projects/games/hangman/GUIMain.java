@@ -32,7 +32,8 @@ public class GUIMain {
         }
 	
 	WordList wordList = new WordList(wordListFile);
-	new HangmanGUI(wordList).play();
-	
-    }
+
+	MainMenuSetupGUI msGUI = new MainMenuSetupGUI(wordList);
+	msGUI.menu();
+	}
 }

@@ -16,6 +16,7 @@ import javax.sound.sampled.SourceDataLine;
 /** HangmanGUI.java is a program that has added features from a
  * previous Hangman game
 
+ *@author BlakeJohnson, Fernando Mendoza F17
  *@author Gyeonghun Lee
  *@author David Borden and Ernesto Cojulun
  *@author Evan West
@@ -32,6 +33,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public static final boolean soundOn = false;
     private int hintsA, hintsL, numPoints, numWins, numLosses;
     private String optionsOn = "false", randBGColOn = "false", BGColorOn = "false";
+    private boolean isMultiplayer;
 
     // Swing components
     private HangmanGame hg;
@@ -74,6 +76,12 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
     public HangmanGUI(WordList wordList) throws IOException {
 	hg = new HangmanGame(wordList.getRandomLine());
 	this.wordList = wordList;
+	this.isMultiplayer = false;
+    }
+
+    public HangmanGUI(String twoPlayerGuess) throws IOException {
+	hg = new HangmanGame(twoPlayerGuess);
+	this.isMultiplayer = true;
     }
     
     /** Initializes and shows all GUI elements
@@ -420,27 +428,39 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
      */
     public class RestartButtonHandler implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
-	    lettertf.requestFocusInWindow();
-	    submit.setEnabled(true);
-	    lettertf.setEditable(true);
-	    big.setVisible(false);
-	    prompt.setText("Guess a letter: ");
-	    
-	    // attempt to start a new game, updating hints allowed and hints left
-	    try {
-		hg = new HangmanGame(wordList.getRandomLine());
-		board.setText(hg.getBoard());
-		message.setText("");
-		guessesRemaining.setText("Guesses Remaining: " + hg.getWrongAttemptsLeft());
-		guesses.setText("Wrong guesses:");
-		String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
-		hintsAllowed.setText(hintsAllowedString);
-		String hintsLeftString = "Hints left: " + hintsL;
-		hintsLeft.setText(hintsLeftString);
-		repaint();
-		gallow.repaint();
-	    } catch(IOException ex) {
-		throw new RuntimeException(ex);
+	    if (!isMultiplayer){	
+	    	lettertf.requestFocusInWindow();
+	    	submit.setEnabled(true);
+	    	lettertf.setEditable(true);
+	    	big.setVisible(false);
+	    	prompt.setText("Guess a letter: ");
+	    	
+	    	// attempt to start a new game, updating hints allowed and hints left
+	   	 try {
+			hg = new HangmanGame(wordList.getRandomLine());
+			board.setText(hg.getBoard());
+			message.setText("");
+			guessesRemaining.setText("Guesses Remaining: " + hg.getWrongAttemptsLeft());
+			guesses.setText("Wrong guesses:");
+			String hintsAllowedString = "Hints allowed: " + getHintsAllowed();
+			hintsAllowed.setText(hintsAllowedString);
+			String hintsLeftString = "Hints left: " + hintsL;
+			hintsLeft.setText(hintsLeftString);
+			repaint();
+			gallow.repaint();
+		    } catch(IOException ex) {
+			throw new RuntimeException(ex);
+		    }
+	    }else {
+	    	if (f != null)
+			f.dispose();
+		if (o != null)
+			o.dispose();
+		if (big != null)
+			big.dispose();
+
+		new Matchmaking().startGameTypeGUI();
+
 	    }
 	}
     }
