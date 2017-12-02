@@ -455,7 +455,7 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
 	    	if (f != null)
 			f.dispose();
 		if (o != null)
-			f.dispose();
+			o.dispose();
 		if (big != null)
 			big.dispose();
 

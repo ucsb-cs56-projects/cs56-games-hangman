@@ -28,13 +28,13 @@ public class JoinServer{
 	private Socket sock;
 	private JPanel joinPanel;
 	private JLabel errorLabel;
-		private String errorMessage = "";
+	private String errorMessage = "";
 
-		public void setup(){
-				joinFrame = new JFrame();
-				joinFrame.setSize(500, 500);
-				errorLabel = new JLabel(errorMessage);
-				errorLabel.setForeground (Color.red);
+	public void setup(){
+		joinFrame = new JFrame();
+		joinFrame.setSize(500, 500);
+		errorLabel = new JLabel(errorMessage);
+		errorLabel.setForeground (Color.red);
 
 
 
@@ -51,8 +51,8 @@ public class JoinServer{
 		submitButton.addActionListener(new SubmitButtonHandler());
 
 		joinPanel = new JPanel();
-				joinPanel.setLayout(new BoxLayout(joinPanel, BoxLayout.Y_AXIS));
-				joinFrame.getContentPane().add(joinPanel, BorderLayout.NORTH);
+		joinPanel.setLayout(new BoxLayout(joinPanel, BoxLayout.Y_AXIS));
+		joinFrame.getContentPane().add(joinPanel, BorderLayout.NORTH);
 
 
 				joinPanel.add(joinLabel);
