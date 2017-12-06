@@ -15,6 +15,8 @@ YES | mastergberry | bzimm | Graphical hangman game
 ```
  F16 | diegosegundo | aermakovucsb | Graphical hangman game
 ```
+ F17 | ferb120 | brjohnson | Graphical hangman game
+```
 
 To run: 
  * CLI version: ant runCLI
@@ -37,6 +39,28 @@ The source code is stored under the folder named src. The additional images used
 
 For the ant targets, you can call "ant compile" to compile, "ant run" to start the game, or "ant test" to run the 8 implemented tests to make sure that the code is running properly.
 
+To play single player: 
+ * ant runGUI (using a wordfile will randomly select a word from that file)
+ * Select single player in main menu
+ * Start guessing letters or phrases
+
+To play multiplayer: 
+ * ant runGUI (using a wordfile will not affect multiplayer)
+ * Select multiplayer in main menu
+ * Choose host or join game
+ 
+	Host game:
+	* Choose a port number to connect players
+	* Your IP address will be shown on the host screen 
+	* Choose a word for your opponent to guess
+	* Create game
+
+	Join game: 
+	* Type in opponents IP address
+	* Type shared port number
+	* Type in your opponent's word
+	* Join game (note: you must create a game before you join it)
+
 
 F16 final remarks
 =================
@@ -44,3 +68,19 @@ F16 final remarks
 - The vast majority of the code is in a couple large src files(one being HangmanGUI.java) and the rest of the .java files don't have too much
 - Highly recommended to take the time to read through the code before doing anything. It will save you time in the long run and make it much easier to add features if you understand how the code works.
 - One helpful tool when working on the code is if you want to use a custom wordlist without going in to the source code to change it you can add  Darg0="/filename/"  to the command line when using ant run
+
+
+F17 final remarks
+=================
+- We created a new class hierarchy that correlates with the gui flow. 
+  GUIMain -> MainMenuSetup -> 
+	(Single Player) -> HangmanGUI -> HangmanGame  
+	(Multiplayer) -> Matchmaking -> 
+		(Host Game) -> HostServer -> HangmanGUI -> HangmanGame
+		(Join Game) -> JoinServer -> HangmanGUI -> HangmanGame
+- We recommend trying to make HangmanGUI.java much smaller and more organized by encapulating certain features and moving them to another class. For example, the options button is handled by its listener, and instead of calling an external class to setup the options menu, it is all handled in HangmanGUI.
+- When playing multiplayer mode, make sure that if a csil machine is the host then the joining machine must also be a csil machine, or it will not work due to security reasons.
+- If you are using ssh to connect to a csil machine to run this program, make sure you download XQuartz and use the -X flag before you enter your credentials to enable X11 forwarding to your mac.  If you are using Windows, download and install MobaXterm and ssh to csil using that instead of an ssh client like PuTTy. 
+
+   
+
