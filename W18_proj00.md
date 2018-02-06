@@ -16,5 +16,32 @@ It is a game for user to guess letters in a word. If the letter they guess is co
 1. We can add more details in the instructions like "You can push the hint button when you could not find a clue."
 2. We can add some pictures of the game.
 ### f
-As far as the knowledge I had, I  think the build.xml is good, but we probably will turn it into Gradle or Maven.
+Base on the knowledge I had, the build.xml is good, every targets has a description. But the problem is there is not enough information in README.md file to instruct users how to use all the features in the build.xml. There are some other functionalities like CLI mode or inputting word list by user themselves that have not been mentioned in the README.md file.
+### g
+The issues we plan to deal with:
+Leaderboard Implementation 100
+Adding different difficultly levels 200
+Sound on/off option in Option Menu 50
+Hangman Image 100
+Add more javadoc descriptions 100
+Refactor Hangman GUI 400
+Hint Limit 200
+Adding a "Back" button 150
+I think the issues are enough for us now to do the project. And all the issues are pretty clear.
+### h
+(link:https://github.com/ucsb-cs56-projects/cs56-games-hangman/issues/85)
+Add different vocabulary sets and set up another UI to let user select different types of vocabulary sets. 200 pts
+### i
+All the structure of codes in this project is pretty clear. The ex-coders have added descriptions at suitable place.
+
+One screenful of text:
+
+As the instructions in the README.md, user type ant runGUI or ant runCLI to start the game. If the user choose the GUI mode, the program will run the main method in class GUIMain.java. The main function will create call class Wordlist to either grab words from default file or grab words from the file that user input to generate the wordset for the game. And it will call the MainMenuSetupGUI to generate the first UI of the game to let user choose single mode or multiplayer mode.
+
+iIn the multiplayer mode the project will call the class Matchmaking to deal with multiplayer mode game. For single mode, the project will go to the class HangmanGUI which is the UI of the game which is what is showing to the player when the game is running, and the HangmanGUI will call connected with an object of the HangmanGame class to do calculations for the game.
+
+If user choose the CLI mode which is the command line mode, everything is basically the same. The CLIMain will call the HangmanCLI which is the operating the output in the command line. And this class will also call an object of the HangmanGame to do calculations for the game.
+### j
+There is only one HangmanGameTest.java in it. The test just covers the HangmanGame class which is the inner core class of the game.There are definitely lots of opportunities for us to add some tests for it. We have to add the test code for the issues which we are going to work with because they are all new stuffs for this game, so we think it is necessary.
+
 
