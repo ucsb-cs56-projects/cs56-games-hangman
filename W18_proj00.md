@@ -18,15 +18,15 @@ It is a game for user to guess letters in a word. If the letter they guess is co
 ### f
 Base on the knowledge I had, the build.xml is good, every targets has a description. But the problem is there is not enough information in README.md file to instruct users how to use all the features in the build.xml. There are some other functionalities like CLI mode or inputting word list by user themselves that have not been mentioned in the README.md file.
 ### g
-The issues we plan to deal with:
-Leaderboard Implementation 100
-Adding different difficultly levels 200
-Sound on/off option in Option Menu 50
-Hangman Image 100
-Add more javadoc descriptions 100
-Refactor Hangman GUI 400
-Hint Limit 200
-Adding a "Back" button 150
+#### The issues we plan to deal with:
+1. Leaderboard Implementation 100
+2. Adding different difficultly levels 200
+3. Sound on/off option in Option Menu 50
+4. Hangman Image 100
+5. Add more javadoc descriptions 100
+6. Refactor Hangman GUI 400
+7. Hint Limit 200
+8. Adding a "Back" button 150
 I think the issues are enough for us now to do the project. And all the issues are pretty clear.
 ### h
 (link:https://github.com/ucsb-cs56-projects/cs56-games-hangman/issues/85)
