@@ -13,11 +13,14 @@ It is a game for user to guess letters in a word. If the letter they guess is co
 1. As a player I could select the level of difficulties so that I could try different level of hardness.
 2. As a player I could select the kind of word sets I want to play on so that different people who do well in different fields could select different word set to play.
 ### e
+The README.md file is acutaully not very good. It does not seems like a README.md for a game. It at less have to has piscures for the game. It should be reformated. The important details should be marked.  
 1. We can add more details in the instructions like "You can push the hint button when you could not find a clue."
 2. We can add some pictures of the game.
 ### f
 Base on the knowledge I had, the build.xml is good, every targets has a description. But the problem is there is not enough information in README.md file to instruct users how to use all the features in the build.xml. There are some other functionalities like CLI mode or inputting word list by user themselves that have not been mentioned in the README.md file.
 ### g
+1000 points are able to finished, but it is not easy. 
+Actually I do not think these issues are that important.  I think the most important improvement for this project was the UI. 
 #### The issues we plan to deal with:
 1. Leaderboard Implementation 100
 2. Adding different difficultly levels 200

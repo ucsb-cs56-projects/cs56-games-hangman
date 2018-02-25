@@ -20,7 +20,7 @@ import java.net.*;
 
 public class Matchmaking{
 	private JFrame chooseFrame; 
-	private JButton hostButton, joinButton;
+	private JButton hostButton, joinButton, backButton;
 	private JLabel chooseLabel;
 	private JPanel mainPanel;
 
@@ -31,18 +31,22 @@ public class Matchmaking{
                 mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
                 hostButton = new JButton("Host Game");
                 joinButton = new JButton("Join Game");
+                backButton = new JButton("BACK");
                 chooseFrame.setTitle("Server Settings");
                 chooseLabel = new JLabel("Choose to host or join a Hangman game");
                 chooseFrame.getContentPane().add(mainPanel, BorderLayout.NORTH);
                 joinButton.addActionListener(new JoinGameListener());
                 hostButton.addActionListener(new HostGameListener());
+                backButton.addActionListener(new BackButtonListener());
                 chooseFrame.setLocationRelativeTo(null);
                 mainPanel.add(chooseLabel);
                 mainPanel.add(hostButton);
                 mainPanel.add(joinButton);
+                mainPanel.add(backButton);
                 chooseLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 hostButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 joinButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 chooseFrame.setVisible(true);
 	}
 
@@ -59,6 +63,15 @@ public class Matchmaking{
 			HostServer myHostServer = new HostServer();
 			myHostServer.setup();
 			chooseFrame.dispose();
+		}
+	}
+
+	private class BackButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			MainMenuSetupGUI gui = new MainMenuSetupGUI();
+			gui.menu();
+			chooseFrame.dispose();
+
 		}
 	}
 }
