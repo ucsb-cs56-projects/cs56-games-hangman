@@ -25,7 +25,7 @@ public class HostServer{
         private JLabel hostLabel, ipAddress, connectLabel;
         private JTextField portTextField, wordTextField;
 	private JPanel hostPanel;
-	private JButton submitButton;
+	private JButton submitButton, backButton;
 	private int hostPortNumber;
 	private String oppWord, hostPortString, getIpString, myWord;;
 	private ServerSocket serverSocket;
@@ -39,8 +39,10 @@ public class HostServer{
                 ipAddress = new JLabel("IP Address: "+getIpAddress());
                 portTextField = new JTextField("1738");
 		submitButton = new JButton("Create Game");
+		backButton = new JButton("Back");
 		wordTextField = new JTextField("enemy");
 		submitButton.addActionListener(new SubmitButtonHandler());
+		backButton.addActionListener(new BackButtonHandler());
 
 		hostPanel.setLayout(new BoxLayout(hostPanel, BoxLayout.Y_AXIS));
 		hostFrame.getContentPane().add(hostPanel, BorderLayout.NORTH);
@@ -48,7 +50,8 @@ public class HostServer{
 		hostPanel.add(ipAddress);
 		hostPanel.add(portTextField);
 		hostPanel.add(wordTextField);
-		hostFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
+		hostFrame.getContentPane().add(submitButton, BorderLayout.CENTER);
+		hostFrame.getContentPane().add(backButton, BorderLayout.SOUTH);
 		
 		hostFrame.setLocationRelativeTo(null);
 		hostFrame.setSize(500, 500);
@@ -126,6 +129,14 @@ public class HostServer{
 					}	
 				}
 			}).start();
+		}
+	}
+
+	public class BackButtonHandler implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			Matchmaking mg = new Matchmaking();
+			mg.startGameTypeGUI();
+			hostFrame.dispose();
 		}
 	}
 
