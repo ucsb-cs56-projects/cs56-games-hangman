@@ -1,5 +1,0 @@
-Object-Oriented
-Interface
-Class
-Attribute
-Static Variable

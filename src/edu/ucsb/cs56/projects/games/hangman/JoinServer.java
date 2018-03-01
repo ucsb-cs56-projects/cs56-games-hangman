@@ -22,7 +22,7 @@ public class JoinServer{
 		private JFrame joinFrame, joiningFrame;
 		private JLabel joinLabel, joiningLabel, enterIP, enterPort, enterWord, space;
 		private JTextField portTextField, ipTextField, oppWordTextField;
-	private JButton submitButton, backButton;
+	private JButton submitButton;
 	private String ipString, portString, oppWord, myWord;
 	private int hostPortNumber;
 	private Socket sock;
@@ -50,8 +50,6 @@ public class JoinServer{
 		submitButton = new JButton("Join Game");
 		submitButton.addActionListener(new SubmitButtonHandler());
 
-		backButton = new JButton("Back");
-		backButton.addActionListener(new BackButtonHandler());
 		joinPanel = new JPanel();
 		joinPanel.setLayout(new BoxLayout(joinPanel, BoxLayout.Y_AXIS));
 		joinFrame.getContentPane().add(joinPanel, BorderLayout.NORTH);
@@ -66,8 +64,7 @@ public class JoinServer{
 		joinPanel.add(enterWord);
 		joinPanel.add(oppWordTextField);
 		joinPanel.add(errorLabel);
-		joinFrame.getContentPane().add(submitButton, BorderLayout.CENTER);
-		joinFrame.getContentPane().add(backButton, BorderLayout.SOUTH);
+		joinFrame.getContentPane().add(submitButton, BorderLayout.SOUTH);
 		
 		joinFrame.setTitle("Join Server Settings");
 		joinFrame.setLocationRelativeTo(null);	
@@ -151,14 +148,6 @@ public class JoinServer{
 			{
 				printErrorMessage();
 			}
-		}
-	}
-
-	public class BackButtonHandler implements ActionListener{
-		public void actionPerformed(ActionEvent e){
-			Matchmaking mg = new Matchmaking();
-			mg.startGameTypeGUI();
-			joinFrame.dispose();
 		}
 	}
 
