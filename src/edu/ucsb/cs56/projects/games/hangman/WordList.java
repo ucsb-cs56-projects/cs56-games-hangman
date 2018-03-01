@@ -4,6 +4,8 @@ import java.util.*;
 
 public class WordList {
     private File wordListFile;
+
+
     /**
      *@param wordListFile a file that contains a word list in which the word to be guessed is chosen.
      */
@@ -61,11 +63,8 @@ public class WordList {
 
     private InputStream getWordListInputStream() throws FileNotFoundException {
         if(wordListFile == null) {
-            // gets the WordsList.txt file from the class path
-            InputStream answer = WordList.class.getResourceAsStream("/resources/textFile/WordsList.txt");
-            //File file = new File(WordList.class.getClassLoader().getResource("textFile/WordsList.txt").getFile());
-            //return new FileInputStream(file);
-            return answer;
+            // gets the WordsList.txt file from the class path                                                                                       
+            return WordList.class.getClassLoader().getResourceAsStream("resources/WordsList.txt");
         } else {
             return new FileInputStream(wordListFile);
         }

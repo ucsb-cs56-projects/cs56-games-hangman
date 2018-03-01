@@ -1,7 +1,9 @@
 package edu.ucsb.cs56.projects.games.hangman;
-import org.junit.Test;
+import java.io.*;
+import java.util.*;
 
-import static org.junit.Assert.*;
+import org.junit.* ;
+import static org.junit.Assert.* ;
 
 // Test HangmanGame
 public class HangmanGameTest {

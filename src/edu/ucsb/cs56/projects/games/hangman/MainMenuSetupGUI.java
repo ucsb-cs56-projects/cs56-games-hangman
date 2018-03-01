@@ -1,11 +1,10 @@
 package edu.ucsb.cs56.projects.games.hangman;
-
-import javax.swing.*;
+import java.io.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.util.*;
+import javax.swing.*;
+import java.applet.*;
+import java.awt.event.*;
 
 /** Main Menu GUI and Button Handling for online multiplayer.
 	This is a subdirecting class for online multiplayer.
@@ -24,9 +23,7 @@ public class MainMenuSetupGUI extends JFrame{
 	private JLabel title;
 	private JPanel mainPanel;
 	private WordList wordList;
-
-	public MainMenuSetupGUI(){this.wordList = new WordList(getAFile("/resources/textFile/WordsList.txt"));}
-
+		
 	public MainMenuSetupGUI(WordList wordList){
 		this.wordList = wordList;
 	}
@@ -59,26 +56,13 @@ public class MainMenuSetupGUI extends JFrame{
 		public void actionPerformed(ActionEvent e){
 			try{
 				mainMenu.dispose();
-				selectionGUI select = new selectionGUI();
-				select.menu();
-
-				/*
-				HangmanGUI gui = new HangmanGUI(wordList);
-				gui.setHardlevel(0);
-				gui.play();
-				*/
+				new HangmanGUI(wordList).play();
 			}
-			catch(Exception na){
+			catch(IOException na){
 				na.printStackTrace();
 			}
 		}
 	}
-
-	public File getAFile(String name){
-		File file = new File(GUIMain.class.getResource(name).getFile());
-		return file;
-	}
-
 
 	public class MultiplayerHandler implements ActionListener {
 		public void actionPerformed(ActionEvent e){
@@ -86,12 +70,5 @@ public class MainMenuSetupGUI extends JFrame{
 			mainMenu.dispose();
 		}
 	}
-
-	public static void main(String [] args){
-
-	    MainMenuSetupGUI gui = new MainMenuSetupGUI();
-	    gui.menu();
-    }
-
 	
 }
