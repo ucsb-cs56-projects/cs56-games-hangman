@@ -769,9 +769,14 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
         /**
          * This is an override from Component, and draws a gallows at proper state directly from getWrongAttemptsLeft retrieved from game instance
          */
+
+     //image
+
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
+
+            Image head =Toolkit.getDefaultToolkit().getImage("resources/images/head.png");
 
             // draw the gallow
             Stroke normalStroke = g2.getStroke();
@@ -790,27 +795,28 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
             if (hg.getWrongAttemptsLeft() < 6) {
                 g2.drawOval(385, 20, 50, 50);
                 g2.fillOval(385, 20, 50, 50);
+                g.drawImage(head,370, 15, 80,80, this);
             }
 
             // draw the body
             if (hg.getWrongAttemptsLeft() < 5)
-                g2.drawLine(410, 70, 410, 150);
+                g2.drawLine(410, 98, 410, 178);
 
             // draw the left leg
             if (hg.getWrongAttemptsLeft() < 4)
-                g2.drawLine(410, 150, 350, 190);
+                g2.drawLine(410, 178, 350, 218);
 
             // draw the right leg
             if (hg.getWrongAttemptsLeft() < 3)
-                g2.drawLine(410, 150, 470, 190);
+                g2.drawLine(410, 178, 470, 218);
 
             // draw the left arm
             if (hg.getWrongAttemptsLeft() < 2)
-                g2.drawLine(410, 100, 350, 75);
+                g2.drawLine(410, 128, 350, 103);
 
             // draw the right arm
             if (hg.getWrongAttemptsLeft() < 1)
-                g2.drawLine(410, 100, 470, 75);
+                g2.drawLine(410, 128, 470, 103);
         }
     } // inner class hanger
 
