@@ -62,7 +62,7 @@ public class WordList {
     private InputStream getWordListInputStream() throws FileNotFoundException {
         if(wordListFile == null) {
             // gets the WordsList.txt file from the class path
-            InputStream answer = WordList.class.getResourceAsStream("/resources/textFile/WordsList.txt");
+            InputStream answer = WordList.class.getResourceAsStream("/resources/WordsList.txt");
             //File file = new File(WordList.class.getClassLoader().getResource("textFile/WordsList.txt").getFile());
             //return new FileInputStream(file);
             return answer;

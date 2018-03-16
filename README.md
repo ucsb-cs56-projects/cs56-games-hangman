@@ -27,7 +27,7 @@ To use a custom wordlist, use ant argument:
 
 To play either version, start with either a custom or default word list. Then, guess a letter in the word. You can either use the submit button or simply hit the enter button on the keyboard. Proceed in this manner until either you have exhausted your incorrect guesses or completely guessed the word.
 
-For the GUI version you enter a letter (or phrase) into the text field provided and hit submit. If the letter is correct then the *'s are replaced with that letter. If you guess wrong then the letter appears in the wrong guesses list, you lose a guess remaining, and a portion of the hangman figure appears. If you are having trouble guessing the word you can use the hint button, but this will lower your points earned.
+For the GUI version you enter a letter (or phrase) into the text field provided and hit submit. If the letter is correct then the *'s are replaced with that letter. If you guess wrong then the letter appears in the wrong guesses list, you lose a guess remaining, and a portion of the hangman figure appears. If you are having trouble guessing the word you can use the hint button, but this will lower your points earned.You can also choose different modes and different hard levels to play on. 
 
 Additional, the ability to change the color of the background and/or the hangman figure is available in the options menu. You can do so at the begginning of the game or while the game is running.
 
@@ -82,5 +82,9 @@ F17 final remarks
 - When playing multiplayer mode, make sure that if a csil machine is the host then the joining machine must also be a csil machine, or it will not work due to security reasons.
 - If you are using ssh to connect to a csil machine to run this program, make sure you download XQuartz and use the -X flag before you enter your credentials to enable X11 forwarding to your mac.  If you are using Windows, download and install MobaXterm and ssh to csil using that instead of an ssh client like PuTTy. 
 
-   
-
+W18 final remarksF17 final remarks
+=================
+- Before you start the project, make sure you read the code first. The structure of the code is very clear so that the code is easy to read.
+- Our project is a hangman game which uses both Command-line style and Graphical Interface. It uses a custom or default word list and the user guesses letter by letter, we also allow user to choose their own wordlist to play on. And there is also a online mode for players to play with other people.
+- In the GUI mode, you can choose different hard levels and different modes to play on.
+- When you use our IDE to work on this project, make sure you use ANT to run every time instead of using your IDE. For example, if you are using Intellij Idea, you could not open the GUI with the run button in Intellij, because the read file parts' code of intellij is different from ant.
