@@ -777,6 +777,11 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
             Graphics2D g2 = (Graphics2D) g;
 
             Image head =Toolkit.getDefaultToolkit().getImage("resources/images/head.png");
+            Image body =Toolkit.getDefaultToolkit().getImage("resources/images/body.png");
+            Image leftarm =Toolkit.getDefaultToolkit().getImage("resources/images/leftarm.png");
+            Image rightarm =Toolkit.getDefaultToolkit().getImage("resources/images/rightarm.png");
+            Image leftleg =Toolkit.getDefaultToolkit().getImage("resources/images/leftleg.png");
+            Image rightleg =Toolkit.getDefaultToolkit().getImage("resources/images/rightleg.png");
 
             // draw the gallow
             Stroke normalStroke = g2.getStroke();
@@ -799,26 +804,31 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
             }
 
             // draw the body
-            if (hg.getWrongAttemptsLeft() < 5)
-                g2.drawLine(410, 98, 410, 178);
-
+            if (hg.getWrongAttemptsLeft() < 5) {
+                g.drawImage(body, 345, 80, 130, 130, this);
+            }
             // draw the left leg
-            if (hg.getWrongAttemptsLeft() < 4)
-                g2.drawLine(410, 178, 350, 218);
+            if (hg.getWrongAttemptsLeft() < 4) {
+
+                g.drawImage(leftleg, 340, 185, 140, 130, this);
+            }
 
             // draw the right leg
-            if (hg.getWrongAttemptsLeft() < 3)
-                g2.drawLine(410, 178, 470, 218);
+            if (hg.getWrongAttemptsLeft() < 3) {
 
+                g.drawImage(rightleg, 335, 185, 150, 130, this);
+            }
             // draw the left arm
-            if (hg.getWrongAttemptsLeft() < 2)
-                g2.drawLine(410, 128, 350, 103);
-
+            if (hg.getWrongAttemptsLeft() < 2) {
+                g.drawImage(leftarm, 340, 18, 240, 240, this);
+            }
             // draw the right arm
-            if (hg.getWrongAttemptsLeft() < 1)
-                g2.drawLine(410, 128, 470, 103);
+            if (hg.getWrongAttemptsLeft() < 1) {
+                g.drawImage(rightarm, 245, 18, 240, 240, this);
+            }
         }
     } // inner class hanger
+     // inner class hanger
 
 
     //callback methods used by optionsmenu

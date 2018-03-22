@@ -106,9 +106,10 @@ public class HangmanCLI implements HangmanInterface {
         gallow[4] = "    |---|\n    o   |\n   /    |\n    ____|_\n";
         gallow[5] = "    |---|\n    o   |\n        |\n    ____|_\n";
         gallow[6] = "    |---|\n        |\n        |\n    ____|_\n";
-        int wrongAttemptsLeft = hg.getWrongAttemptsLeft();
-        if (wrongAttemptsLeft > 6)
-            wrongAttemptsLeft = 6;
+	//issue #67 fixed
+	int wrongAttemptsLeft = hg.getWrongAttemptsLeft();
+	if(wrongAttemptsLeft > 6)
+	    wrongAttemptsLeft = 6;
         return gallow[wrongAttemptsLeft];
     }
 }
