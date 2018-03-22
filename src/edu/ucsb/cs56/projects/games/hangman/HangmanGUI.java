@@ -769,6 +769,9 @@ public class HangmanGUI extends JFrame implements HangmanInterface {
         /**
          * This is an override from Component, and draws a gallows at proper state directly from getWrongAttemptsLeft retrieved from game instance
          */
+
+     //image
+
         @Override
         public void paintComponent(Graphics g) {
             Graphics2D g2 = (Graphics2D) g;
